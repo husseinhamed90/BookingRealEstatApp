@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:realestate/Features/Authentication/presentation/pages/SignIn/SignInWidgets/CustomTextField.dart';
 import 'package:realestate/Features/HomePageLayout/HomePageLayoutPage.dart';
+import '../../../../../Core/AppTheme/AppColors.dart';
 import '../../../../../Core/ReusableComponantes.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -35,7 +37,7 @@ class SignUpScreen extends StatelessWidget {
                 SizedBox(height: 100.h,),
                 SvgPicture.asset(
                   alignment: Alignment.centerLeft,
-                  "Assets/Images/logo.svg",
+                  "Assets/Images/logo.svg",color: primaryColor,
                 ),
                 SizedBox(height: 56.h,),
                 getColumn(firstString: "Sign Up",secondString: "And explore 28 192+ offers"),
@@ -51,8 +53,34 @@ class SignUpScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   height: 60.h,
-                  child: ElevatedButton(onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePageLayoutPage(),));
+                  child: ElevatedButton(onPressed: () async{
+
+                    // await FirebaseAuth.instance.signOut();
+
+                    // FirebaseAuth.instance
+                    //     .authStateChanges()
+                    //     .listen((User? user) {
+                    //   if (user == null) {
+                    //     print('User is currently signed out!');
+                    //   } else {
+                    //     print('User is signed in!');
+                    //   }
+                    // });
+
+
+                    await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text).then((value) {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePageLayoutPage(),));
+                    }).onError((error, stackTrace) {
+                      print(error);
+                    });
+
+                    // await FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text).then((value) {
+                    //   print(value.user!.email);
+                    // }).onError((error, stackTrace) {
+                    //   print(error);
+                    // });
+
+                    //Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePageLayoutPage(),));
                   }, child: const Text("SIGN UP")),
                 ),
                 SizedBox(height: 32.h),

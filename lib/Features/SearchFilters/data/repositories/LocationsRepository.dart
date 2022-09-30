@@ -3,7 +3,7 @@ import 'package:realestate/Features/SearchFilters/data/remote/data_sources/Remot
 import 'package:realestate/Features/SearchFilters/data/remote/models/LocationModel.dart';
 import 'package:realestate/Features/SearchFilters/domain/repositories/BaseLocationsRepository.dart';
 
-import '../../../../Core/FireMessage.dart';
+import '../../../../Core/SharedModel/FireMessage.dart';
 
 class LocationsRepository extends BaseLocationsRepository{
   RemoteDataSource remoteDataSource;

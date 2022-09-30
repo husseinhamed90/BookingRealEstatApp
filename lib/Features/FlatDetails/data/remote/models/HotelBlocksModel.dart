@@ -1,5 +1,5 @@
 
-import 'package:realestate/Features/SearchForm/domain/entities/HotelRooms.dart';
+import 'package:realestate/Features/FlatDetails/domain/entities/HotelRooms.dart';
 import 'package:realestate/Features/SearchForm/domain/entities/Room.dart';
 
 class HotelBlocksModel extends HotelBlocks {

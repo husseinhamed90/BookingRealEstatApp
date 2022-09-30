@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:realestate/Core/AppColors.dart';
+import 'package:realestate/Core/AppTheme/AppColors.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import '../../../../../../DependencyInjection.dart';

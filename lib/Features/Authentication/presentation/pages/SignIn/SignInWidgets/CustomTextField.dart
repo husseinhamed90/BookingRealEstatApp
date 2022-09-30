@@ -77,7 +77,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:realestate/Core/AppColors.dart';
+import 'package:realestate/Core/AppTheme/AppColors.dart';
 import 'package:realestate/Features/SearchFilters/presentation/pages/SearchFilters/SearchFiltersPage.dart';
 
 class CustomTextField extends StatelessWidget {

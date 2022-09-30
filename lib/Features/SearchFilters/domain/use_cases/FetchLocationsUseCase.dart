@@ -2,7 +2,7 @@ import 'package:either_dart/either.dart';
 import 'package:realestate/Features/SearchFilters/data/remote/data_sources/RemoteDataSource.dart';
 import 'package:realestate/Features/SearchFilters/data/remote/models/LocationModel.dart';
 
-import '../../../../Core/FireMessage.dart';
+import '../../../../Core/SharedModel/FireMessage.dart';
 
 class FetchLocationsUseCase {
   RemoteDataSource remoteDataSource;

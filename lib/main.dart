@@ -7,15 +7,23 @@ import 'package:realestate/Features/Authentication/presentation/pages/SignIn/Sig
 import 'package:realestate/Features/FlatDetails/presentation/manager/favourite_cubit.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/filters_bloc.dart';
 import 'package:realestate/Features/SearchForm/presentation/manager/HotelsByCoordinatedBloc/hotels_by_coordinates_bloc.dart';
-import 'Core/AppColors.dart';
-import 'Core/Themes.dart';
+import 'Core/AppTheme/AppColors.dart';
+import 'Core/AppTheme/Themes.dart';
 import 'DependencyInjection.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'Features/FlatDetails/presentation/manager/SearchResultsBloc/HotelDetailsBloc.dart';
+import 'firebase_options.dart';
 
 void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: primaryColor // status bar color
   ));
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   init();
   runApp(const MyApp());
 }

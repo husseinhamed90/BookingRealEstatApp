@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:realestate/Features/Booked/presentation/pages/BookedItems/BookedItemspage.dart';
+
 import 'package:realestate/Features/FlatDetails/presentation/manager/SearchResultsBloc/HotelDetailsState.dart';
 import 'package:realestate/Features/FlatDetails/presentation/manager/favourite_cubit.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../Core/AppColors.dart';
+import '../../../../Core/AppTheme/AppColors.dart';
 import '../../../../Core/ReusableComponantes.dart';
 import '../../../../DependencyInjection.dart';
+import '../../../Booked/presentation/pages/BookedHotels/BookedHotelsPage.dart';
 import '../manager/SearchResultsBloc/HotelDetailsBloc.dart';
 
 
@@ -132,8 +133,7 @@ class _ItemDetailsState extends State<ItemDetails> {
           },
           listener: (context, state) {
             if(state.errorMessage!.message=="Hotel Rooms Loaded"){
-              print(state.errorMessage!.message);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => BookedItemsPage(hotelBlockModel: state.hotelBlockModel!),));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => BookedHotelsPage(hotelBlockModel: state.hotelBlockModel!),));
             }
             else if(state.errorMessage!.message=="Error"||state.errorMessage!.message=="Error When Fetching Hotels Details"){
               final snackBar = SnackBar(
@@ -152,7 +152,7 @@ class _ItemDetailsState extends State<ItemDetails> {
   }
   Future<void> goToWebsite(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
-      throw 'Could not launch ${Uri.parse(url)}';
+      throw 'Could not launch Website${Uri.parse(url)}';
     }
   }
 }

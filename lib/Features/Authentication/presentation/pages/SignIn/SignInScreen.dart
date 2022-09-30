@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:realestate/Features/Authentication/presentation/pages/SignIn/SignInWidgets/CustomTextField.dart';
 import 'package:realestate/Features/Authentication/presentation/pages/SignUp/SignUpScreen.dart';
 import 'package:realestate/Features/HomePageLayout/HomePageLayoutPage.dart';
-import '../../../../../Core/AppColors.dart';
+import '../../../../../Core/AppTheme/AppColors.dart';
 import '../../../../../Core/ReusableComponantes.dart';
 
 class SignInScreen extends StatelessWidget {

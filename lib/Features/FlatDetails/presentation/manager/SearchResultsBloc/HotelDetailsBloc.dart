@@ -1,15 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:realestate/Features/SearchForm/data/remote/models/DescriptionModel.dart';
-import 'package:realestate/Features/SearchForm/data/remote/models/HotelDetailsModel.dart';
+import 'package:realestate/Features/FlatDetails/data/remote/models/DescriptionModel.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
-import 'package:realestate/Features/SearchForm/domain/use_cases/FetchHotelDescriptionUseCase.dart';
-import 'package:realestate/Features/SearchForm/domain/use_cases/FetchHotelDetailsUseCase.dart';
+import 'package:realestate/Features/FlatDetails/domain/use_cases/FetchHotelDescriptionUseCase.dart';
+import 'package:realestate/Features/FlatDetails/domain/use_cases/FetchHotelDetailsUseCase.dart';
 
-import '../../../../../Core/FireMessage.dart';
+import '../../../../../Core/SharedModel/FireMessage.dart';
 import '../../../../../DependencyInjection.dart';
-import '../../../../SearchForm/domain/use_cases/FetchHomePhotosUseCase.dart';
-import '../../../../SearchForm/domain/use_cases/FetchHotelRoomsUseCase.dart';
+import '../../../data/remote/models/HotelDetailsModel.dart';
+import '../../../domain/use_cases/FetchHomePhotosUseCase.dart';
+import '../../../domain/use_cases/FetchHotelRoomsUseCase.dart';
 import 'HotelDetailsState.dart';
 
 part 'HotelDetailsEvent.dart';

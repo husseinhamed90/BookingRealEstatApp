@@ -1,4 +1,4 @@
-import 'package:realestate/Features/SearchForm/domain/entities/HotelDescription.dart';
+import 'package:realestate/Features/FlatDetails/domain/entities/HotelDescription.dart';
 
 class HotelDescriptionModel extends Description{
   HotelDescriptionModel.fromJson(Map<String, dynamic> json) {

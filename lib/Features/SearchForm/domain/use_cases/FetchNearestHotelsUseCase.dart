@@ -1,7 +1,7 @@
 import 'package:either_dart/either.dart';
 import 'package:realestate/Features/SearchForm/data/remote/data_sources/RemoteSearchFormDataSource.dart';
 
-import '../../../../Core/FireMessage.dart';
+import '../../../../Core/SharedModel/FireMessage.dart';
 import '../../data/remote/models/HotelModel.dart';
 
 class FetchNearestHotelsUseCase {

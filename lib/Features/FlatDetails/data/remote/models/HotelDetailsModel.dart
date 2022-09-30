@@ -1,4 +1,5 @@
-import 'package:realestate/Features/SearchForm/domain/entities/HotelDetails.dart';
+
+import '../../../domain/entities/HotelDetails.dart';
 
 class HotelDetailsModel extends HotelDetails{
 

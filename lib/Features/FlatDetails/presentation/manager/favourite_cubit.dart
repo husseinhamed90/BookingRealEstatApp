@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:realestate/Core/AppColors.dart';
+import 'package:realestate/Core/AppTheme/AppColors.dart';
 
 import '../../../SearchForm/data/remote/models/HotelModel.dart';
 

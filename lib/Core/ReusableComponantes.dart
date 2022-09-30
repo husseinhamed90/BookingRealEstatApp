@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:realestate/Features/SearchForm/data/remote/models/HotelDetailsModel.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 
 import '../Features/Authentication/presentation/pages/SignIn/SignInWidgets/CustomTextField.dart';
-import 'AppColors.dart';
+import '../Features/FlatDetails/data/remote/models/HotelDetailsModel.dart';
+import 'AppTheme/AppColors.dart';
 
 Widget getTextFieldWithLabel({required bool isClickable,required bool readOnly,required String label,required String hintText,required TextAlign textAlign,TextEditingController ?controller, bool haveIcon=true}){
   return Column(

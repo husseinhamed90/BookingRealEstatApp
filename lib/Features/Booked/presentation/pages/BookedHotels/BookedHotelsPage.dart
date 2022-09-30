@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:realestate/Features/SearchForm/data/remote/models/HotelBlocksModel.dart';
-import '../../../../../Core/AppColors.dart';
+import '../../../../../Core/AppTheme/AppColors.dart';
 import '../../../../../Core/ReusableComponantes.dart';
+import '../../../../FlatDetails/data/remote/models/HotelBlocksModel.dart';
 
-class BookedItemsPage extends StatelessWidget {
-   const BookedItemsPage({Key? key,required this.hotelBlockModel}) : super(key: key);
+class BookedHotelsPage extends StatelessWidget {
+   const BookedHotelsPage({Key? key,required this.hotelBlockModel}) : super(key: key);
    final List<HotelBlocksModel>hotelBlockModel;
    @override
   Widget build(BuildContext context) {

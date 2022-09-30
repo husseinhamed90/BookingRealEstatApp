@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:realestate/Features/SearchForm/data/remote/models/HotelBlocksModel.dart';
-import 'package:realestate/Features/SearchForm/data/remote/models/HotelDetailsModel.dart';
 import 'package:realestate/Features/SearchForm/domain/use_cases/FetchNearestHotelsUseCase.dart';
-import '../../../../../Core/FireMessage.dart';
+import '../../../../../Core/SharedModel/FireMessage.dart';
 import '../../../../../DependencyInjection.dart';
+import '../../../../FlatDetails/data/remote/models/HotelBlocksModel.dart';
+import '../../../../FlatDetails/data/remote/models/HotelDetailsModel.dart';
 import '../../../../SearchFilters/data/remote/models/LocationModel.dart';
 import '../../../data/remote/models/HotelModel.dart';
-import '../../../domain/use_cases/FetchHotelRoomsUseCase.dart';
+import '../../../../FlatDetails/domain/use_cases/FetchHotelRoomsUseCase.dart';
 
 part 'hotels_by_coordinates_event.dart';
 part 'hotels_by_coordinates_state.dart';

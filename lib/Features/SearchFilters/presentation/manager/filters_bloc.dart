@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
-import '../../../../Core/FireMessage.dart';
+import '../../../../Core/SharedModel/FireMessage.dart';
 import '../../../../DependencyInjection.dart';
 import '../../data/remote/models/LocationModel.dart';
 import '../../domain/use_cases/FetchLocationsUseCase.dart';

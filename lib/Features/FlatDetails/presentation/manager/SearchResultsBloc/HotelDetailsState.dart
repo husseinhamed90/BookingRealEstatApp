@@ -1,12 +1,11 @@
 
 
 import 'package:equatable/equatable.dart';
-import 'package:realestate/Features/SearchForm/data/remote/models/DescriptionModel.dart';
-import 'package:realestate/Features/SearchForm/data/remote/models/HotelDetailsModel.dart';
-
-import '../../../../../Core/FireMessage.dart';
-import '../../../../../Core/Models/HotelPhotoModel.dart';
-import '../../../../SearchForm/data/remote/models/HotelBlocksModel.dart';
+import 'package:realestate/Features/FlatDetails/data/remote/models/DescriptionModel.dart';
+import '../../../../../Core/SharedModel/FireMessage.dart';
+import '../../../data/remote/models/HotelBlocksModel.dart';
+import '../../../data/remote/models/HotelDetailsModel.dart';
+import '../../../data/remote/models/HotelPhotoModel.dart';
 import '../../../../SearchForm/data/remote/models/HotelModel.dart';
 
 

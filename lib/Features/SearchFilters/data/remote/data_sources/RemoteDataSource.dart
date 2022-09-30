@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:either_dart/either.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
-
-import '../../../../../Core/Constants.dart';
-import '../../../../../Core/FireMessage.dart';
+import '../../../../../Core/AppTheme/Strings.dart';
+import '../../../../../Core/SharedModel/FireMessage.dart';
 import '../models/LocationModel.dart';
 
 class RemoteDataSource{

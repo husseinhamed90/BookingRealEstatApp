@@ -1,4 +1,4 @@
-import 'Room.dart';
+import '../../../SearchForm/domain/entities/Room.dart';
 
 class HotelBlocks {
   List<Block>? block;

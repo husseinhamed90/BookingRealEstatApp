@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:realestate/Core/AppColors.dart';
+import 'package:realestate/Core/AppTheme/AppColors.dart';
 import 'package:realestate/Core/Constants.dart';
-import 'package:realestate/Core/FireMessage.dart';
+import 'package:realestate/Core/SharedModel/FireMessage.dart';
 import 'package:realestate/DependencyInjection.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/filters_bloc.dart';
 import 'package:realestate/Features/SearchFilters/presentation/pages/SearchFilters/SearchFiltersWidgets/SliderORanges.dart';

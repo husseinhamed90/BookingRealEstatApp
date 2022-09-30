@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "975259947736",
+    "project_id": "bookingapp-699dc",
+    "storage_bucket": "bookingapp-699dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975259947736:android:41bdf15a17b0f9eb6b7dad",
+        "android_client_info": {
+          "package_name": "com.example.realestate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "975259947736-8tfgad92b81t44hg1q9pnqupqs97ceg0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3akuVx6k1obtnW2MRbFcQ4L-TS6QglXE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "975259947736-8tfgad92b81t44hg1q9pnqupqs97ceg0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

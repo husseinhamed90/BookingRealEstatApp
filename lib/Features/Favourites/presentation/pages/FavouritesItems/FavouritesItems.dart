@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:realestate/Core/AppColors.dart';
+import 'package:realestate/Core/AppTheme/AppColors.dart';
 import 'package:realestate/Features/FlatDetails/presentation/manager/favourite_cubit.dart';
 import '../../../../../Core/ResuableWidgets/BuildItem.dart';
 import '../../../../../Core/ReusableComponantes.dart';

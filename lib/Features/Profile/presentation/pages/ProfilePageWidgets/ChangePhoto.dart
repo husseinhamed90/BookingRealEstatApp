@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../Core/AppColors.dart';
+import '../../../../../Core/AppTheme/AppColors.dart';
 
 class ChangePhoto extends StatelessWidget {
   const ChangePhoto({

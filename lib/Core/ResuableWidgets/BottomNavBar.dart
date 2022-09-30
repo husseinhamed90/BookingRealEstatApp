@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:realestate/Core/BottomNavBarBloc/bottom_nav_bar_bloc.dart';
 
-import '../AppColors.dart';
+import '../AppTheme/AppColors.dart';
 import '../BottomNavBarBloc/bottom_nav_bar_state.dart';
 import '../../DependencyInjection.dart';
 

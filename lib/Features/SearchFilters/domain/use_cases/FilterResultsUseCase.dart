@@ -1,6 +1,6 @@
 import 'package:either_dart/either.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
-import '../../../../Core/FireMessage.dart';
+import '../../../../Core/SharedModel/FireMessage.dart';
 import '../../data/remote/data_sources/RemoteDataSource.dart';
 import '../../data/remote/models/LocationModel.dart';
 

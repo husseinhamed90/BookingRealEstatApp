@@ -1,4 +1,4 @@
-import 'package:realestate/Core/Entities/HotelPhoto.dart';
+import 'package:realestate/Features/FlatDetails/domain/entities/HotelPhoto.dart';
 
 class HotelPhotoModel extends HotelPhoto{
 
