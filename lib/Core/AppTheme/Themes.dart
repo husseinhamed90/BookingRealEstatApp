@@ -22,12 +22,12 @@ ThemeData getAppTheme() {
         iconTheme:  IconThemeData(
             color: appBarIconAndTitleColor,size: 26.w
         ),
-        titleSpacing: 20.w,
+        titleSpacing: 15.w,
         backgroundColor: primaryColor,
         elevation: 0,
         titleTextStyle: TextStyle(
             color: appBarIconAndTitleColor,
-            fontSize: 12.sp,
+            fontSize: 15.sp,
             fontWeight: FontWeight.w800),
       ),
       inputDecorationTheme: InputDecorationTheme(

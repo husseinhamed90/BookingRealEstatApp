@@ -18,7 +18,6 @@ import 'package:realestate/Features/SearchForm/domain/use_cases/FetchNearestHote
 import 'package:realestate/Features/SearchForm/presentation/manager/HotelsByCoordinatedBloc/hotels_by_coordinates_bloc.dart';
 import 'Features/FlatDetails/data/remote/data_sources/RemoteHotelDetailsDataSource.dart';
 
-
 final dl = GetIt.instance;
 
 init(){

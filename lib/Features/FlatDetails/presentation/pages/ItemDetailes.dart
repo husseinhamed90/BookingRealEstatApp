@@ -5,13 +5,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:realestate/Features/FlatDetails/presentation/manager/SearchResultsBloc/HotelDetailsState.dart';
 import 'package:realestate/Features/FlatDetails/presentation/manager/favourite_cubit.dart';
+import 'package:realestate/Features/Rooms/presentation/pages/HotelRooms/HotelRoomsPage.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../Core/AppTheme/AppColors.dart';
 import '../../../../Core/ReusableComponantes.dart';
 import '../../../../DependencyInjection.dart';
-import '../../../Booked/presentation/pages/BookedHotels/BookedHotelsPage.dart';
+
 import '../manager/SearchResultsBloc/HotelDetailsBloc.dart';
 
 
@@ -71,9 +72,9 @@ class _ItemDetailsState extends State<ItemDetails> {
                                 width: 254.w,
                                 height: 60.h,
                                 child: ElevatedButton(onPressed: () async{
-                                  await goToWebsite(widget.hotelModel.weSiteUrl!);
-                                  //dl<SearchResultsBloc>().add(FetchRoomsEvent(currency: widget.hotelModel.currencyCode!,hotelId:widget.hotelModel.hotelId! ));
-                                }, child: const Text("Show Rooms")),
+                                  //await goToWebsite(widget.hotelModel.weSiteUrl!);
+                                  dl<HotelDetailsBloc>().add(FetchRoomsEvent(currency: widget.hotelModel.currencyCode!,hotelId:widget.hotelModel.hotelId! ));
+                                }, child: const Text("SHOW ROOMS")),
                               ),
                               const Spacer(),
                               BlocBuilder<FavouriteCubit,FavouriteState>(
@@ -133,7 +134,7 @@ class _ItemDetailsState extends State<ItemDetails> {
           },
           listener: (context, state) {
             if(state.errorMessage!.message=="Hotel Rooms Loaded"){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => BookedHotelsPage(hotelBlockModel: state.hotelBlockModel!),));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => HotelRoomsPage(hotelBlockModel: state.hotelBlockModel!),));
             }
             else if(state.errorMessage!.message=="Error"||state.errorMessage!.message=="Error When Fetching Hotels Details"){
               final snackBar = SnackBar(

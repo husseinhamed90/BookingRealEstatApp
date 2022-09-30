@@ -26,7 +26,7 @@ class ProfilePageAppBar extends StatelessWidget {
               Expanded(
                 child: Container(
                     alignment: Alignment.center,
-                    child: buildCustomText(text: "Profile",fontWeight: FontWeight.w400,size: 22)
+                    child: buildCustomText(text: "PROFILE",fontWeight: FontWeight.w400,size: 22)
                 ),
               ),
             ],

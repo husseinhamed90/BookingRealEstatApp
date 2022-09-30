@@ -21,9 +21,9 @@ Widget buildCustomText({required String text,required double size,required FontW
   return Text(
     text,
     style: TextStyle(
-        fontSize: size.sp,
-        fontWeight: fontWeight,fontFamily: "Raleway",
-        color: Colors.white),
+        color: appBarIconAndTitleColor,
+        fontSize: 15.sp,
+        fontWeight: FontWeight.w800),
   );
 }
 
@@ -44,7 +44,7 @@ TextField buildTextField({bool haveBorder=false,double ?height, int maxLines=1,}
       ),
       decoration:InputDecoration(
         contentPadding:EdgeInsets.only(left: 20.w,top: 26.h),
-        border :  OutlineInputBorder(borderRadius: BorderRadius.all( Radius.circular(8.0.r),),
+        border : OutlineInputBorder(borderRadius: BorderRadius.all( Radius.circular(8.0.r),),
           borderSide: BorderSide(
             width: 1.w,
           ),
