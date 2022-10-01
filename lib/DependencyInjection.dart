@@ -9,7 +9,9 @@ import 'package:realestate/Features/SearchFilters/data/remote/data_sources/Remot
 import 'package:realestate/Features/SearchFilters/data/repositories/LocationsRepository.dart';
 import 'package:realestate/Features/SearchFilters/domain/use_cases/FetchLocationsUseCase.dart';
 import 'package:realestate/Features/SearchFilters/domain/use_cases/FilterResultsUseCase.dart';
+import 'package:realestate/Features/SearchFilters/presentation/manager/DatePickerCubit.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/filters_bloc.dart';
+import 'package:realestate/Features/SearchFilters/presentation/manager/sliders_cubit.dart';
 import 'package:realestate/Features/SearchForm/data/remote/data_sources/RemoteSearchFormDataSource.dart';
 import 'package:realestate/Features/SearchForm/data/repositories/RemoteSearchFormRepository.dart';
 import 'package:realestate/Features/FlatDetails/domain/use_cases/FetchHomePhotosUseCase.dart';
@@ -29,6 +31,10 @@ init(){
   dl.registerLazySingleton<HotelDetailsBloc>(() => HotelDetailsBloc());
   dl.registerLazySingleton<FavouriteCubit>(() => FavouriteCubit());
   dl.registerLazySingleton<AuthBloc>(() => AuthBloc());
+  dl.registerLazySingleton<DatePickerCubit>(() => DatePickerCubit());
+  dl.registerLazySingleton<SlidersCubit>(() => SlidersCubit());
+
+
 
   dl.registerLazySingleton<LocationsRepository>(() => LocationsRepository(dl()));
   dl.registerLazySingleton<RemoteSearchFormRepository>(() => RemoteSearchFormRepository(dl()));

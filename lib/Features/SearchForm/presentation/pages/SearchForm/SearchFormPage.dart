@@ -55,7 +55,7 @@ class SearchForm extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(20),
-                        child: CustomTextField(isClickable: true,controller: dl<FilteringBloc>().locationController,iconName: "Assets/Icons/searchbar.svg",hindText: "Where do you want to go?",readOnly: true,haveBorder: false,textAlign: TextAlign.left),
+                        child: CustomTextField(isSecure: false,isClickable: true,controller: dl<FilteringBloc>().locationController,iconName: "Assets/Icons/searchbar.svg",hindText: "Where do you want to go?",readOnly: true,haveBorder: false,textAlign: TextAlign.left),
                       ),
                     ],
                   )

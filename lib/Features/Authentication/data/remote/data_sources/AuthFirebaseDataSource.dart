@@ -43,5 +43,18 @@ class AuthFirebaseDataSource{
       return Left(FireMessage(e.message!));
     }
   }
-  Stream<User?> get checkIfUserLoggedIn => FirebaseAuth.instance.authStateChanges();
+     Future<Either<FireMessage, UserEntity?>> checkIfUserLoggedIn()async{
+     if (FirebaseAuth.instance.currentUser == null){
+       return const Right(null);
+     }
+     else{
+       try{
+         QuerySnapshot <Map>?querySnapshot = await FirebaseFirestore.instance.collection("Users").where("id",isEqualTo: FirebaseAuth.instance.currentUser!.uid).get();
+         return Right(UserEntity.fromJson(querySnapshot.docs[0].data().cast()));
+       }
+       on FirebaseAuthException catch  (e) {
+         return Left(FireMessage(e.message!));
+       }
+     }
+   }
 }

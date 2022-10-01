@@ -2,10 +2,10 @@ part of 'filters_bloc.dart';
 
 class FilteringState extends Equatable{
   final FireMessage ?errorMessage;
-  final List<HotelModel>?hotels;
+  List<HotelModel>hotels=[];
   final List<LocationModel>?locations;
 
-  const FilteringState({this.errorMessage, this.hotels, this.locations});
+    FilteringState({this.errorMessage, required this.hotels, this.locations});
 
   FilteringState copyWith({
      FireMessage ?errorMessage,

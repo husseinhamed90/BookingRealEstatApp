@@ -2,6 +2,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:realestate/Features/SearchFilters/presentation/manager/sliders_cubit.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 import '../../../../Core/SharedModel/FireMessage.dart';
 import '../../../../DependencyInjection.dart';
@@ -14,18 +15,22 @@ part 'filters_state.dart';
 
 class FilteringBloc extends Bloc<LocationsEvent, FilteringState> {
   TextEditingController locationController = TextEditingController();
-  TextEditingController priceController = TextEditingController();
-  TextEditingController guestsController = TextEditingController();
+  TextEditingController startDateController = TextEditingController();
+  TextEditingController endDateController = TextEditingController();
+  int pageNumber=0;
 
-  FilteringBloc() : super(FilteringState(errorMessage: FireMessage("Initial"))) {
+  FilteringBloc() : super(FilteringState(errorMessage: FireMessage("Initial"),hotels: const [])) {
+    startDateController.text="${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
+    endDateController.text="${DateTime.now().add(const Duration(days: 1)).year}-${DateTime.now().add(const Duration(days: 1)).month}-${DateTime.now().add(const Duration(days: 1)).day}";
     on<FetchLocationsEvent>((event, emit) async{
+      pageNumber=event.pageNumber;
       if(locationController.text!=""){
         emit(state.copyWith(errorMessage: FireMessage("Loading")));
         await dl<FetchLocationsUseCase>().call(locationString: locationController.text).then((value){
           value.fold((left) =>emit(state.copyWith(errorMessage: left)),
                   (right) {
                 emit(state.copyWith(errorMessage: FireMessage("Locations Loaded"), locations: right));
-                add(StartFilterDataEvent(locations: right));
+                add(StartFilterDataEvent(locations: right,pageNumber: event.pageNumber));
               }
           );
         });
@@ -33,7 +38,12 @@ class FilteringBloc extends Bloc<LocationsEvent, FilteringState> {
       else{
         emit(state.copyWith(errorMessage: FireMessage("Location Field Is Required")));
       }
-
+    });
+    on<FetchMore>((event, emit) async{
+      pageNumber++;
+      print(pageNumber);
+      add(StartFilterDataEvent(locations: state.locations!,pageNumber: pageNumber));
+     // emit(state.copyWith(errorMessage: event.errorMessage));
     });
 
     on<FireErrorMessageEvent>((event, emit) async{
@@ -43,9 +53,13 @@ class FilteringBloc extends Bloc<LocationsEvent, FilteringState> {
     on<StartFilterDataEvent>((event, emit) async{
       emit(state.copyWith(errorMessage: FireMessage("Loading")));
       if(event.locations.isNotEmpty){
-        final result = await dl<FilterResultsUseCase>().call(locationModel: event.locations[0],numberOfRooms: 1,numberOfAdults: 1);
+
+        state.copyWith(hotels: state.hotels);
+        final result = await dl<FilterResultsUseCase>().call(pageNumber: pageNumber,maxPrice: dl<SlidersCubit>().pricesValues.end,minPrice: dl<SlidersCubit>().pricesValues.start,locationModel: event.locations[0],numberOfRooms: dl<SlidersCubit>().initRoomsNumber!.toInt(),numberOfAdults: dl<SlidersCubit>().initAdultsNumber!.toInt(),checkIn: startDateController.text,checkOut: endDateController.text);
         result.fold((left) =>emit(state.copyWith(errorMessage: left)),
-                (right) => emit(state.copyWith(errorMessage: FireMessage("Hotels Loaded"), hotels: right,locations: event.locations))
+                (right) {
+                  emit(state.copyWith(errorMessage: FireMessage("Hotels Loaded"), hotels: state.hotels+=right,locations: event.locations));
+                }
         );
       }
       else{

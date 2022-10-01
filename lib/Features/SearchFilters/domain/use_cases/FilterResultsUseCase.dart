@@ -9,9 +9,15 @@ class FilterResultsUseCase {
   RemoteDataSource remoteDataSource;
   FilterResultsUseCase(this.remoteDataSource);
 
-  Future<Either<FireMessage, List<HotelModel>>> call({required int numberOfRooms, required int numberOfAdults, required LocationModel locationModel}) async {
+  Future<Either<FireMessage, List<HotelModel>>> call({   required double minPrice,required int pageNumber,
+    required double maxPrice,required int numberOfRooms, required int numberOfAdults, required LocationModel locationModel,required String checkIn,required String checkOut}) async {
 
     return await remoteDataSource.filterResults(
+        maxPrice: maxPrice,
+        minPrice: minPrice,
+        pageNumber: pageNumber,
+        cheekIn: checkIn,
+        checkOut: checkOut,
         numberOfRooms: numberOfAdults,
         numberOfAdults: numberOfAdults,
         locationModel: locationModel);

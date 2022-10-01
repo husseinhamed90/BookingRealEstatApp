@@ -5,6 +5,7 @@ import 'package:realestate/Features/Authentication/presentation/manager/auth_blo
 import 'package:realestate/Features/Authentication/presentation/pages/SignIn/SignInScreen.dart';
 
 import '../../../../../Core/AppTheme/AppColors.dart';
+import '../../../../../Core/BottomNavBarBloc/bottom_nav_bar_bloc.dart';
 import '../../../../../Core/ReusableComponantes.dart';
 import '../../../../../DependencyInjection.dart';
 
@@ -40,6 +41,7 @@ class ProfilePageAppBar extends StatelessWidget {
                   return GestureDetector(
                       onTap: () {
                         dl<AuthBloc>().add(SignOutEvent());
+                        dl<BottomNavBarBloc>().add(const ChangeNavBarIndexEvent(newIndex: 0));
                       },
                       child: const SizedBox(width: 60,height: 30, child: Icon(Icons.logout,size: 30,color: Colors.white,)));
                 },
@@ -65,7 +67,7 @@ class ProfilePageAppBar extends StatelessWidget {
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
+                    image: NetworkImage('https://media.istockphoto.com/photos/headshot-portrait-of-smiling-male-employee-in-office-picture-id1309328823?b=1&k=20&m=1309328823&s=170667a&w=0&h=a-f8vR5TDFnkMY5poQXfQhDSnK1iImIfgVTVpFZi_KU='),
                     fit: BoxFit.fill),
                 //color: Colors.teal,
               ),

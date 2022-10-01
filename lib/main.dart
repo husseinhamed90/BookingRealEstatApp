@@ -7,7 +7,9 @@ import 'package:realestate/Features/Authentication/presentation/manager/auth_blo
 import 'package:realestate/Features/Authentication/presentation/pages/SignIn/SignInScreen.dart';
 import 'package:realestate/Features/FlatDetails/presentation/manager/favourite_cubit.dart';
 import 'package:realestate/Features/HomePageLayout/HomePageLayoutPage.dart';
+import 'package:realestate/Features/SearchFilters/presentation/manager/DatePickerCubit.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/filters_bloc.dart';
+import 'package:realestate/Features/SearchFilters/presentation/manager/sliders_cubit.dart';
 import 'package:realestate/Features/SearchForm/presentation/manager/HotelsByCoordinatedBloc/hotels_by_coordinates_bloc.dart';
 import 'Core/AppTheme/AppColors.dart';
 import 'Core/AppTheme/Themes.dart';
@@ -58,6 +60,12 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider<FavouriteCubit>(
                 create: (BuildContext context) => dl<FavouriteCubit>()
+            ),
+            BlocProvider<DatePickerCubit>(
+                create: (BuildContext context) => dl<DatePickerCubit>()
+            ),
+            BlocProvider<SlidersCubit>(
+                create: (BuildContext context) => dl<SlidersCubit>()
             ),
           ],
           child: MaterialApp(

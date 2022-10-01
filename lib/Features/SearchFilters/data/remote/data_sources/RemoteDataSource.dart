@@ -37,15 +37,18 @@ class RemoteDataSource{
 
   Future<Either<FireMessage, List<HotelModel>>> filterResults(
       {required int numberOfRooms,
+        required int pageNumber,
+        required String cheekIn,required String checkOut,
       required int numberOfAdults,
+        required double minPrice,
+        required double maxPrice,
       required LocationModel locationModel}) async {
-    DateTime cheekIn = DateTime.now();
-    DateTime checkOut = DateTime.now().add(const Duration(days: 3));
-    String checkInDateTime = "${cheekIn.year.toString()}-${cheekIn.month.toString()}-${cheekIn.day.toString()}";
-    String checkOutDateTime = "${checkOut.year.toString()}-${checkOut.month.toString()}-${checkOut.day.toString()}";
+
+    print(numberOfAdults);
+    print(numberOfRooms);
     var response = await Dio().get('$BASE_URL/search',
         queryParameters: {
-          "checkout_date": checkOutDateTime,
+          "checkout_date": checkOut,
           'units': 'metric',
           "dest_id": locationModel.destId,
           "dest_type": locationModel.destType,
@@ -53,9 +56,9 @@ class RemoteDataSource{
           "adults_number": numberOfAdults,
           "order_by": 'popularity',
           "filter_by_currency": 'USD',
-          "checkin_date": checkInDateTime,
+          "checkin_date": cheekIn,
           "room_number": numberOfRooms,
-          "page_number": '0'
+          "page_number": pageNumber
         },
         options: Options(
           receiveDataWhenStatusError: false,
@@ -68,7 +71,7 @@ class RemoteDataSource{
         ));
     if (response.statusCode == 200) {
       List list = response.data["result"];
-      return Right(list.map((hotel) => HotelModel.fromJson(hotel)).toList());
+      return Right(list.map((hotel) => HotelModel.fromJson(hotel)).where((element) => maxPrice==100000? element.minTotalPrice!<=maxPrice&&element.minTotalPrice!>=minPrice:element.minTotalPrice!>=minPrice||element.minTotalPrice!>=10000).toList());
     } else {
       return Left(FireMessage("Required Field Not Found"));
     }

@@ -44,9 +44,9 @@ class SignInScreen extends StatelessWidget {
                 SizedBox(height: 56.h,),
                 getColumn(firstString: "Sign in",secondString: "And explore 28 192+ offers"),
                 SizedBox(height: 20.h,),
-                CustomTextField(isClickable: false,controller:emailController ,iconName: "Assets/Icons/user.svg",hindText: "Enter Email",readOnly: false,haveBorder: false,textAlign: TextAlign.left),
+                CustomTextField(isSecure: false,isClickable: false,controller:emailController ,iconName: "Assets/Icons/user.svg",hindText: "Enter Email",readOnly: false,haveBorder: false,textAlign: TextAlign.left),
                 SizedBox(height: 20.h),
-                CustomTextField(isClickable: false,controller: passwordController,iconName: "Assets/Icons/lock.svg",hindText: "Enter Password",readOnly: false,haveBorder: false,textAlign: TextAlign.left),
+                CustomTextField(isSecure: true,isClickable: false,controller: passwordController,iconName: "Assets/Icons/lock.svg",hindText: "Enter Password",readOnly: false,haveBorder: false,textAlign: TextAlign.left),
                 const Spacer(),
                 BlocConsumer<AuthBloc,AuthState>(
                   builder: (context, state) {
@@ -64,7 +64,6 @@ class SignInScreen extends StatelessWidget {
                     );
                   },
                   listener: (context, state) {
-
                     if(state.message!.message=="Logged In"||state.message!.message=="Already Logged"){
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  const HomePageLayoutPage(),));
                     }
