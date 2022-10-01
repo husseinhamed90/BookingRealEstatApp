@@ -8,6 +8,12 @@ class DatePickerCubit extends Cubit<DatePickerState> {
   DatePickerCubit() : super(SliderRangeInitial());
   void setStartDate(DateTime dateTime){
     startData=dateTime;
+    if(endData!=null&&startData!.isBefore(endData!)){
+
+    }
+    else{
+      endData=startData!.add(Duration(days: 1));
+    }
     emit(StartDataFilled());
   }
 

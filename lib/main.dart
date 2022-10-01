@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'Features/FlatDetails/presentation/manager/SearchResultsBloc/HotelDetailsBloc.dart';
 import 'firebase_options.dart';
+import 'package:device_preview/device_preview.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +31,10 @@ void main()async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   init();
-  runApp(const MyApp());
+  runApp(DevicePreview(
+    enabled: !kReleaseMode,
+    builder: (context) => const MyApp(), // Wrap your app
+  ));
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -69,6 +74,9 @@ class MyApp extends StatelessWidget {
             ),
           ],
           child: MaterialApp(
+            useInheritedMediaQuery: true,
+            locale: DevicePreview.locale(context),
+            builder: DevicePreview.appBuilder,
             debugShowCheckedModeBanner: false,
             theme: getAppTheme(),
             home: child,

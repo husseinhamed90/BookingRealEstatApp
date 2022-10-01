@@ -3,6 +3,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'AppColors.dart';
 
+Theme datePickerTheme(BuildContext context, Widget? child) {
+  return Theme(
+    data: Theme.of(context).copyWith(
+      colorScheme: const ColorScheme.light(
+        primary: primaryColor,
+      ),
+      dialogTheme: const DialogTheme(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)))),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: primaryColor, // button text color
+        ),
+      ),
+    ),
+    child: child!,
+  );
+}
+
 ThemeData getAppTheme() {
   return ThemeData(
       fontFamily: 'Catamaran',

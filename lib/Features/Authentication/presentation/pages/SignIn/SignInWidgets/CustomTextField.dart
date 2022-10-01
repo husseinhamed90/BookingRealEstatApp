@@ -83,6 +83,8 @@ import 'package:realestate/Features/SearchFilters/presentation/manager/DatePicke
 import 'package:realestate/Features/SearchFilters/presentation/manager/filters_bloc.dart';
 import 'package:realestate/Features/SearchFilters/presentation/pages/SearchFilters/SearchFiltersPage.dart';
 
+import '../../../../../../Core/AppTheme/Themes.dart';
+
 class CustomTextField extends StatelessWidget {
   TextAlign textAlign;
   String? iconName;
@@ -117,19 +119,19 @@ class CustomTextField extends StatelessWidget {
           onTap: () {
             if(isClickable){
               if(hindText=="Choose Start Date"){
-
-                showDatePicker(context: context, initialDate: context.read<DatePickerCubit>().startData==null?DateTime.now():context.read<DatePickerCubit>().startData!, firstDate: context.read<DatePickerCubit>().startData==null?DateTime.now():context.read<DatePickerCubit>().startData!,lastDate: DateTime(2100)).then((value) {
+                buildShowDatePicker(context).then((value) {
                   if(value!=null){
-                    String start = "${value.year}-${value.month}-${value.day}";
-                       context.read<DatePickerCubit>().setStartDate(value);
-                       context.read<FilteringBloc>().startDateController.text=start;
+                    String start = getDateInFormat(value);
+                    context.read<DatePickerCubit>().setStartDate(value);
+                    context.read<FilteringBloc>().startDateController.text=start;
+                    context.read<FilteringBloc>().endDateController.text=getDateInFormat(context.read<DatePickerCubit>().endData!);
                   }
                 });
               }
               else if(hindText=="Choose End Date"){
-                showDatePicker(context: context, initialDate: context.read<DatePickerCubit>().startData==null?DateTime.now():context.read<DatePickerCubit>().startData!, firstDate: context.read<DatePickerCubit>().startData==null?DateTime.now():context.read<DatePickerCubit>().startData!,lastDate: DateTime(2100)).then((value) {
+                buildShowDatePicker(context).then((value) {
                   if(value!=null){
-                    String end = "${value.year}-${value.month}-${value.day}";
+                    String end = getDateInFormat(value);
                     context.read<DatePickerCubit>().setEndDate(value);
                     context.read<FilteringBloc>().endDateController.text=end;
                   }
@@ -173,7 +175,6 @@ class CustomTextField extends StatelessWidget {
                   child: SvgPicture.asset(iconName!,color: primaryColor), onTap: () {}
               ),
             ):null,
-            // contentPadding: EdgeInsets.only(left: 15.w),
             hintText: hindText,
             hintStyle: TextStyle(
                 fontSize: 18.sp, color:haveBorder?const Color(0xff9197A2):Colors.white
@@ -183,4 +184,18 @@ class CustomTextField extends StatelessWidget {
       },
     );
   }
+
+  Future<DateTime?> buildShowDatePicker(BuildContext context) {
+    return showDatePicker(
+        builder: (context, child) => datePickerTheme(context, child),context: context,
+        initialDate: context.read<DatePickerCubit>().startData==null?DateTime.now():context.read<DatePickerCubit>().endData!,
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2100)
+    );
+  }
+
+  String getDateInFormat(DateTime  dateTime){
+    return "${dateTime.year}-${dateTime.month}-${dateTime.day}";
+  }
+
 }
