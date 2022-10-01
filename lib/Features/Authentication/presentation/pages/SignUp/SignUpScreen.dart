@@ -1,7 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:realestate/DependencyInjection.dart';
+import 'package:realestate/Features/Authentication/domain/entities/UserEntity.dart';
+import 'package:realestate/Features/Authentication/presentation/manager/auth_bloc.dart';
 import 'package:realestate/Features/Authentication/presentation/pages/SignIn/SignInWidgets/CustomTextField.dart';
 import 'package:realestate/Features/HomePageLayout/HomePageLayoutPage.dart';
 import '../../../../../Core/AppTheme/AppColors.dart';
@@ -14,6 +18,7 @@ class SignUpScreen extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+   TextEditingController phoneNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,42 +51,51 @@ class SignUpScreen extends StatelessWidget {
                 SizedBox(height: 20.h),
                 CustomTextField(isClickable: false,controller: emailController,iconName: "Assets/Icons/lock.svg",hindText: "Enter Email",readOnly: false,haveBorder: false,textAlign: TextAlign.left),
                 SizedBox(height: 20.h),
+                CustomTextField(isClickable: false,controller: phoneNumberController,iconName: "Assets/Icons/lock.svg",hindText: "Enter Phone Number",readOnly: false,haveBorder: false,textAlign: TextAlign.left),
+                SizedBox(height: 20.h),
                 CustomTextField(isClickable: false,controller: passwordController,iconName: "Assets/Icons/lock.svg",hindText: "Enter Password",readOnly: false,haveBorder: false,textAlign: TextAlign.left),
                 SizedBox(height: 20.h),
                 CustomTextField(isClickable: false,controller: confirmPasswordController,iconName: "Assets/Icons/lock.svg",hindText: "Enter Confirm Password",readOnly: false,haveBorder: false,textAlign: TextAlign.left),
                 SizedBox(height: 60.h),
-                SizedBox(
-                  width: double.infinity,
-                  height: 60.h,
-                  child: ElevatedButton(onPressed: () async{
-
-                    // await FirebaseAuth.instance.signOut();
-
-                    // FirebaseAuth.instance
-                    //     .authStateChanges()
-                    //     .listen((User? user) {
-                    //   if (user == null) {
-                    //     print('User is currently signed out!');
-                    //   } else {
-                    //     print('User is signed in!');
-                    //   }
-                    // });
-
-
-                    await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text).then((value) {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePageLayoutPage(),));
-                    }).onError((error, stackTrace) {
-                      print(error);
-                    });
-
-                    // await FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text).then((value) {
-                    //   print(value.user!.email);
-                    // }).onError((error, stackTrace) {
-                    //   print(error);
-                    // });
-
-                    //Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePageLayoutPage(),));
-                  }, child: const Text("SIGN UP")),
+                BlocConsumer<AuthBloc,AuthState>(
+                  listener: (context, state) {
+                    if(state.message!.message=="Logged in"||state.message!.message=="Already Logged"){
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  const HomePageLayoutPage(),));
+                    }
+                    else if(state.message!.message=="Error"){
+                      final snackBar = SnackBar(
+                        content: Text(state.message!.message),
+                        action: SnackBarAction(
+                          label: 'Undo',
+                          onPressed: () {
+                            // Some code to undo the change.
+                          },
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                  },
+                  builder: (context, state) {
+                    if(state.message!.message=="Loading"){
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    return SizedBox(
+                      width: double.infinity,
+                      height: 60.h,
+                      child: ElevatedButton(onPressed: () async{
+                        if(passwordController.text==confirmPasswordController.text){
+                          dl<AuthBloc>().add(SignUpEvent(userEntity: UserEntity(
+                              password: passwordController.text,
+                              email: emailController.text,
+                              phoneNumber: phoneNumberController.text,
+                              userName: usernameController.text
+                          )));
+                        }
+                      }, child: const Text("SIGN UP")),
+                    );
+                  },
                 ),
                 SizedBox(height: 32.h),
                 Center(
@@ -98,7 +112,6 @@ class SignUpScreen extends StatelessWidget {
               ],
             ),
           ),
-
         ],
       ),
     );

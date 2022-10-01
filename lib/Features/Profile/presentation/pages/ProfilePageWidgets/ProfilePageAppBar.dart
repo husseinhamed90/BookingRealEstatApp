@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:realestate/Features/Authentication/presentation/manager/auth_bloc.dart';
+import 'package:realestate/Features/Authentication/presentation/pages/SignIn/SignInScreen.dart';
 
 import '../../../../../Core/AppTheme/AppColors.dart';
 import '../../../../../Core/ReusableComponantes.dart';
+import '../../../../../DependencyInjection.dart';
 
 class ProfilePageAppBar extends StatelessWidget {
   const ProfilePageAppBar({
@@ -23,11 +27,27 @@ class ProfilePageAppBar extends StatelessWidget {
           height: 179.h,
           child: Row(
             children: [
+              //SizedBox(width: 50,),
+              const SizedBox(width: 60),
               Expanded(
                 child: Container(
                     alignment: Alignment.center,
                     child: buildCustomText(text: "PROFILE",fontWeight: FontWeight.w400,size: 22)
                 ),
+              ),
+              BlocConsumer<AuthBloc,AuthState>(
+                builder: (context, state) {
+                  return GestureDetector(
+                      onTap: () {
+                        dl<AuthBloc>().add(SignOutEvent());
+                      },
+                      child: const SizedBox(width: 60,height: 30, child: Icon(Icons.logout,size: 30,color: Colors.white,)));
+                },
+                listener: (context, state) {
+                  if(state.message!.message=="User Signed Out"){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignInScreen(),));
+                  }
+                },
               ),
             ],
           ),

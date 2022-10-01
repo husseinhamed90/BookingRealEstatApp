@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:realestate/Core/BottomNavBarBloc/bottom_nav_bar_bloc.dart';
+import 'package:realestate/Features/Authentication/data/remote/data_sources/AuthFirebaseDataSource.dart';
+import 'package:realestate/Features/Authentication/presentation/manager/auth_bloc.dart';
 import 'package:realestate/Features/FlatDetails/data/repositories/RemoteHotelDetailsRepository.dart';
 import 'package:realestate/Features/FlatDetails/presentation/manager/SearchResultsBloc/HotelDetailsBloc.dart';
 import 'package:realestate/Features/FlatDetails/presentation/manager/favourite_cubit.dart';
@@ -26,6 +28,7 @@ init(){
   dl.registerLazySingleton<HotelsByCoordinatesBloc>(() => HotelsByCoordinatesBloc());
   dl.registerLazySingleton<HotelDetailsBloc>(() => HotelDetailsBloc());
   dl.registerLazySingleton<FavouriteCubit>(() => FavouriteCubit());
+  dl.registerLazySingleton<AuthBloc>(() => AuthBloc());
 
   dl.registerLazySingleton<LocationsRepository>(() => LocationsRepository(dl()));
   dl.registerLazySingleton<RemoteSearchFormRepository>(() => RemoteSearchFormRepository(dl()));
@@ -34,6 +37,7 @@ init(){
   dl.registerLazySingleton<RemoteDataSource>(() => RemoteDataSource());
   dl.registerLazySingleton<RemoteSearchFormDataSource>(() => RemoteSearchFormDataSource());
   dl.registerLazySingleton<RemoteHotelDetailsDataSource>(() => RemoteHotelDetailsDataSource());
+  dl.registerLazySingleton<AuthFirebaseDataSource>(() => AuthFirebaseDataSource());
 
   dl.registerLazySingleton<FetchLocationsUseCase>(() => FetchLocationsUseCase(dl()));
   dl.registerLazySingleton<FetchNearestHotelsUseCase>(() => FetchNearestHotelsUseCase(dl()));

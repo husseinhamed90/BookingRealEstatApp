@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:realestate/Core/BottomNavBarBloc/bottom_nav_bar_bloc.dart';
+import 'package:realestate/Features/Authentication/presentation/manager/auth_bloc.dart';
 import 'package:realestate/Features/Authentication/presentation/pages/SignIn/SignInScreen.dart';
 import 'package:realestate/Features/FlatDetails/presentation/manager/favourite_cubit.dart';
+import 'package:realestate/Features/HomePageLayout/HomePageLayoutPage.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/filters_bloc.dart';
 import 'package:realestate/Features/SearchForm/presentation/manager/HotelsByCoordinatedBloc/hotels_by_coordinates_bloc.dart';
 import 'Core/AppTheme/AppColors.dart';
@@ -51,8 +53,11 @@ class MyApp extends StatelessWidget {
             BlocProvider<HotelDetailsBloc>(
               create: (BuildContext context) => dl<HotelDetailsBloc>(),
             ),
+            BlocProvider<AuthBloc>(
+              create: (BuildContext context) => dl<AuthBloc>()..add(CheckIfUserLoggedIn())
+            ),
             BlocProvider<FavouriteCubit>(
-              create: (BuildContext context) => dl<FavouriteCubit>(),
+                create: (BuildContext context) => dl<FavouriteCubit>()
             ),
           ],
           child: MaterialApp(

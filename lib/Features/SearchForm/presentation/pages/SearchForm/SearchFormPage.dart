@@ -16,7 +16,6 @@ class SearchForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HotelsByCoordinatesBloc,HotelsByCoordinatesState>(
-     // listenWhen: (previous, current) => previous.errorMessage!.message!=current.errorMessage!.message,
       listener: (context, state) {
          if(state.errorMessage!.message=="Error"||state.errorMessage!.message=="Error When Fetching Hotels Details"){
           final snackBar = SnackBar(

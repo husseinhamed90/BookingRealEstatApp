@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:realestate/DependencyInjection.dart';
+import 'package:realestate/Features/Authentication/presentation/manager/auth_bloc.dart';
 import 'package:realestate/Features/Authentication/presentation/pages/SignIn/SignInWidgets/CustomTextField.dart';
 import 'package:realestate/Features/Authentication/presentation/pages/SignUp/SignUpScreen.dart';
 import 'package:realestate/Features/HomePageLayout/HomePageLayoutPage.dart';
@@ -10,8 +13,10 @@ import '../../../../../Core/ReusableComponantes.dart';
 class SignInScreen extends StatelessWidget {
 
   SignInScreen({Key? key}) : super(key: key);
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+
+  final TextEditingController emailController = TextEditingController();
+
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +48,39 @@ class SignInScreen extends StatelessWidget {
                 SizedBox(height: 20.h),
                 CustomTextField(isClickable: false,controller: passwordController,iconName: "Assets/Icons/lock.svg",hindText: "Enter Password",readOnly: false,haveBorder: false,textAlign: TextAlign.left),
                 const Spacer(),
-                SizedBox(
-                  width: double.infinity,
-                  height: 60.h,
-                  child: ElevatedButton(onPressed: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  const HomePageLayoutPage(),));
-                  }, child: const Text("SIGN IN")),
+                BlocConsumer<AuthBloc,AuthState>(
+                  builder: (context, state) {
+                    if(state.message!.message=="Loading"){
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    return SizedBox(
+                      width: double.infinity,
+                      height: 60.h,
+                      child: ElevatedButton(onPressed: () {
+                        dl<AuthBloc>().add(SignInEvent(email: emailController.text,password: passwordController.text));
+                      }, child: const Text("SIGN IN")),
+                    );
+                  },
+                  listener: (context, state) {
+
+                    if(state.message!.message=="Logged In"||state.message!.message=="Already Logged"){
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  const HomePageLayoutPage(),));
+                    }
+                    else if(state.errorMessage=="Error"){
+                      final snackBar = SnackBar(
+                        content: Text(state.message!.message),
+                        action: SnackBarAction(
+                          label: 'Undo',
+                          onPressed: () {
+                            // Some code to undo the change.
+                          },
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                  },
                 ),
                 SizedBox(height: 32.h),
                 Center(
@@ -65,7 +97,6 @@ class SignInScreen extends StatelessWidget {
               ],
             ),
           ),
-
         ],
       ),
     );

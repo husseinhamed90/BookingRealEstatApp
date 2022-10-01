@@ -18,7 +18,7 @@ class RoomItem extends StatelessWidget {
               borderRadius: const BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
               image: DecorationImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(getRoom(hotelBlocksModel).photos![0].urlOriginal!)
+                  image: NetworkImage(getUrl(hotelBlocksModel))
               )
           ),
         ),
@@ -124,6 +124,16 @@ class RoomItem extends StatelessWidget {
       },
     );
   }
+  String getUrl(HotelBlocksModel hotelBlocksModel){
+    Room x =hotelBlocksModel.rooms![getKeyOfRoom(hotelBlocksModel)]!;
+    if(x.photos!.isEmpty){
+      return "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png";
+    }
+    else{
+      return x.photos![0].urlOriginal!;
+    }
+
+  }
   Room getRoom(HotelBlocksModel hotelBlocksModel){
     return hotelBlocksModel.rooms![getKeyOfRoom(hotelBlocksModel)]!;
   }
@@ -131,7 +141,6 @@ class RoomItem extends StatelessWidget {
   String getDescription(HotelBlocksModel hotelBlocksModel){
     return hotelBlocksModel.rooms![getKeyOfRoom(hotelBlocksModel)]!.description!;
   }
-
 
   String getKeyOfRoom(HotelBlocksModel hotelBlocksModel){
     return hotelBlocksModel.block![blockIndex!].roomId.toString();

@@ -8,6 +8,7 @@ class RemoteSearchFormDataSource{
 
   Future<Either<FireMessage, List<HotelModel>>> fetchNearestHotels({required double latitude,required double longitude}) async {
 
+    print("asdasddasd");
     DateTime cheekIn = DateTime.now();
     DateTime checkOut = DateTime.now().add(const Duration(days: 3));
     String checkInDateTime = "${cheekIn.year.toString()}-${cheekIn.month.toString()}-${cheekIn.day.toString()}";
