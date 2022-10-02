@@ -15,9 +15,9 @@ import '../../manager/sliders_cubit.dart';
 class SearchFiltersPage extends StatelessWidget {
   SearchFiltersPage({Key? key}) : super(key: key);
 
-  int selectedBox = 0;
+  //int selectedBox = 0;
 
-  List<String> types = ["All", "House", "Flat"];
+  //List<String> types = ["All", "House", "Flat"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +64,7 @@ class SearchFiltersPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    drawLabelText("COUNTRY AND CITY"),
+                    drawLabelText("LOCATION"),
                     SizedBox(
                       height: 6.h,
                     ),
@@ -72,17 +72,16 @@ class SearchFiltersPage extends StatelessWidget {
                         isSecure: false,
                         isClickable: false,
                         iconName: "Assets/Icons/searchbar.svg",
-                        hindText: "Enter Country Name",
+                        hindText: "Enter Location",
                         readOnly: false,
                         haveBorder: true,
                         textAlign: TextAlign.left,
                         controller: dl<FilteringBloc>().locationController,
                         haveIcon: false),
-                    // getTextFieldWithLabel(isClickable: false,hintText: "Enter Country Name",label: "COUNTRY AND CITY",textAlign: TextAlign.left,controller: dl<FilteringBloc>().locationController,haveIcon: false,readOnly: false),
                     SizedBox(
                       height: 20.h,
                     ),
-                    drawLabelText("Choose Start Date"),
+                    drawLabelText("CHOSE START DATE"),
                     SizedBox(
                       height: 6.h,
                     ),
@@ -99,7 +98,7 @@ class SearchFiltersPage extends StatelessWidget {
                     SizedBox(
                       height: 20.h,
                     ),
-                    drawLabelText("Choose End Date"),
+                    drawLabelText("CHOSE End DATE"),
                     SizedBox(
                       height: 6.h,
                     ),
@@ -136,7 +135,7 @@ class SearchFiltersPage extends StatelessWidget {
                     BlocBuilder<SlidersCubit,SlidersState>(
                       builder: (context, state) {
                         return  SliderOfRanges(
-                            initValue: dl<SlidersCubit>().initAdultsNumber,
+                            initValue: dl<SlidersCubit>().initAdultsNumber!.toDouble(),
                             isSliderRange: false,
                             min: 1,
                             interval: 1,
@@ -152,11 +151,11 @@ class SearchFiltersPage extends StatelessWidget {
                     BlocBuilder<SlidersCubit,SlidersState>(
                       builder: (context, state) {
                         return  SliderOfRanges(
-                            initValue: dl<SlidersCubit>().initRoomsNumber,
+                            initValue: dl<SlidersCubit>().initRoomsNumber!.toDouble(),
                             varName: "Rooms",
                             isSliderRange: false,
                             min: 1,
-                            interval: 1,
+                            interval: 2,
                             max: 10,
                             hintText: "1-10",
                             controller: dl<SlidersCubit>().numberOfRoomsController);
@@ -164,60 +163,6 @@ class SearchFiltersPage extends StatelessWidget {
                     ),
                     SizedBox(
                       height: 20.h,
-                    ),
-                    drawLabelText("HOME TYPE"),
-                    SizedBox(
-                      height: 6.h,
-                    ),
-                    SizedBox(
-                      height: 41.h,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              // setState(() {
-                              //   selectedBox=index;
-                              // });
-                            },
-                            child: Container(
-                              height: 41.h,
-                              width: 112.w,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 1.5.w,
-                                    color: const Color(0xffF2F2F2),
-                                  ),
-                                  color: selectedBox == index
-                                      ? primaryColor
-                                      : Colors.white,
-                                  borderRadius: index == 0
-                                      ? const BorderRadius.only(
-                                          topLeft: Radius.circular(10),
-                                          bottomLeft: Radius.circular(10))
-                                      : index == types.length - 1
-                                          ? const BorderRadius.only(
-                                              topRight: Radius.circular(10),
-                                              bottomRight: Radius.circular(10))
-                                          : null),
-                              child: Center(
-                                child: Text(types[index],
-                                    style: TextStyle(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: selectedBox == index
-                                            ? Colors.white
-                                            : const Color(0xff9197A2)),
-                                    textAlign: TextAlign.center),
-                              ),
-                            ),
-                          );
-                        },
-                        itemCount: types.length,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 87.h,
                     ),
                     SizedBox(
                       height: 60.h,

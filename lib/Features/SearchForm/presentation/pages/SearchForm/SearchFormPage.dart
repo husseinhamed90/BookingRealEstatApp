@@ -51,7 +51,7 @@ class SearchForm extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20.w),
-                        child: getColumn(firstString: "Book homes and flats",secondString: "In 63 countries from €49 per night"),
+                        child: getColumn(firstString: "Book homes and flats",secondString: "In All countries from \$ 10 per night"),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(20),

@@ -56,6 +56,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   device_preview: ^1.1.0
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -71,6 +72,7 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
+
 flutter:
 
   # The following line ensures that the Material Icons font is

@@ -19,6 +19,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'Features/FlatDetails/presentation/manager/SearchResultsBloc/HotelDetailsBloc.dart';
+import 'SplachScreenPage.dart';
 import 'firebase_options.dart';
 import 'package:device_preview/device_preview.dart';
 
@@ -31,10 +32,7 @@ void main()async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   init();
-  runApp(DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => const MyApp(), // Wrap your app
-  ));
+  runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -83,7 +81,7 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-      child: SignInScreen(),
+      child: SplashScreenPage(),
     );
   }
 }

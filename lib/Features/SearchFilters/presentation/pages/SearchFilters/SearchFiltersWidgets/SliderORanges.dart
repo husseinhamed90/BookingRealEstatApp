@@ -71,9 +71,7 @@ class BuildSliderRange extends StatelessWidget {
       enableTooltip: false,
       minorTicksPerInterval: 100,
       onChanged: (SfRangeValues values){
-
         dl<SlidersCubit>().updateSliderRangeValue(values);
-
       },
     );
   }
@@ -92,7 +90,16 @@ class BuildSliderWithoutRange extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  SfSlider(
+
       min: min,
+      onChangeStart: (value) {
+        dl<SlidersCubit>().updateInitValue(value,varName);
+        controller.text= initValue.toInt().toString();
+      },
+      onChangeEnd: (value) {
+        dl<SlidersCubit>().updateInitValue(value,varName);
+        controller.text= initValue.toInt().toString();
+      },
       max: max,
       inactiveColor: const Color(0xffF2F2F2),
       activeColor: primaryColor,
@@ -103,8 +110,9 @@ class BuildSliderWithoutRange extends StatelessWidget {
       enableTooltip: false,
       minorTicksPerInterval: 1,
       onChanged: (dynamic value){
+        int x= value.toInt();
         dl<SlidersCubit>().updateInitValue(value,varName);
-        controller.text= initValue.toInt().toString();
+
       },
     );
   }

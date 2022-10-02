@@ -7,21 +7,22 @@ part 'sliders_state.dart';
 
 class SlidersCubit extends Cubit<SlidersState> {
   SlidersCubit() : super(SlidersInitial());
-  double ?initAdultsNumber=1.0;
-  double ?initRoomsNumber=1.0;
-  SfRangeValues pricesValues=const SfRangeValues(0.0, 10000.0);
+  int ?initAdultsNumber=1;
+  int ?initRoomsNumber=1;
+  SfRangeValues pricesValues=const SfRangeValues(10.0, 10000.0);
 
   TextEditingController priceController = TextEditingController();
   TextEditingController guestsController = TextEditingController();
   TextEditingController numberOfRoomsController = TextEditingController();
 
   void updateInitValue(double newValue,String valueName){
+
     if(valueName =="Rooms"){
-      initRoomsNumber=newValue;
+      initRoomsNumber=newValue.toInt();
       numberOfRoomsController.text=initRoomsNumber.toString();
     }
     else{
-      initAdultsNumber=newValue;
+      initAdultsNumber=newValue.toInt();
       guestsController.text=initAdultsNumber.toString();
     }
     emit(SlidersChangedSate());

@@ -10,13 +10,25 @@ import 'package:realestate/Features/HomePageLayout/HomePageLayoutPage.dart';
 import '../../../../../Core/AppTheme/AppColors.dart';
 import '../../../../../Core/ReusableComponantes.dart';
 
-class SignInScreen extends StatelessWidget {
+class SignInScreen extends StatefulWidget {
 
   SignInScreen({Key? key}) : super(key: key);
 
+  @override
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController emailController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    dl<AuthBloc>().add(CheckIfUserLoggedIn());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +49,7 @@ class SignInScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 100.h,),
+                SizedBox(height: 56.h+MediaQuery.of(context).padding.top,),
                 SvgPicture.asset(
                     "Assets/Images/logo.svg",color: primaryColor,
                 ),
@@ -52,7 +64,7 @@ class SignInScreen extends StatelessWidget {
                   builder: (context, state) {
                     if(state.message!.message=="Loading"){
                       return const Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(color: primaryColor),
                       );
                     }
                     return SizedBox(
