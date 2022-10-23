@@ -54,9 +54,9 @@ class BuildItem extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(hotelModel.hotelName!,style: TextStyle(
+                              AutoSizeText(hotelModel.hotelName!,style: TextStyle(
                                   color: const Color(0xff312D2C),fontSize: 22.sp,fontWeight: FontWeight.w800,height: 35.h/22
-                              ),),
+                              ),overflow: TextOverflow.ellipsis,maxLines: 2,),
                               SizedBox(height: 10.h,),
                               Row(
                                 children: [

@@ -154,7 +154,7 @@ class CustomTextField extends StatelessWidget {
               minHeight: 1,
             ),
             prefixIcon :haveIcon? Padding(
-              padding: EdgeInsets.only(left: 20.w,right: 20.w,bottom: 20.w,top: 20.w),
+              padding: EdgeInsets.only(left: 20.w,right: 20.w,bottom: 20.h,top: 20.h),
               child: InkWell(
                   child: SvgPicture.asset(iconName!,color: primaryColor,width: 20.h,height: 20.h), onTap: () {}
               ),

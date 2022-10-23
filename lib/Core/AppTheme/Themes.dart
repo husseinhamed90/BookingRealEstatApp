@@ -39,7 +39,7 @@ ThemeData getAppTheme() {
                   color: secondColor)))),
       appBarTheme: AppBarTheme(
         iconTheme:  IconThemeData(
-            color: appBarIconAndTitleColor,size: 26.w
+            color: appBarIconAndTitleColor,size: 20.h
         ),
         titleSpacing: 15.w,
         backgroundColor: primaryColor,
@@ -70,10 +70,10 @@ ThemeData getAppTheme() {
         showSelectedLabels: false,
         showUnselectedLabels: false,
         selectedIconTheme: IconThemeData(
-          size: 24.w,
+          size: 24.h,
         ),
         unselectedIconTheme: IconThemeData(
-          size: 24.w,
+          size: 24.h,
         ),
       ));
 }
