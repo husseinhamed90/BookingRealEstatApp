@@ -14,7 +14,7 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
-  TextEditingController userController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
@@ -38,7 +38,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthState().copyWith(message: left,errorMessage: "Error",userEntity: null));
       }, (right){
         emit(AuthState().copyWith(message: FireMessage("User Signed Out"),userEntity: null));
-       // emit(AuthState().copyWith(message: FireMessage("Logged in"),userEntity: right,errorMessage: ""));
       });
     });
 
@@ -76,7 +75,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void fillTextFieldsController(UserEntity right) {
-    userController.text=right.userName!;
+    emailController.text=right.email!;
     phoneNumberController.text=right.phoneNumber!;
     passwordController.text=right.password!;
     confirmPasswordController.text=right.password!;

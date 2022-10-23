@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:realestate/Core/AppTheme/AppColors.dart';
 import 'package:realestate/Features/FlatDetails/presentation/manager/favourite_cubit.dart';
+import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/ResuableWidgets/BuildItem.dart';
 import '../../../../../Core/ReusableComponantes.dart';
 import '../../../../../DependencyInjection.dart';
@@ -15,7 +16,7 @@ class FavouritesItemsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("FAVORITES"),
+        title:  const Text(favouritesAppbarTitle),
       ),
       body: CustomScrollView(
         slivers: [
@@ -28,7 +29,7 @@ class FavouritesItemsPage extends StatelessWidget {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: getColumn(firstString: "Your favorite items",secondString: "You have 98 favorite flats and 13 homes"),
+                    child: getColumn(firstString: favoriteItemsTitle,secondString: favouritesPageSubtitle),
                   ),
                   SizedBox(height: 20.h,)
                 ],

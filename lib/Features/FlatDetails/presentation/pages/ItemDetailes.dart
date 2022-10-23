@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:realestate/Core/AppTheme/Strings.dart';
 
 import 'package:realestate/Features/FlatDetails/presentation/manager/SearchResultsBloc/HotelDetailsState.dart';
 import 'package:realestate/Features/FlatDetails/presentation/manager/favourite_cubit.dart';
@@ -37,7 +38,21 @@ class _ItemDetailsState extends State<ItemDetails> {
     return Scaffold(
         body: BlocConsumer<HotelDetailsBloc,HotelDetailsState>(
           builder: (context, state) {
-            if(state.errorMessage!.message=="Hotel Photos Loaded"||state.errorMessage!.message=="Hotel Rooms Loaded"){
+            if(state.hotelPhotoModel==null&&state.errorMessage!.message!=loading){
+              return Center(child: Container(
+                height: 200.h,
+                width: 200.h,
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(networkErrorPhotoUrl)
+                    )
+                ),
+              ));
+            }
+            if(state.errorMessage!.message==loading){
+            return buildDownloadIndicator(context);
+            }
+            else{
               return ListView(
                 children: [
                   SizedBox(
@@ -74,7 +89,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                 child: ElevatedButton(onPressed: () async{
                                   //await goToWebsite(widget.hotelModel.weSiteUrl!);
                                   dl<HotelDetailsBloc>().add(FetchRoomsEvent(currency: widget.hotelModel.currencyCode!,hotelId:widget.hotelModel.hotelId! ));
-                                }, child: const Text("SHOW ROOMS")),
+                                }, child: const Text(showRooms)),
                               ),
                               const Spacer(),
                               BlocBuilder<FavouriteCubit,FavouriteState>(
@@ -96,7 +111,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                           height: 40.h,width: 40.h,
                                           child: Padding(
                                             padding:  EdgeInsets.all(12.h),
-                                            child: SvgPicture.asset("Assets/Icons/heart_fill.svg",color: context.read<FavouriteCubit>().changeColor(widget.hotelModel)),
+                                            child: SvgPicture.asset(fillHeartIconAsset,color: context.read<FavouriteCubit>().changeColor(widget.hotelModel)),
                                           )
                                       ),
                                     ),
@@ -128,9 +143,6 @@ class _ItemDetailsState extends State<ItemDetails> {
                 ],
               );
             }
-            else {
-              return buildDownloadIndicator(context);
-            }
           },
           listener: (context, state) {
             if(state.errorMessage!.message=="Hotel Rooms Loaded"){
@@ -141,9 +153,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                 content: Text(state.errorMessage!.message),
                 action: SnackBarAction(
                   label: 'Undo',
-                  onPressed: () {
-                    // Some code to undo the change.
-                  },
+                  onPressed: () {},
                 ),
               );
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -153,7 +163,7 @@ class _ItemDetailsState extends State<ItemDetails> {
   }
   Future<void> goToWebsite(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
-      throw 'Could not launch Website${Uri.parse(url)}';
+      throw '$couldNotLaunchUrl${Uri.parse(url)}';
     }
   }
 }

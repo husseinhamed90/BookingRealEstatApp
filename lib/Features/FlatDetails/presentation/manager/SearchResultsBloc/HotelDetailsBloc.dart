@@ -5,6 +5,7 @@ import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dar
 import 'package:realestate/Features/FlatDetails/domain/use_cases/FetchHotelDescriptionUseCase.dart';
 import 'package:realestate/Features/FlatDetails/domain/use_cases/FetchHotelDetailsUseCase.dart';
 
+import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/SharedModel/FireMessage.dart';
 import '../../../../../DependencyInjection.dart';
 import '../../../data/remote/models/HotelDetailsModel.dart';
@@ -18,7 +19,7 @@ class HotelDetailsBloc extends Bloc<HotelDetailsEvent, HotelDetailsState> {
 
   HotelDetailsBloc() : super(const HotelDetailsState().copyWith(errorMessage: FireMessage("Initial"))) {
     on<FetchHotelDetailsEvent>((event, emit) async {
-      emit(state.copyWith(errorMessage: FireMessage("Loading")));
+      emit(state.copyWith(errorMessage: FireMessage(loading)));
       final list = await dl<FetchHotelDetailsUseCase>().call(hotelId: event.hotelModel.hotelId!);
       list.fold((left) {
         emit(state.copyWith(errorMessage: left));
@@ -29,7 +30,7 @@ class HotelDetailsBloc extends Bloc<HotelDetailsEvent, HotelDetailsState> {
     });
 
     on<FetchHotelDescriptionEvent>((event, emit) async {
-      emit(state.copyWith(errorMessage: FireMessage("Loading")));
+      emit(state.copyWith(errorMessage: FireMessage(loading)));
       final list = await dl<FetchHotelDescriptionUseCase>().call(hotelId: event.hotelModel.hotelId!);
       list.fold((left) {
         emit(state.copyWith(errorMessage: left));
@@ -40,7 +41,7 @@ class HotelDetailsBloc extends Bloc<HotelDetailsEvent, HotelDetailsState> {
     });
 
     on<FetchHotelPhotosEvent>((event, emit) async {
-      emit(state.copyWith(errorMessage: FireMessage("Loading")));
+      emit(state.copyWith(errorMessage: FireMessage(loading)));
       final list = await dl<FetchHotelPhotosUseCase>().call(hotelId: event.hotelModel.hotelId!);
       list.fold((left) {
         emit(state.copyWith(errorMessage: left));
@@ -53,7 +54,7 @@ class HotelDetailsBloc extends Bloc<HotelDetailsEvent, HotelDetailsState> {
 
 
     on<FetchRoomsEvent>((event, emit) async {
-      emit(state.copyWith(errorMessage: FireMessage("Loading")));
+      emit(state.copyWith(errorMessage: FireMessage(loading)));
       final list = await dl<FetchHotelRoomsUseCase>().call(hotelId: event.hotelId,userCurrency: event.currency);
       list.fold((left) {
         emit(state.copyWith(errorMessage: left));

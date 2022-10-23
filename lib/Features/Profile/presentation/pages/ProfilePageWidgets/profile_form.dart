@@ -4,6 +4,7 @@ import 'package:realestate/DependencyInjection.dart';
 import 'package:realestate/Features/Authentication/presentation/manager/auth_bloc.dart';
 import 'package:realestate/Features/Authentication/presentation/pages/SignIn/SignInWidgets/CustomTextField.dart';
 
+import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/ReusableComponantes.dart';
 
 class ProfileForm extends StatefulWidget {
@@ -25,7 +26,7 @@ class _ProfileFormState extends State<ProfileForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildTextFieldLabelText(
-              text: "E-MAIL",
+              text: emailFieldLabel,
               color: const Color(0xff312D2C),
               fontSize: 13,
               fontWeight: FontWeight.w600),
@@ -40,12 +41,12 @@ class _ProfileFormState extends State<ProfileForm> {
               haveBorder: true,
               textAlign: TextAlign.center,
               haveIcon: false,
-              controller: dl<AuthBloc>().userController),
+              controller: dl<AuthBloc>().emailController),
           SizedBox(
             height: 40.h,
           ),
           buildTextFieldLabelText(
-              text: "PHONE NUMBER",
+              text: phoneNumberFieldLabel,
               color: const Color(0xff312D2C),
               fontSize: 13,
               fontWeight: FontWeight.w600),
@@ -65,7 +66,7 @@ class _ProfileFormState extends State<ProfileForm> {
             height: 40.h,
           ),
           buildTextFieldLabelText(
-              text: "PASSWORD",
+              text: passwordFieldLabel,
               color: const Color(0xff312D2C),
               fontSize: 13,
               fontWeight: FontWeight.w600),
@@ -85,7 +86,7 @@ class _ProfileFormState extends State<ProfileForm> {
             height: 40.h,
           ),
           buildTextFieldLabelText(
-              text: "CONFIRM PASSWORD",
+              text: confirmPasswordFieldLabel,
               color: const Color(0xff312D2C),
               fontSize: 13,
               fontWeight: FontWeight.w600),

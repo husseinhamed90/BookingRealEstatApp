@@ -3,9 +3,24 @@ import 'package:either_dart/either.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/SharedModel/FireMessage.dart';
+import '../../../../../DependencyInjection.dart';
+import '../../../presentation/manager/filters_bloc.dart';
+import '../../../presentation/manager/sliders_cubit.dart';
 import '../models/LocationModel.dart';
 
 class RemoteDataSource{
+
+  Future<Either<FireMessage, List<HotelModel>>> moreHotelsResponse() {
+    return dl<RemoteDataSource>().filterResults(numberOfRooms: 1,
+        pageNumber: dl<FilteringBloc>().pageNumber,
+        cheekIn: dl<FilteringBloc>().startDateController.text,
+        checkOut: dl<FilteringBloc>().endDateController.text,
+        numberOfAdults: 1, minPrice: dl<SlidersCubit>().pricesValues.start,
+        maxPrice: dl<SlidersCubit>().pricesValues.end,
+        locationModel: dl<FilteringBloc>().state.locations![0]
+    );
+  }
+
   Future<Either<FireMessage, List<LocationModel>>> fetchLocations(String locationName) async {
       if(locationName==""){
         return Left(FireMessage("Required Field Not Found"));
@@ -39,14 +54,12 @@ class RemoteDataSource{
       {required int numberOfRooms,
         required int pageNumber,
         required String cheekIn,required String checkOut,
-      required int numberOfAdults,
+        required int numberOfAdults,
         required double minPrice,
         required double maxPrice,
-      required LocationModel locationModel}) async {
+        required LocationModel locationModel}) async {
 
-    print(numberOfAdults);
-    print(numberOfRooms);
-    var response = await Dio().get('$BASE_URL/search',
+        var response = await Dio().get('$BASE_URL/search',
         queryParameters: {
           "checkout_date": checkOut,
           'units': 'metric',

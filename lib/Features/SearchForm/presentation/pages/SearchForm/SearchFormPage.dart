@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:realestate/Core/AppTheme/AppColors.dart';
 import 'package:realestate/Features/Authentication/presentation/pages/SignIn/SignInWidgets/CustomTextField.dart';
 import 'package:realestate/Features/SearchForm/presentation/manager/HotelsByCoordinatedBloc/hotels_by_coordinates_bloc.dart';
+import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/ResuableWidgets/BuildItem.dart';
 import '../../../../../Core/ReusableComponantes.dart';
 import '../../../../../DependencyInjection.dart';
@@ -30,14 +31,22 @@ class SearchForm extends StatelessWidget {
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },
-      buildWhen: (previous, current) {
-        return current.errorMessage!.message=="Hotels Loaded"||current.errorMessage!.message=="Loading"||current.errorMessage!.message=="Initial"||current.errorMessage!.message=="Hotel Details Loaded";
-      },
-      listenWhen: (previous, current) {
-        return current.errorMessage!.message!="Initial";
-      },
       builder: (context, state) {
-        if(state.errorMessage!.message=="Hotels Loaded"||state.errorMessage!.message=="Hotel Details Loaded"||state.errorMessage!.message=="Initial"){
+        if(state.errorMessage!.message==loading){
+          return buildDownloadIndicator(context);
+        }
+        if(state.hotels==null){
+          return Center(child: Container(
+            height: 200.h,
+            width: 200.h,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage("https://cdn3.iconfinder.com/data/icons/wifi-2/460/connection-error-512.png")
+              )
+            ),
+          ));
+        }
+        else{
           return ListView(
             children: [
               Container(
@@ -92,9 +101,6 @@ class SearchForm extends StatelessWidget {
               )
             ],
           );
-        }
-        else{
-          return buildDownloadIndicator(context);
         }
       },
     );

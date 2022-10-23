@@ -12,7 +12,6 @@ Widget getTextFieldWithLabel({required bool isClickable,required bool readOnly,r
     children: [
       drawLabelText(label),
       SizedBox(height: 6.h,),
-      //CustomTextField(isClickable: isClickable,iconName: "Assets/Icons/searchbar.svg",hindText: hintText,readOnly: readOnly,haveBorder: true,textAlign: textAlign,controller:controller,haveIcon: haveIcon),
     ],
   );
 }

@@ -7,6 +7,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 import '../../Features/FlatDetails/presentation/manager/favourite_cubit.dart';
 import '../../Features/FlatDetails/presentation/pages/ItemDetailes.dart';
+import '../AppTheme/Strings.dart';
 
 class BuildItem extends StatelessWidget {
   final int bottomPaddingValue;
@@ -42,7 +43,7 @@ class BuildItem extends StatelessWidget {
                               borderRadius: const BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
                               image: DecorationImage(
                                   fit: BoxFit.fill,
-                                  image: NetworkImage(hotelModel.maxPhotoUrl==null?"https://q-xx.bstatic.com/xdata/images/hotel/840x460/166841139.jpg?k=30c83e588229e98701cb12f5e265f8dcf788d2339cca4b3fb5930fe988a786cd&o=":hotelModel.maxPhotoUrl!)
+                                  image: NetworkImage(hotelModel.maxPhotoUrl==null?defaultImageIfNoImageFound:hotelModel.maxPhotoUrl!)
                               )
                           ),
                         ),
@@ -67,7 +68,7 @@ class BuildItem extends StatelessWidget {
                                         AutoSizeText("\$ ${hotelModel.minTotalPrice!.toStringAsFixed(2)}",style: TextStyle(
                                             color: const Color(0xff312D2C),fontSize: 22.sp,fontWeight: FontWeight.w700
                                         ),),
-                                        Text("Price",style: TextStyle(
+                                        Text(priceLabel,style: TextStyle(
                                             color: const Color(0xff9197A2),fontSize: 13.sp,fontWeight: FontWeight.w400, height: 1.2.h
                                         ),),
                                       ],
@@ -82,7 +83,7 @@ class BuildItem extends StatelessWidget {
                                         Text("2",style: TextStyle(
                                           color: const Color(0xff312D2C),fontSize: 22.sp,fontWeight: FontWeight.w700,
                                         ),),
-                                        Text("guests max",style: TextStyle(
+                                        Text(guestsMaxLabel,style: TextStyle(
                                             color: const Color(0xff9197A2),fontSize: 13.sp,fontWeight: FontWeight.w400, height: 1.2.h
                                         ),),
                                       ],
@@ -116,7 +117,7 @@ class BuildItem extends StatelessWidget {
                             height: 40.h,width: 40.h,
                             child: Padding(
                               padding:  EdgeInsets.all(12.h),
-                              child: SvgPicture.asset("Assets/Icons/heart_fill.svg",color: context.read<FavouriteCubit>().changeColor(hotelModel)),
+                              child: SvgPicture.asset(fillHeartIconAsset,color: context.read<FavouriteCubit>().changeColor(hotelModel)),
                             )
                         ),
                       ),

@@ -16,7 +16,7 @@ class HotelsByCoordinatesState extends Equatable{
   const HotelsByCoordinatesState({this.errorMessage, this.hotels, this.locations,this.hotelDetailsModel,this.hotelBlocksModel,this.hotelModel});
 
   HotelsByCoordinatesState copyWith({
-    FireMessage ?errorMessage,
+    FireMessage ?message,
     List<HotelModel>?hotels,
     List<LocationModel>?locations,
     HotelDetailsModel?hotelDetailsModel,
@@ -27,7 +27,7 @@ class HotelsByCoordinatesState extends Equatable{
       locations: locations ?? this.locations,
       hotels: hotels ?? this.hotels,
       hotelModel: hotelModel ?? this.hotelModel,
-      errorMessage: errorMessage ?? this.errorMessage,
+      errorMessage: message ?? this.errorMessage,
       hotelDetailsModel: hotelDetailsModel ?? this.hotelDetailsModel,
       hotelBlocksModel: hotelBlocksModel ?? this.hotelBlocksModel,
     );

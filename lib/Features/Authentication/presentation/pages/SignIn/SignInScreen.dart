@@ -8,11 +8,13 @@ import 'package:realestate/Features/Authentication/presentation/pages/SignIn/Sig
 import 'package:realestate/Features/Authentication/presentation/pages/SignUp/SignUpScreen.dart';
 import 'package:realestate/Features/HomePageLayout/HomePageLayoutPage.dart';
 import '../../../../../Core/AppTheme/AppColors.dart';
+import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/ReusableComponantes.dart';
+import '../../widgets/BackgroundImage.dart';
 
 class SignInScreen extends StatefulWidget {
 
-  SignInScreen({Key? key}) : super(key: key);
+  const SignInScreen({Key? key}) : super(key: key);
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -25,7 +27,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     dl<AuthBloc>().add(CheckIfUserLoggedIn());
   }
@@ -36,14 +37,7 @@ class _SignInScreenState extends State<SignInScreen> {
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: SvgPicture.asset(
-                "Assets/Images/loginbackground.svg",
-              fit: BoxFit.fill,
-            ),
-          ),
+          const BackgroundImage(),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Column(
@@ -51,14 +45,14 @@ class _SignInScreenState extends State<SignInScreen> {
               children: [
                 SizedBox(height: 56.h+MediaQuery.of(context).padding.top,),
                 SvgPicture.asset(
-                    "Assets/Images/logo.svg",color: primaryColor,
+                  logoImageAsset,color: primaryColor,
                 ),
                 SizedBox(height: 56.h,),
-                getColumn(firstString: "Sign in",secondString: "And explore 28 192+ offers"),
+                getColumn(firstString: signInLabel,secondString: exploreOffersSubtitle),
                 SizedBox(height: 20.h,),
-                CustomTextField(isSecure: false,isClickable: false,controller:emailController ,iconName: "Assets/Icons/user.svg",hindText: "Enter Email",readOnly: false,haveBorder: false,textAlign: TextAlign.left),
+                CustomTextField(isSecure: false,isClickable: false,controller:emailController ,iconName: usernameFieldIcon,hindText: "Enter Email",readOnly: false,haveBorder: false,textAlign: TextAlign.left),
                 SizedBox(height: 20.h),
-                CustomTextField(isSecure: true,isClickable: false,controller: passwordController,iconName: "Assets/Icons/lock.svg",hindText: "Enter Password",readOnly: false,haveBorder: false,textAlign: TextAlign.left),
+                CustomTextField(isSecure: true,isClickable: false,controller: passwordController,iconName: passwordFieldIcon,hindText: "Enter Password",readOnly: false,haveBorder: false,textAlign: TextAlign.left),
                 const Spacer(),
                 BlocConsumer<AuthBloc,AuthState>(
                   builder: (context, state) {
@@ -72,7 +66,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       height: 60.h,
                       child: ElevatedButton(onPressed: () {
                         dl<AuthBloc>().add(SignInEvent(email: emailController.text,password: passwordController.text));
-                      }, child: const Text("SIGN IN")),
+                      }, child: Text(signInLabel)),
                     );
                   },
                   listener: (context, state) {
@@ -84,9 +78,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         content: Text(state.message!.message),
                         action: SnackBarAction(
                           label: 'Undo',
-                          onPressed: () {
-                            // Some code to undo the change.
-                          },
+                          onPressed: () {},
                         ),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -96,10 +88,8 @@ class _SignInScreenState extends State<SignInScreen> {
                 SizedBox(height: 32.h),
                 Center(
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),));
-                    },
-                    child: Text("Don’t have an account? - Sign up",style: TextStyle(
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),)),
+                    child: Text(notHaveAccountMassage,style: TextStyle(
                       fontSize: 16.sp,fontWeight: FontWeight.w400,color: Colors.white
                     )),
                   ),
@@ -113,4 +103,6 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 }
+
+
 

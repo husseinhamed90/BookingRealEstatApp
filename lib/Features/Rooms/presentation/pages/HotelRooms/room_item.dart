@@ -5,6 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:realestate/Features/FlatDetails/data/remote/models/HotelBlocksModel.dart';
 import 'package:realestate/Features/SearchForm/domain/entities/Room.dart';
 
+import '../../../../../Core/AppTheme/Strings.dart';
+
 class RoomItem extends StatelessWidget {
   const RoomItem({Key? key,required this.hotelBlocksModel,required this.blockIndex}) : super(key: key);
   final int ?blockIndex;
@@ -49,7 +51,7 @@ class RoomItem extends StatelessWidget {
                             AutoSizeText("\$ ${hotelBlocksModel.block![blockIndex!].productPriceBreakdown!.grossAmount!.value!.toStringAsFixed(2)}",style: TextStyle(
                                 color: const Color(0xff312D2C),fontSize: 24.sp,fontWeight: FontWeight.w700
                             ),maxLines: 1),
-                            AutoSizeText("Per Night",style: TextStyle(
+                            AutoSizeText(perNight,style: TextStyle(
                                 color: const Color(0xff9197A2),fontSize: 14.sp,fontWeight: FontWeight.w400, height: 1.2.h
                             ),maxLines: 1),
                           ],
@@ -66,7 +68,7 @@ class RoomItem extends StatelessWidget {
                             AutoSizeText("${hotelBlocksModel.block![blockIndex!].nrAdults}",style: TextStyle(
                                 color: const Color(0xff312D2C),fontSize: 24.sp,fontWeight: FontWeight.w700
                             ),maxLines: 1),
-                            AutoSizeText("Adults",style: TextStyle(
+                            AutoSizeText(adultsLabel,style: TextStyle(
                                 color: const Color(0xff9197A2),fontSize: 14.sp,fontWeight: FontWeight.w400, height: 1.2.h,
                             ),maxLines: 1),
                           ],
@@ -81,7 +83,7 @@ class RoomItem extends StatelessWidget {
                           shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0),
                               side: BorderSide.none)),
-                        ), child: const Text("BOOK NOW")),
+                        ), child: const Text(bookNow)),
                       ),
                       SizedBox(width: 15.w,),
                     ],
@@ -103,7 +105,7 @@ class RoomItem extends StatelessWidget {
               width: 30,
               height: 30,
               child: SvgPicture.asset(
-                "Assets/Icons/zoom.svg",color: Colors.white,
+                zoomIconAsset,color: Colors.white,
                 fit: BoxFit.fill,
               ),
             ),
@@ -149,7 +151,7 @@ class RoomItem extends StatelessWidget {
   String getUrl(HotelBlocksModel hotelBlocksModel){
     Room x =hotelBlocksModel.rooms![getKeyOfRoom(hotelBlocksModel)]!;
     if(x.photos!.isEmpty){
-      return "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png";
+      return defaultImageIfNoImageFound;
     }
     else{
       return x.photos![0].urlOriginal!;

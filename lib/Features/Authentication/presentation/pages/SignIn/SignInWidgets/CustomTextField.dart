@@ -79,6 +79,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:realestate/Core/AppTheme/AppColors.dart';
+import 'package:realestate/Core/AppTheme/Strings.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/DatePickerCubit.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/filters_bloc.dart';
 import 'package:realestate/Features/SearchFilters/presentation/pages/SearchFilters/SearchFiltersPage.dart';
@@ -112,33 +113,17 @@ class CustomTextField extends StatelessWidget {
           controller: controller,
           textAlign: textAlign,
           readOnly: readOnly,
-          onFieldSubmitted: (value) {
-            //dl<FilteringBloc>().add(FetchLocationsEvent());
-          },
-
+          onFieldSubmitted: (value) {},
           onTap: () {
             if(isClickable){
-              if(hindText=="Choose Start Date"){
-                buildShowDatePicker(context).then((value) {
-                  if(value!=null){
-                    String start = getDateInFormat(value);
-                    context.read<DatePickerCubit>().setStartDate(value);
-                    context.read<FilteringBloc>().startDateController.text=start;
-                    context.read<FilteringBloc>().endDateController.text=getDateInFormat(context.read<DatePickerCubit>().endData!);
-                  }
-                });
+              if(hindText==chooseStartDate){
+                choseStartDate(context);
               }
-              else if(hindText=="Choose End Date"){
-                buildShowDatePicker(context).then((value) {
-                  if(value!=null){
-                    String end = getDateInFormat(value);
-                    context.read<DatePickerCubit>().setEndDate(value);
-                    context.read<FilteringBloc>().endDateController.text=end;
-                  }
-                });
+              else if(hindText==chooseEndDate){
+                choseEndDate(context);
               }
               else{
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SearchFiltersPage(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchFiltersPage(),));
               }
             }
           },
@@ -146,7 +131,6 @@ class CustomTextField extends StatelessWidget {
             fontSize: 18.sp, color:haveBorder?const Color(0xff9197A2):Colors.white,
           ),
           decoration: InputDecoration(
-            // isDense: true,
             contentPadding: EdgeInsets.fromLTRB(15.w,15.h,15.w, 15.h),
             fillColor: !haveBorder?Colors.white.withOpacity(0.2):Colors.white,
             border: haveBorder?OutlineInputBorder(
@@ -172,7 +156,7 @@ class CustomTextField extends StatelessWidget {
             prefixIcon :haveIcon? Padding(
               padding: EdgeInsets.only(left: 20.w,right: 20.w,bottom: 20.w,top: 20.w),
               child: InkWell(
-                  child: SvgPicture.asset(iconName!,color: primaryColor), onTap: () {}
+                  child: SvgPicture.asset(iconName!,color: primaryColor,width: 20.h,height: 20.h), onTap: () {}
               ),
             ):null,
             hintText: hindText,
@@ -183,6 +167,27 @@ class CustomTextField extends StatelessWidget {
         );
       },
     );
+  }
+
+  void choseEndDate(BuildContext context) {
+     buildShowDatePicker(context).then((value) {
+      if(value!=null){
+        String end = getDateInFormat(value);
+        context.read<DatePickerCubit>().setEndDate(value);
+        context.read<FilteringBloc>().endDateController.text=end;
+      }
+    });
+  }
+
+  void choseStartDate(BuildContext context) {
+    buildShowDatePicker(context).then((value) {
+      if(value!=null){
+        String start = getDateInFormat(value);
+        context.read<DatePickerCubit>().setStartDate(value);
+        context.read<FilteringBloc>().startDateController.text=start;
+        context.read<FilteringBloc>().endDateController.text=getDateInFormat(context.read<DatePickerCubit>().endData!);
+      }
+    });
   }
 
   Future<DateTime?> buildShowDatePicker(BuildContext context) {

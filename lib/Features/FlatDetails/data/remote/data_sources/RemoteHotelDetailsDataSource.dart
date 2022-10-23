@@ -14,9 +14,6 @@ class RemoteHotelDetailsDataSource {
     DateTime checkOut = DateTime.now().add(const Duration(days: 3));
     String checkInDateTime = "${cheekIn.year.toString()}-${cheekIn.month.toString()}-${cheekIn.day.toString()}";
     String checkOutDateTime = "${checkOut.year.toString()}-${checkOut.month.toString()}-${checkOut.day.toString()}";
-    print(checkInDateTime);
-    print(checkOutDateTime);
-    print(userCurrency);
     var response = await Dio().get('$BASE_URL/room-list',
         queryParameters: {
           "checkin_date": checkInDateTime,

@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:realestate/Features/SearchForm/domain/use_cases/FetchNearestHotelsUseCase.dart';
+import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/SharedModel/FireMessage.dart';
 import '../../../../../DependencyInjection.dart';
 import '../../../../FlatDetails/data/remote/models/HotelBlocksModel.dart';
@@ -16,25 +17,24 @@ part 'hotels_by_coordinates_event.dart';
 part 'hotels_by_coordinates_state.dart';
 
 class HotelsByCoordinatesBloc extends Bloc<HotelsByCoordinatesEvent, HotelsByCoordinatesState> {
-  HotelsByCoordinatesBloc() : super(const HotelsByCoordinatesState().copyWith(errorMessage: FireMessage("Loading"))) {
+  HotelsByCoordinatesBloc() : super(const HotelsByCoordinatesState().copyWith(message: FireMessage(loading))) {
     on<FetchHotelsByCoordinatesEvent>((event, emit) async{
       Position position = await determinePosition();
-      //emit(state.copyWith(errorMessage: ErrorMessage("Loading")));
       await dl<FetchNearestHotelsUseCase>().call(longitude: position.longitude,latitude: position.latitude).then((value){
-        value.fold((left) => emit(state.copyWith(errorMessage: left)), (right) {
-          emit(state.copyWith(hotels: right,errorMessage: FireMessage("Hotels Loaded")));
+        value.fold((left) => emit(state.copyWith(message: left)), (right) {
+          emit(state.copyWith(hotels: right,message: FireMessage("Hotels Loaded")));
         });
       });
     });
 
     on<FetchRoomsEvent>((event, emit) async {
-      emit(state.copyWith(errorMessage: FireMessage("Loading")));
+      emit(state.copyWith(message: FireMessage(loading)));
       final list = await dl<FetchHotelRoomsUseCase>().call(hotelId: event.hotelId,userCurrency: event.currency);
       list.fold((left) {
-        emit(state.copyWith(errorMessage: left));
+        emit(state.copyWith(message: left));
       }, (right) {
-        emit(state.copyWith(hotelBlocksModel: right,errorMessage: FireMessage("Hotel Details Loaded")));
-        state.copyWith(errorMessage: FireMessage("Initial"));
+        emit(state.copyWith(hotelBlocksModel: right,message: FireMessage("Hotel Details Loaded")));
+        state.copyWith(message: FireMessage("Initial"));
       });
     });
   }

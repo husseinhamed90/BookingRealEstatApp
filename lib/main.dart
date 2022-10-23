@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-      child: SplashScreenPage(),
+      child: const SplashScreenPage(),
     );
   }
 }

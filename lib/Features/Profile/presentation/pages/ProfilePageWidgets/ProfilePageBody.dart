@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:realestate/Features/Profile/presentation/pages/ProfilePageWidgets/profile_form.dart';
 import 'ChangePhoto.dart';
-import 'SwitchToPublisherModeButton.dart';
 import 'Username.dart';
 
 class ProfilePageBody extends StatelessWidget {

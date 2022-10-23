@@ -32,7 +32,7 @@ class AuthFirebaseDataSource{
     try{
       UserCredential ?userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: userEntity.email!, password: userEntity.password!);
       if(userCredential.user==null){
-        return Left(FireMessage("dsd"));
+        return Left(FireMessage("Error"));
       }
       else{
         await FirebaseFirestore.instance.collection("Users").add(userEntity.toJson());

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
+import '../../../../Core/AppTheme/Strings.dart';
+
 part 'sliders_state.dart';
 
 class SlidersCubit extends Cubit<SlidersState> {
@@ -17,7 +19,7 @@ class SlidersCubit extends Cubit<SlidersState> {
 
   void updateInitValue(double newValue,String valueName){
 
-    if(valueName =="Rooms"){
+    if(valueName ==roomsLabel){
       initRoomsNumber=newValue.toInt();
       numberOfRoomsController.text=initRoomsNumber.toString();
     }
@@ -31,7 +33,6 @@ class SlidersCubit extends Cubit<SlidersState> {
     pricesValues=newValue;
     int start =double.parse(pricesValues.start.toString()).toInt();
     int end =double.parse(pricesValues.end.toString()).toInt();
-    print(end);
     if(end==pricesValues.end){
       priceController.text="$start - Max";
     }

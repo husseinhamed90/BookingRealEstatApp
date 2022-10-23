@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../DependencyInjection.dart';
+import '../../../../Authentication/presentation/manager/auth_bloc.dart';
+
 class Username extends StatelessWidget {
   const Username({
     Key? key,
@@ -12,7 +15,7 @@ class Username extends StatelessWidget {
       child: SizedBox(
         height: 29.h,
         child: FittedBox(
-          child: Text("Neville Griffin",
+          child: Text(dl<AuthBloc>().state.userEntity!.userName!,
               style: TextStyle(
                   color: const Color(0xff312D2C),
                   fontSize: 24.sp,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:realestate/Features/Rooms/presentation/pages/HotelRooms/room_item.dart';
 import '../../../../../Core/AppTheme/AppColors.dart';
+import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/ReusableComponantes.dart';
 import '../../../../FlatDetails/data/remote/models/HotelBlocksModel.dart';
 
@@ -12,7 +13,7 @@ class HotelRoomsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("ROOMS"),
+        title:  const Text(hotelRoomsAppbarTitle),
       ),
       body: CustomScrollView(
         slivers: [
@@ -24,7 +25,7 @@ class HotelRoomsPage extends StatelessWidget {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: getColumn(firstString: "Hotel Rooms",secondString: "We Have ${hotelBlockModel[0].rooms!.length.toString()} Types Of Rooms And ${hotelBlockModel[0].block!.length.toString()} Available Block"),
+                    child: getColumn(firstString: hotelRoomsAppbarTitle,secondString: "We Have ${hotelBlockModel[0].rooms!.length.toString()} Types Of Rooms And ${hotelBlockModel[0].block!.length.toString()} Available Block"),
                   ),
                   SizedBox(height: 20.h,),
                 ],

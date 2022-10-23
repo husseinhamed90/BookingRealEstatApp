@@ -5,6 +5,7 @@ import 'package:realestate/Features/Authentication/presentation/manager/auth_blo
 import 'package:realestate/Features/Authentication/presentation/pages/SignIn/SignInScreen.dart';
 
 import '../../../../../Core/AppTheme/AppColors.dart';
+import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/BottomNavBarBloc/bottom_nav_bar_bloc.dart';
 import '../../../../../Core/ReusableComponantes.dart';
 import '../../../../../DependencyInjection.dart';
@@ -33,7 +34,7 @@ class ProfilePageAppBar extends StatelessWidget {
               Expanded(
                 child: Container(
                     alignment: Alignment.center,
-                    child: buildCustomText(text: "PROFILE",fontWeight: FontWeight.w400,size: 22)
+                    child: buildCustomText(text: profileAppbarTitle,fontWeight: FontWeight.w400,size: 22)
                 ),
               ),
               BlocConsumer<AuthBloc,AuthState>(
@@ -47,14 +48,14 @@ class ProfilePageAppBar extends StatelessWidget {
                 },
                 listener: (context, state) {
                   if(state.message!.message=="User Signed Out"){
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignInScreen(),));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignInScreen(),));
                   }
                 },
               ),
             ],
           ),
         ),
-        Container(), // Required some widget in between to float AppBar
+        Container(),
         Positioned(
           top: 110.0.h,
           bottom: 0,
@@ -67,9 +68,8 @@ class ProfilePageAppBar extends StatelessWidget {
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    image: NetworkImage('https://media.istockphoto.com/photos/headshot-portrait-of-smiling-male-employee-in-office-picture-id1309328823?b=1&k=20&m=1309328823&s=170667a&w=0&h=a-f8vR5TDFnkMY5poQXfQhDSnK1iImIfgVTVpFZi_KU='),
+                    image: NetworkImage(defaultProfilePicture),
                     fit: BoxFit.fill),
-                //color: Colors.teal,
               ),
             ),
           ),
