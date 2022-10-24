@@ -25,16 +25,17 @@ class FilteringBloc extends Bloc<LocationsEvent, FilteringState> {
     endDateController.text="${DateTime.now().add(const Duration(days: 1)).year}-${DateTime.now().add(const Duration(days: 1)).month}-${DateTime.now().add(const Duration(days: 1)).day}";
     on<FetchLocationsEvent>((event, emit) async{
       pageNumber=event.pageNumber;
+
       if(locationController.text!=""){
         emit(state.copyWith(errorMessage: FireMessage(loading)));
-        await dl<FetchLocationsUseCase>().call(locationString: locationController.text).then((value){
-          value.fold((left) =>emit(state.copyWith(errorMessage: left)),
+        final result  = await dl<FetchLocationsUseCase>().call(locationString: locationController.text);
+          result.fold((left) =>emit(state.copyWith(errorMessage: left)),
                   (right) {
-                emit(state.copyWith(errorMessage: FireMessage(""), locations: right));
+                emit(state.copyWith(errorMessage: FireMessage(""), locations: right,hotels: []));
+                pageNumber=0;
                 add(StartFilterDataEvent(locations: right,pageNumber: event.pageNumber));
               }
           );
-        });
       }
       else{
         emit(state.copyWith(errorMessage: FireMessage("Location Field Is Required")));
@@ -59,7 +60,7 @@ class FilteringBloc extends Bloc<LocationsEvent, FilteringState> {
         final result = await dl<FilterResultsUseCase>().call(pageNumber: pageNumber,maxPrice: dl<SlidersCubit>().pricesValues.end,minPrice: dl<SlidersCubit>().pricesValues.start,locationModel: event.locations[0],numberOfRooms: dl<SlidersCubit>().initRoomsNumber!.toInt(),numberOfAdults: dl<SlidersCubit>().initAdultsNumber!.toInt(),checkIn: startDateController.text,checkOut: endDateController.text);
         result.fold((left) =>emit(state.copyWith(errorMessage: left)),
                 (right) {
-                  emit(state.copyWith(errorMessage: FireMessage(""), hotels: state.hotels+=right,locations: event.locations));
+                  emit(state.copyWith(errorMessage: FireMessage("result loaded"), hotels: state.hotels+=right,locations: event.locations));
                 }
         );
       }

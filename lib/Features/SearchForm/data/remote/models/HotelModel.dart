@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:realestate/Features/SearchForm/domain/entities/Hotel.dart';
 
 class HotelModel extends Hotel with EquatableMixin{

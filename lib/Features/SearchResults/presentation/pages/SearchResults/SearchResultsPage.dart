@@ -49,7 +49,8 @@ class _SearchResultsState extends State<SearchResults> {
         automaticallyImplyLeading: false,
         leading: GestureDetector(
             onTap: () {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePageLayoutPage(),));
+              Navigator.pop(context);
+              //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePageLayoutPage(),));
             },
             child: const Icon(Icons.arrow_back_outlined)),
         centerTitle: true,
@@ -77,6 +78,8 @@ class _SearchResultsState extends State<SearchResults> {
                 builder: (context, state) {
                   return SliverList(delegate: SliverChildBuilderDelegate(
                           (context, index) {
+                            print("index");
+                            print(widget.hotels.length);
                         if(index==widget.hotels.length){
                           return SizedBox(
                               height: 40.w,

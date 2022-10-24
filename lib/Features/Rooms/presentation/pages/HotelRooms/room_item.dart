@@ -117,44 +117,71 @@ class RoomItem extends StatelessWidget {
   Future alertDialog(BuildContext context)async{
     return await showDialog(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(hotelBlocksModel.block![blockIndex!].roomName!,style: TextStyle(
-              color: const Color(0xff312D2C),fontSize: 20.sp,fontWeight: FontWeight.w800,height: 35.h/22
-          ),),
+
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(32.0))),
           content: SizedBox(
-            height: MediaQuery.of(context).size.width,
+            height: 435.h,
             width: MediaQuery.of(context).size.width,
-            child: PageView.builder(
-                itemCount: getRoom(hotelBlocksModel).photos!.length,
-                pageSnapping: true,
-                itemBuilder: (context,index){
-                  return  Container(
-                    height: 375.h,
-                    decoration: BoxDecoration(
-                         borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: NetworkImage(getRoom(hotelBlocksModel).photos![index].urlOriginal!)
-                        )
-                    ),
-                  );
-                }),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 50.h,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GestureDetector(onTap: () {
+                        Navigator.pop(context);
+                      },child: const Icon(Icons.cancel)),
+                      SizedBox(width: 10.w,),
+                      Expanded(
+                        child: AutoSizeText(overflow: TextOverflow.ellipsis,maxLines: 2,hotelBlocksModel.block![blockIndex!].roomName!,style: TextStyle(
+                            color: const Color(0xff312D2C),fontSize: 20.sp,fontWeight: FontWeight.w800
+                        ),),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10.h,),
+                SizedBox(
+                  height: 375.h,
+                  child: PageView.builder(
+                      itemCount: getRoom(hotelBlocksModel).photos!.length,
+                      pageSnapping: true,
+                      itemBuilder: (context,index){
+                        return  Column(
+                          children: [
+                            Container(
+                              height: 375.h,
+                              decoration: BoxDecoration(
+                                   borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: NetworkImage(getRoom(hotelBlocksModel).photos![index].urlOriginal!)
+                                  )
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                ),
+              ],
+            ),
           ),
         );
       },
     );
   }
   String getUrl(HotelBlocksModel hotelBlocksModel){
-    Room x =hotelBlocksModel.rooms![getKeyOfRoom(hotelBlocksModel)]!;
-    if(x.photos!.isEmpty){
+    Room currentRoom =hotelBlocksModel.rooms![getKeyOfRoom(hotelBlocksModel)]!;
+    if(currentRoom.photos!.isEmpty){
       return defaultImageIfNoImageFound;
     }
     else{
-      return x.photos![0].urlOriginal!;
+      return currentRoom.photos![0].urlOriginal!;
     }
 
   }

@@ -96,7 +96,7 @@ Padding buildItemInfo({required Color color,required HotelDetailsModel hotelDeta
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("10",style: TextStyle(
+                Text("2",style: TextStyle(
                   color: const Color(0xff312D2C),fontSize: 22.sp,fontWeight: FontWeight.w700,
                 ),),
                 Text("guests max",style: TextStyle(
