@@ -8,7 +8,8 @@ import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dar
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:realestate/Features/SearchForm/domain/entities/Hotel.dart';
 
-import '../../Features/FlatDetails/presentation/manager/favourite_cubit.dart';
+import '../../Features/FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite_cubit.dart';
+import '../../Features/FavouriteIcon/presentation/widgets/favourite_icon_button.dart';
 import '../../Features/FlatDetails/presentation/pages/ItemDetailes.dart';
 import '../AppTheme/AppColors.dart';
 import '../AppTheme/Strings.dart';
@@ -101,37 +102,7 @@ class BuildItem extends StatelessWidget {
                   ],
                 ),
               ),
-              BlocBuilder<FavouriteCubit,FavouriteState>(
-                builder: (context, state) {
-                  print(state.runtimeType);
-                  return  Positioned(
-                    right: 15.w,
-                    top: 15.w,
-                    child: GestureDetector(
-                      onTap: () {
-                        context.read<FavouriteCubit>().updateList(hotelModel);
-                      },
-                      child: Card(
-                        elevation: 0.5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child:  Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                            ),
-                            height: 40.h,width: 40.h,
-                            child: Padding(
-                              padding:  EdgeInsets.all(12.h),
-                              child: SvgPicture.asset(fillHeartIconAsset,color: context.read<FavouriteCubit>().getIconColor(hotelModel)),
-                            )
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              )
+              FavouriteIconButton(hotelModel: hotelModel)
             ],
           ),
         )

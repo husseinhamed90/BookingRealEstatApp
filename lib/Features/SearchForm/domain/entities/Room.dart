@@ -46,7 +46,7 @@ class Photos {
         this.urlOriginal});
 
   Photos.fromJson(Map<String, dynamic> json) {
-    ratio = json['ratio'];
+    ratio = json['ratio'].toDouble();
     lastUpdateDate = json['last_update_date'];
     url640x200 = json['url_640x200'];
     photoId = json['photo_id'];

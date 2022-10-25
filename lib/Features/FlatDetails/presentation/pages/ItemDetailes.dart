@@ -3,17 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:realestate/Core/AppTheme/Strings.dart';
-
 import 'package:realestate/Features/FlatDetails/presentation/manager/SearchResultsBloc/HotelDetailsState.dart';
-import 'package:realestate/Features/FlatDetails/presentation/manager/favourite_cubit.dart';
 import 'package:realestate/Features/Rooms/presentation/pages/HotelRooms/HotelRoomsPage.dart';
-import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../../../Core/AppTheme/AppColors.dart';
 import '../../../../Core/ReusableComponantes.dart';
 import '../../../../DependencyInjection.dart';
-
+import '../../../FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite_cubit.dart';
 import '../../../SearchForm/domain/entities/Hotel.dart';
 import '../manager/SearchResultsBloc/HotelDetailsBloc.dart';
 
@@ -51,10 +47,10 @@ class _ItemDetailsState extends State<ItemDetails> {
               ));
             }
             if(state.errorMessage!.message==loading){
-            return buildDownloadIndicator(context);
+               return buildDownloadIndicator(context);
             }
             else{
-              return ListView(
+               return ListView(
                 children: [
                   SizedBox(
                     height: 405.h,
@@ -88,7 +84,6 @@ class _ItemDetailsState extends State<ItemDetails> {
                                 width: 254.w,
                                 height: 60.h,
                                 child: ElevatedButton(onPressed: () async{
-                                  //await goToWebsite(widget.hotelModel.weSiteUrl!);
                                   dl<HotelDetailsBloc>().add(FetchRoomsEvent(currency: widget.hotelModel.currencyCode!,hotelId:widget.hotelModel.hotelId! ));
                                 }, child: const Text(showRooms)),
                               ),
@@ -112,7 +107,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                           height: 40.h,width: 40.h,
                                           child: Padding(
                                             padding:  EdgeInsets.all(12.h),
-                                            child: SvgPicture.asset(fillHeartIconAsset,color: context.watch<FavouriteCubit>().getIconColor(widget.hotelModel))),
+                                            child: SvgPicture.asset(fillHeartIconAsset,color: context.watch<FavouriteCubit>().getCorrectIconColor(widget.hotelModel))),
                                           )
                                       ),
                                   );
@@ -160,10 +155,5 @@ class _ItemDetailsState extends State<ItemDetails> {
             }
           },
         ));
-  }
-  Future<void> goToWebsite(String url) async {
-    if (!await launchUrl(Uri.parse(url))) {
-      throw '$couldNotLaunchUrl${Uri.parse(url)}';
-    }
   }
 }

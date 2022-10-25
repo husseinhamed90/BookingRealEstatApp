@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:either_dart/either.dart';
-import 'package:flutter/widgets.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/SharedModel/FireMessage.dart';
@@ -35,7 +34,6 @@ class RemoteSearchFormDataSource{
         "X-RapidAPI-Key":API_KEY,
       },
     ));
-    debugPrint(response.data.toString());
     if (response.statusCode == 200) {
       List list = response.data["result"];
       return Right(list.map((location) => HotelModel.fromJson(location)).toList());

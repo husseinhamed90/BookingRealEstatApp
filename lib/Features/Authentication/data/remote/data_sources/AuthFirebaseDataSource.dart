@@ -28,14 +28,14 @@ class AuthFirebaseDataSource{
   }
 
   Future<Either<FireMessage, UserEntity>> signUp({required UserEntity userEntity})async{
-
     try{
       UserCredential ?userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: userEntity.email!, password: userEntity.password!);
       if(userCredential.user==null){
         return Left(FireMessage("Error"));
       }
       else{
-        await FirebaseFirestore.instance.collection("Users").add(userEntity.toJson());
+        userEntity.id=userCredential.user!.uid;
+        await FirebaseFirestore.instance.collection("Users").doc(userCredential.user!.uid).set(userEntity.toJson());
         return Right(userEntity);
       }
     }

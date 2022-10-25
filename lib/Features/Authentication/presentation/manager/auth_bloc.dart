@@ -7,6 +7,7 @@ import 'package:realestate/Core/SharedModel/FireMessage.dart';
 import 'package:realestate/DependencyInjection.dart';
 import 'package:realestate/Features/Authentication/domain/entities/UserEntity.dart';
 
+import '../../../FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite_cubit.dart';
 import '../../data/remote/data_sources/AuthFirebaseDataSource.dart';
 
 part 'auth_event.dart';
@@ -18,7 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-
+  UserEntity ?userEntity;
 
   AuthBloc() : super(AuthState(message: FireMessage("Initial"))) {
     on<SignInEvent>((event, emit) async{
@@ -27,6 +28,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       result.fold((left) {
         emit(state.copyWith(message : left,errorMessage: "Error"));
       }, (right){
+        updateUserEntity(right);
+        add(OpenBox(userData: right));
         fillTextFieldsController(right);
         emit(state.copyWith(userEntity: right,message: FireMessage("Logged In"),errorMessage: ""));
       });
@@ -37,6 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await dl<AuthFirebaseDataSource>().signOut().fold((left){
         emit(AuthState().copyWith(message: left,errorMessage: "Error",userEntity: null));
       }, (right){
+        updateUserEntity(null);
         emit(AuthState().copyWith(message: FireMessage("User Signed Out"),userEntity: null));
       });
     });
@@ -47,31 +51,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthState().copyWith(message: left,errorMessage: "Error"));
       }, (right){
         fillTextFieldsController(right);
+        updateUserEntity(right);
         emit(AuthState().copyWith(message: FireMessage("Logged in"),userEntity: right,errorMessage: ""));
       });
     });
-
-
-    on<GetUserData>((event, emit) async{
-      QuerySnapshot <Map>?querySnapshot = await FirebaseFirestore.instance.collection("Users").where("id",isEqualTo: event.userId).get();
-      emit(AuthState().copyWith(userEntity: UserEntity.fromJson(querySnapshot.docs[0].data().cast()),message: FireMessage("Already Logged")));
-    });
-
 
     on<CheckIfUserLoggedIn>((event, emit) async{
       final result = await dl<AuthFirebaseDataSource>().checkIfUserLoggedIn();
       result.fold((left) {
         emit(AuthState().copyWith(message: left,errorMessage: "Error"));
-      }, (right) {
+      },(right) {
         if(right==null){
           emit(AuthState().copyWith(message: FireMessage("Not Logged"),userEntity: right));
         }
         else{
           fillTextFieldsController(right);
-          emit(AuthState().copyWith(message: FireMessage("Already Logged"),userEntity: right));
+          updateUserEntity(right);
+          add(OpenBox(userData: right));
         }
       });
     });
+
+    on<OpenBox>((event, emit) async{
+      await dl.get<FavouriteCubit>().openFavouritesBox();
+      emit(AuthState().copyWith(message: FireMessage("Already Logged"),userEntity: event.userData));
+    });
+  }
+
+  void updateUserEntity(UserEntity ?right) {
+    userEntity=right;
   }
 
   void fillTextFieldsController(UserEntity right) {

@@ -42,13 +42,13 @@ class ProfilePageAppBar extends StatelessWidget {
                   return GestureDetector(
                       onTap: () {
                         dl<AuthBloc>().add(SignOutEvent());
-                        dl<BottomNavBarBloc>().add(const ChangeNavBarIndexEvent(newIndex: 0));
                       },
                       child: const SizedBox(width: 60,height: 30, child: Icon(Icons.logout,size: 30,color: Colors.white,)));
                 },
                 listener: (context, state) {
                   if(state.message!.message=="User Signed Out"){
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignInScreen(),));
+                    dl<BottomNavBarBloc>().add(const ChangeNavBarIndexEvent(newIndex: 0));
                   }
                 },
               ),

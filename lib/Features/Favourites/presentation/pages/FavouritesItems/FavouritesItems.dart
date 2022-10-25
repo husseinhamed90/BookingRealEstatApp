@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:realestate/Core/AppTheme/AppColors.dart';
-import 'package:realestate/Features/FlatDetails/presentation/manager/favourite_cubit.dart';
 import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/ResuableWidgets/BuildItem.dart';
 import '../../../../../Core/ReusableComponantes.dart';
 import '../../../../../DependencyInjection.dart';
+import '../../../../FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite_cubit.dart';
 import '../../../../SearchForm/data/remote/models/HotelModel.dart';
 
 class FavouritesItemsPage extends StatelessWidget {
-  List<HotelModel>?hotels;
-  FavouritesItemsPage({Key? key,this.hotels}) : super(key: key);
+  final List<HotelModel>?hotels;
+  const FavouritesItemsPage({Key? key,this.hotels}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +41,6 @@ class FavouritesItemsPage extends StatelessWidget {
           ),
           BlocBuilder<FavouriteCubit,FavouriteState>(
             builder: (context, state) {
-              print(state.favouritesList);
               return SliverPadding(
                 padding: EdgeInsets.only(right: 20.w,left: 20.w),
                 sliver: SliverList(delegate: SliverChildBuilderDelegate((context, index) {
