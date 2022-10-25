@@ -1,17 +1,32 @@
-
+import 'package:hive/hive.dart';
+part 'Hotel.g.dart';
+@HiveType(typeId: 1)
 class Hotel {
+  @HiveField(1)
   int? hotelId;
+  @HiveField(2)
   CompositePriceBreakdown? compositePriceBreakdown;
+  @HiveField(3)
   int? hotelIncludeBreakfast;
+  @HiveField(4)
   String? addressTrans;
+  @HiveField(5)
   String? currencyCode;
+  @HiveField(6)
   String? accommodationTypeName;
+  @HiveField(7)
   int? soldOut;
+  @HiveField(8)
   String? countryTrans;
+  @HiveField(9)
   double? minTotalPrice;
+  @HiveField(10)
   String? district;
+  @HiveField(11)
   String? hotelName;
+  @HiveField(12)
   String? maxPhotoUrl;
+  @HiveField(13)
   String ?weSiteUrl;
 
   Hotel(
@@ -29,8 +44,9 @@ class Hotel {
         this.hotelName,
         this.maxPhotoUrl});
 }
-
+@HiveType(typeId: 2)
 class CompositePriceBreakdown {
+  @HiveField(1)
   List<ProductPriceBreakdowns>? productPriceBreakdowns;
 
   CompositePriceBreakdown({this.productPriceBreakdowns});
@@ -53,9 +69,11 @@ class CompositePriceBreakdown {
     return data;
   }
 }
-
+@HiveType(typeId: 3)
 class ProductPriceBreakdowns {
+  @HiveField(1)
   GrossAmount? grossAmount;
+  @HiveField(2)
   GrossAmount? includedTaxesAndChargesAmount;
 
   ProductPriceBreakdowns(
@@ -83,9 +101,11 @@ class ProductPriceBreakdowns {
     return data;
   }
 }
-
+@HiveType(typeId: 4)
 class GrossAmount {
+  @HiveField(1)
   double? value;
+  @HiveField(2)
   String? currency;
 
   GrossAmount({this.value, this.currency});

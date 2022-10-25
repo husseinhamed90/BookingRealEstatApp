@@ -41,11 +41,12 @@ class FavouritesItemsPage extends StatelessWidget {
           ),
           BlocBuilder<FavouriteCubit,FavouriteState>(
             builder: (context, state) {
+              print(state.favouritesList);
               return SliverPadding(
                 padding: EdgeInsets.only(right: 20.w,left: 20.w),
                 sliver: SliverList(delegate: SliverChildBuilderDelegate((context, index) {
-                  return BuildItem(bottomPaddingValue: 20,hotelModel: dl<FavouriteCubit>().favourites[index],width: null,);
-                },childCount: dl<FavouriteCubit>().favourites.length)),
+                  return BuildItem(bottomPaddingValue: 20,hotelModel: state.favouritesList![index],width: null,);
+                },childCount: state.favouritesList!.length)),
               );
             },
           )

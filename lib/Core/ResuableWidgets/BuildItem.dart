@@ -2,20 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hive/hive.dart';
+import 'package:realestate/DependencyInjection.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:realestate/Features/SearchForm/domain/entities/Hotel.dart';
 
 import '../../Features/FlatDetails/presentation/manager/favourite_cubit.dart';
 import '../../Features/FlatDetails/presentation/pages/ItemDetailes.dart';
+import '../AppTheme/AppColors.dart';
 import '../AppTheme/Strings.dart';
 
 class BuildItem extends StatelessWidget {
   final int bottomPaddingValue;
-  final HotelModel hotelModel;
+  final Hotel hotelModel;
   final double ?width;
-   const BuildItem({
+  BuildItem({
     Key? key,required this.bottomPaddingValue,required this.hotelModel ,this.width
   }) : super(key: key);
+
+  late Box userBox;
 
   @override
   Widget build(BuildContext context) {
@@ -25,79 +31,80 @@ class BuildItem extends StatelessWidget {
       },
       child: Padding(
         padding:  EdgeInsets.only(bottom: bottomPaddingValue.h),
-        child: BlocBuilder<FavouriteCubit,FavouriteState>(
-          builder: (context, state) {
-            return Card(
-              child: Stack(
-                children: [
-                  SizedBox(
-                    height: 400.h,
-                    width: width??width,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 200.h,
-                          decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
-                              image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: NetworkImage(hotelModel.maxPhotoUrl==null?defaultImageIfNoImageFound:hotelModel.maxPhotoUrl!)
-                              )
-                          ),
-                        ),
-                        SizedBox(height: 21.h,),
-                        Padding(
-                          padding: EdgeInsets.only(left: 20.w),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+        child: Card(
+          child: Stack(
+            children: [
+              SizedBox(
+                height: 400.h,
+                width: width??width,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 200.h,
+                      decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+                          image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: NetworkImage(hotelModel.maxPhotoUrl==null?defaultImageIfNoImageFound:hotelModel.maxPhotoUrl!)
+                          )
+                      ),
+                    ),
+                    SizedBox(height: 21.h,),
+                    Padding(
+                      padding: EdgeInsets.only(left: 20.w),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AutoSizeText(hotelModel.hotelName!,style: TextStyle(
+                              color: const Color(0xff312D2C),fontSize: 22.sp,fontWeight: FontWeight.w800,height: 35.h/22
+                          ),overflow: TextOverflow.ellipsis,maxLines: 2,),
+                          SizedBox(height: 10.h,),
+                          Row(
                             children: [
-                              AutoSizeText(hotelModel.hotelName!,style: TextStyle(
-                                  color: const Color(0xff312D2C),fontSize: 22.sp,fontWeight: FontWeight.w800,height: 35.h/22
-                              ),overflow: TextOverflow.ellipsis,maxLines: 2,),
-                              SizedBox(height: 10.h,),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        AutoSizeText("\$ ${hotelModel.minTotalPrice!.toStringAsFixed(2)}",style: TextStyle(
-                                            color: const Color(0xff312D2C),fontSize: 22.sp,fontWeight: FontWeight.w700
-                                        ),),
-                                        Text(priceLabel,style: TextStyle(
-                                            color: const Color(0xff9197A2),fontSize: 13.sp,fontWeight: FontWeight.w400, height: 1.2.h
-                                        ),),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: 79.w,),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("2",style: TextStyle(
-                                          color: const Color(0xff312D2C),fontSize: 22.sp,fontWeight: FontWeight.w700,
-                                        ),),
-                                        Text(guestsMaxLabel,style: TextStyle(
-                                            color: const Color(0xff9197A2),fontSize: 13.sp,fontWeight: FontWeight.w400, height: 1.2.h
-                                        ),),
-                                      ],
-                                    ),
-                                  )
-                                ],
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AutoSizeText("\$ ${hotelModel.minTotalPrice!.toStringAsFixed(2)}",style: TextStyle(
+                                        color: const Color(0xff312D2C),fontSize: 22.sp,fontWeight: FontWeight.w700
+                                    ),),
+                                    Text(priceLabel,style: TextStyle(
+                                        color: const Color(0xff9197A2),fontSize: 13.sp,fontWeight: FontWeight.w400, height: 1.2.h
+                                    ),),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 79.w,),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("2",style: TextStyle(
+                                      color: const Color(0xff312D2C),fontSize: 22.sp,fontWeight: FontWeight.w700,
+                                    ),),
+                                    Text(guestsMaxLabel,style: TextStyle(
+                                        color: const Color(0xff9197A2),fontSize: 13.sp,fontWeight: FontWeight.w400, height: 1.2.h
+                                    ),),
+                                  ],
+                                ),
                               )
                             ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Positioned(
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              BlocBuilder<FavouriteCubit,FavouriteState>(
+                builder: (context, state) {
+                  print(state.runtimeType);
+                  return  Positioned(
                     right: 15.w,
                     top: 15.w,
                     child: GestureDetector(
@@ -117,17 +124,17 @@ class BuildItem extends StatelessWidget {
                             height: 40.h,width: 40.h,
                             child: Padding(
                               padding:  EdgeInsets.all(12.h),
-                              child: SvgPicture.asset(fillHeartIconAsset,color: context.read<FavouriteCubit>().changeColor(hotelModel)),
+                              child: SvgPicture.asset(fillHeartIconAsset,color: context.read<FavouriteCubit>().getIconColor(hotelModel)),
                             )
                         ),
                       ),
                     ),
-                  )
-                ],
-              ),
-            );
-          },
-        ),
+                  );
+                },
+              )
+            ],
+          ),
+        )
       ),
     );
   }

@@ -1,5 +1,5 @@
 
-const String API_KEY ="ae84c50b6bmshc3850a0b10290afp195b5cjsna04d7c08982c";
+const String API_KEY ="42c286348cmsh822c9f5d94ef29ap1607fdjsn045df10c249d";
 const String BASE_URL ="https://booking-com.p.rapidapi.com/v1/hotels";
 const String logoImageAsset ="Assets/Images/logo.svg";
 const String backgroundImageAsset="Assets/Images/loginbackground.svg";

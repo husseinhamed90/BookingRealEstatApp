@@ -3,6 +3,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:realestate/Features/FlatDetails/data/remote/models/DescriptionModel.dart';
 import '../../../../../Core/SharedModel/FireMessage.dart';
+import '../../../../SearchForm/domain/entities/Hotel.dart';
 import '../../../data/remote/models/HotelBlocksModel.dart';
 import '../../../data/remote/models/HotelDetailsModel.dart';
 import '../../../data/remote/models/HotelPhotoModel.dart';
@@ -14,7 +15,7 @@ class HotelDetailsState extends Equatable{
   final bool ?isFav;
   final List<HotelBlocksModel>?hotelBlockModel;
   final HotelDetailsModel? hotelDetailsModel;
-  final HotelModel? hotelModel;
+  final Hotel? hotelModel;
   final HotelDescriptionModel? hotelDescriptionModel;
   final List<HotelPhotoModel>?hotelPhotoModel;
   const HotelDetailsState({this.errorMessage, this.hotelBlockModel, this.hotelDetailsModel,this.hotelModel,this.hotelDescriptionModel,this.hotelPhotoModel,this.isFav});
@@ -23,7 +24,7 @@ class HotelDetailsState extends Equatable{
     FireMessage ?errorMessage,
     List<HotelBlocksModel>?hotelBlockModel,
     HotelDetailsModel? hotelDetailsModel,
-    HotelModel? hotelModel,
+    Hotel? hotelModel,
     bool ?isFav,
     HotelDescriptionModel? hotelDescriptionModel,
     List<HotelPhotoModel>?hotelPhotoModel,

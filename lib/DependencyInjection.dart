@@ -25,6 +25,7 @@ import 'Features/FlatDetails/data/remote/data_sources/RemoteHotelDetailsDataSour
 final dl = GetIt.instance;
 
 init(){
+
   dl.registerLazySingleton<BottomNavBarBloc>(() => BottomNavBarBloc());
   dl.registerLazySingleton<FilteringBloc>(() => FilteringBloc());
   dl.registerLazySingleton<HotelsByCoordinatesBloc>(() => HotelsByCoordinatesBloc());

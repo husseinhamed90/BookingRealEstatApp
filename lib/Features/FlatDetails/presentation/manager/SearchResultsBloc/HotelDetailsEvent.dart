@@ -14,7 +14,7 @@ class FetchRoomsEvent extends HotelDetailsEvent {
 }
 
 class FetchHotelDetailsEvent extends HotelDetailsEvent{
-  final HotelModel hotelModel;
+  final Hotel hotelModel;
   const FetchHotelDetailsEvent({required this.hotelModel});
   @override
   List<Object?> get props => [hotelModel];
@@ -22,7 +22,7 @@ class FetchHotelDetailsEvent extends HotelDetailsEvent{
 }
 
 class FetchHotelDescriptionEvent extends HotelDetailsEvent{
-  final HotelModel hotelModel;
+  final Hotel hotelModel;
   final HotelDetailsModel hotelDetailsModel;
   const FetchHotelDescriptionEvent({required this.hotelModel,required this.hotelDetailsModel});
   @override
@@ -31,7 +31,7 @@ class FetchHotelDescriptionEvent extends HotelDetailsEvent{
 }
 
 class FetchHotelPhotosEvent extends HotelDetailsEvent{
-  final HotelModel hotelModel;
+  final Hotel hotelModel;
   final HotelDetailsModel hotelDetailsModel;
   final HotelDescriptionModel hotelDescriptionModel;
   const FetchHotelPhotosEvent({required this.hotelModel,required this.hotelDetailsModel,required this.hotelDescriptionModel});

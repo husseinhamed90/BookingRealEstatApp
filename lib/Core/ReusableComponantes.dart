@@ -4,6 +4,7 @@ import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dar
 
 import '../Features/Authentication/presentation/pages/SignIn/SignInWidgets/CustomTextField.dart';
 import '../Features/FlatDetails/data/remote/models/HotelDetailsModel.dart';
+import '../Features/SearchForm/domain/entities/Hotel.dart';
 import 'AppTheme/AppColors.dart';
 
 Widget getTextFieldWithLabel({required bool isClickable,required bool readOnly,required String label,required String hintText,required TextAlign textAlign,TextEditingController ?controller, bool haveIcon=true}){
@@ -63,7 +64,7 @@ SizedBox buildDownloadIndicator(BuildContext context) {
   );
 }
 
-Padding buildItemInfo({required Color color,required HotelDetailsModel hotelDetailsModel,required HotelModel hotelModel}) {
+Padding buildItemInfo({required Color color,required HotelDetailsModel hotelDetailsModel,required Hotel hotelModel}) {
   return Padding(
     padding: EdgeInsets.only(left: 20.w),
     child: Column(

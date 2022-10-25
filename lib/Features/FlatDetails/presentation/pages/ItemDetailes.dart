@@ -14,11 +14,12 @@ import '../../../../Core/AppTheme/AppColors.dart';
 import '../../../../Core/ReusableComponantes.dart';
 import '../../../../DependencyInjection.dart';
 
+import '../../../SearchForm/domain/entities/Hotel.dart';
 import '../manager/SearchResultsBloc/HotelDetailsBloc.dart';
 
 
 class ItemDetails extends StatefulWidget {
-  final HotelModel hotelModel;
+  final Hotel hotelModel;
   const ItemDetails({Key? key,required this.hotelModel}) : super(key: key);
 
   @override
@@ -111,10 +112,9 @@ class _ItemDetailsState extends State<ItemDetails> {
                                           height: 40.h,width: 40.h,
                                           child: Padding(
                                             padding:  EdgeInsets.all(12.h),
-                                            child: SvgPicture.asset(fillHeartIconAsset,color: context.read<FavouriteCubit>().changeColor(widget.hotelModel)),
+                                            child: SvgPicture.asset(fillHeartIconAsset,color: context.watch<FavouriteCubit>().getIconColor(widget.hotelModel))),
                                           )
                                       ),
-                                    ),
                                   );
                                 },
                               ),

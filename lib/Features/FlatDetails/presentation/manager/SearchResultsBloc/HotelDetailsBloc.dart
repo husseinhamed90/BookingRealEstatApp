@@ -8,6 +8,7 @@ import 'package:realestate/Features/FlatDetails/domain/use_cases/FetchHotelDetai
 import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/SharedModel/FireMessage.dart';
 import '../../../../../DependencyInjection.dart';
+import '../../../../SearchForm/domain/entities/Hotel.dart';
 import '../../../data/remote/models/HotelDetailsModel.dart';
 import '../../../domain/use_cases/FetchHomePhotosUseCase.dart';
 import '../../../domain/use_cases/FetchHotelRoomsUseCase.dart';

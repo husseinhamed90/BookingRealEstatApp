@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
 import 'package:realestate/Features/SearchForm/domain/entities/Hotel.dart';
 
+@HiveType(typeId: 5)
 class HotelModel extends Hotel with EquatableMixin{
 
   HotelModel.fromJson(Map<String, dynamic> json) {
