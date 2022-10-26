@@ -44,13 +44,11 @@ class _SearchResultsState extends State<SearchResults> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      bottomNavigationBar: const BottomNavBar(isInHomeScreen: false),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
-              //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePageLayoutPage(),));
             },
             child: const Icon(Icons.arrow_back_outlined)),
         centerTitle: true,
