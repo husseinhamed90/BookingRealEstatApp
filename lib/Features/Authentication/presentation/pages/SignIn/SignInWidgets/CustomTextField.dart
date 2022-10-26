@@ -169,8 +169,32 @@ class CustomTextField extends StatelessWidget {
     );
   }
 
+
+  void choseStartDate(BuildContext context) {
+    buildShowDatePicker(context,"start").then((value) {
+
+      if(value!=null){
+        String start = getDateInFormat(value);
+        context.read<DatePickerCubit>().setStartDate(value);
+        context.read<FilteringBloc>().startDateController.text=start;
+        if(context.read<DatePickerCubit>().endData==null){
+          context.read<DatePickerCubit>().endData=context.read<DatePickerCubit>().startData!.add(const Duration(days: 1));
+          context.read<FilteringBloc>().endDateController.text=getDateInFormat(context.read<DatePickerCubit>().startData!.add(const Duration(days: 1)));
+        }
+        else{
+          if(context.read<DatePickerCubit>().startData!.isAfter(context.read<DatePickerCubit>().endData!)){
+            context.read<FilteringBloc>().endDateController.text =getDateInFormat(context.read<DatePickerCubit>().startData!.add(Duration(days: 1)));
+          }
+          else{
+            context.read<FilteringBloc>().endDateController.text =getDateInFormat(context.read<DatePickerCubit>().endData!);
+          }
+        }
+      }
+    });
+  }
+  
   void choseEndDate(BuildContext context) {
-     buildShowDatePicker(context).then((value) {
+     buildShowDatePicker(context,"end").then((value) {
       if(value!=null){
         String end = getDateInFormat(value);
         context.read<DatePickerCubit>().setEndDate(value);
@@ -179,22 +203,14 @@ class CustomTextField extends StatelessWidget {
     });
   }
 
-  void choseStartDate(BuildContext context) {
-    buildShowDatePicker(context).then((value) {
-      if(value!=null){
-        String start = getDateInFormat(value);
-        context.read<DatePickerCubit>().setStartDate(value);
-        context.read<FilteringBloc>().startDateController.text=start;
-        context.read<FilteringBloc>().endDateController.text=getDateInFormat(context.read<DatePickerCubit>().endData!);
-      }
-    });
-  }
 
-  Future<DateTime?> buildShowDatePicker(BuildContext context) {
+
+  Future<DateTime?> buildShowDatePicker(BuildContext context,String dateType) {
     return showDatePicker(
         builder: (context, child) => datePickerTheme(context, child),context: context,
-        initialDate: context.read<DatePickerCubit>().startData==null?DateTime.now():context.read<DatePickerCubit>().endData!,
-        firstDate: DateTime.now(),
+        initialDate: dateType =="start"? context.read<DatePickerCubit>().startData==null?DateTime.now():context.read<DatePickerCubit>().startData!
+            :context.read<DatePickerCubit>().startData!.add(const Duration(days: 1)),
+        firstDate: dateType =="start"?DateTime.now(): context.read<DatePickerCubit>().startData!.add(const Duration(days: 1)),
         lastDate: DateTime(2100)
     );
   }

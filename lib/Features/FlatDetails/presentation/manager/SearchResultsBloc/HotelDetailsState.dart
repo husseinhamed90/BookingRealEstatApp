@@ -29,6 +29,7 @@ class HotelDetailsState extends Equatable{
     HotelDescriptionModel? hotelDescriptionModel,
     List<HotelPhotoModel>?hotelPhotoModel,
   }) {
+
     return HotelDetailsState(
         hotelBlockModel: hotelBlockModel ?? this.hotelBlockModel,
         hotelDetailsModel :hotelDetailsModel??this.hotelDetailsModel,
@@ -40,7 +41,7 @@ class HotelDetailsState extends Equatable{
     );
   }
   @override
-  List<Object?> get props =>[hotelBlockModel,hotelDetailsModel,errorMessage,hotelModel,hotelDescriptionModel,hotelPhotoModel,isFav];
+  List<Object?> get props =>[identityHashCode(this),hotelBlockModel,hotelDetailsModel,errorMessage,hotelModel,hotelDescriptionModel,hotelPhotoModel,isFav];
 }
 
 

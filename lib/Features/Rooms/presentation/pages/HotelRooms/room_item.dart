@@ -14,6 +14,7 @@ import 'package:realestate/PaymentDone.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../../Core/AppTheme/Strings.dart';
+import '../../../../SearchFilters/presentation/manager/DatePickerCubit.dart';
 
 class RoomItem extends StatelessWidget {
   const RoomItem({Key? key,required this.hotelBlocksModel,required this.blockIndex}) : super(key: key);
@@ -49,11 +50,10 @@ class RoomItem extends StatelessWidget {
                   Text(getDescription(hotelBlocksModel),style: TextStyle(
                       color: const Color(0xff9197A2),fontSize: 14.sp,fontWeight: FontWeight.w800,height: 35.h/22
                   ),),
-                //  SizedBox(height: 16.h,),
                   Row(
                     children: [
                       Expanded(
-                        child:Column(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -61,6 +61,71 @@ class RoomItem extends StatelessWidget {
                                 color: const Color(0xff312D2C),fontSize: 24.sp,fontWeight: FontWeight.w700
                             ),maxLines: 1),
                             AutoSizeText(perNight,style: TextStyle(
+                                color: const Color(0xff9197A2),fontSize: 14.sp,fontWeight: FontWeight.w400, height: 1.2.h
+                            ),maxLines: 1),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 30.w,),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AutoSizeText("\$ ${getDiscount()}",style: TextStyle(
+                                color: const Color(0xff312D2C),fontSize: 24.sp,fontWeight: FontWeight.w700
+                            ),maxLines: 1),
+                            AutoSizeText("Discount",style: TextStyle(
+                              color: const Color(0xff9197A2),fontSize: 14.sp,fontWeight: FontWeight.w400, height: 1.2.h,
+                            ),maxLines: 1),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 30.w,),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AutoSizeText("\$ ${hotelBlocksModel.block![blockIndex!].productPriceBreakdown!.includedTaxesAndChargesAmount!.value!.toStringAsFixed(2)}",style: TextStyle(
+                                color: const Color(0xff312D2C),fontSize: 24.sp,fontWeight: FontWeight.w700
+                            ),maxLines: 1),
+                            AutoSizeText("Taxis",style: TextStyle(
+                              color: const Color(0xff9197A2),fontSize: 14.sp,fontWeight: FontWeight.w400, height: 1.2.h,
+                            ),maxLines: 1),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 30.w,),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AutoSizeText("${hotelBlocksModel.block![blockIndex!].nrAdults}",style: TextStyle(
+                                color: const Color(0xff312D2C),fontSize: 24.sp,fontWeight: FontWeight.w700
+                            ),maxLines: 1),
+                            AutoSizeText(adultsLabel,style: TextStyle(
+                              color: const Color(0xff9197A2),fontSize: 14.sp,fontWeight: FontWeight.w400, height: 1.2.h,
+                            ),maxLines: 1),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 10.w,),
+                    ],
+                  ),
+                  SizedBox(height: 16.h,),
+                  Row(
+                    children: [
+                      Expanded(
+                        child:Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AutoSizeText("\$ ${getTotalPrice(context).toStringAsFixed(2)}",style: TextStyle(
+                                color: const Color(0xff312D2C),fontSize: 24.sp,fontWeight: FontWeight.w700
+                            ),maxLines: 1),
+                            AutoSizeText("Total",style: TextStyle(
                                 color: const Color(0xff9197A2),fontSize: 14.sp,fontWeight: FontWeight.w400, height: 1.2.h
                             ),maxLines: 1),
                           ],
@@ -74,11 +139,11 @@ class RoomItem extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            AutoSizeText("${hotelBlocksModel.block![blockIndex!].nrAdults}",style: TextStyle(
+                            AutoSizeText("${calcDifferenceBetweenTwoDay(context)}",style: TextStyle(
                                 color: const Color(0xff312D2C),fontSize: 24.sp,fontWeight: FontWeight.w700
                             ),maxLines: 1),
-                            AutoSizeText(adultsLabel,style: TextStyle(
-                                color: const Color(0xff9197A2),fontSize: 14.sp,fontWeight: FontWeight.w400, height: 1.2.h,
+                            AutoSizeText("Nights",style: TextStyle(
+                              color: const Color(0xff9197A2),fontSize: 14.sp,fontWeight: FontWeight.w400, height: 1.2.h,
                             ),maxLines: 1),
                           ],
                         ),
@@ -89,7 +154,7 @@ class RoomItem extends StatelessWidget {
                         child: ElevatedButton(onPressed: (){
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (BuildContext context) => buildTapPayment()
+                                builder: (BuildContext context) => buildTapPayment()
                             ),
                           );
 
@@ -129,6 +194,24 @@ class RoomItem extends StatelessWidget {
     );
   }
 
+  String getDiscount() {
+    if(hotelBlocksModel.block![blockIndex!].productPriceBreakdown!.discountedAmount!=null){
+      return hotelBlocksModel.block![blockIndex!].productPriceBreakdown!.discountedAmount!.value!.toStringAsFixed(2);
+    }
+    else{
+      return "0.00";
+    }
+  }
+  double getTotalPrice(BuildContext context) => (hotelBlocksModel.block![blockIndex!].productPriceBreakdown!.grossAmount!.value!*calcDifferenceBetweenTwoDay(context));
+
+  int calcDifferenceBetweenTwoDay(BuildContext context){
+    if(context.read<DatePickerCubit>().endData!=null&&context.read<DatePickerCubit>().startData!=null){
+      return context.read<DatePickerCubit>().endData!.difference(context.read<DatePickerCubit>().startData!).inDays;
+    }
+    else{
+      return 1;
+    }
+  }
   TapPayment buildTapPayment() {
     return TapPayment(
         apiKey: "sk_test_XKokBfNWv6FIYuTMg5sLPjhJ",
@@ -156,12 +239,12 @@ class RoomItem extends StatelessWidget {
               "country_code": "965",
               "number": dl.get<AuthBloc>().userEntity!.phoneNumber
             }
-            },
+          },
           "source": {"id": "src_card"},
         },
         onSuccess: (Map data)async{
           await dl.get<NavigationService>().navigateTo('/PaymentDone');
-          },
+        },
         onError: (error) {
         });
   }
@@ -209,7 +292,7 @@ class RoomItem extends StatelessWidget {
                             Container(
                               height: 375.h,
                               decoration: BoxDecoration(
-                                   borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
                                       fit: BoxFit.fill,
                                       image: NetworkImage(getRoom(hotelBlocksModel).photos![index].urlOriginal!)
@@ -249,78 +332,5 @@ class RoomItem extends StatelessWidget {
 
   String getKeyOfRoom(HotelBlocksModel hotelBlocksModel){
     return hotelBlocksModel.block![blockIndex!].roomId.toString();
-  }
-}
-
-class PaymentPage extends StatefulWidget {
-
-  const PaymentPage({
-    Key? key,
-    required this.hotelBlocksModel,
-    required this.blockIndex,
-  }) : super(key: key);
-
-  final HotelBlocksModel hotelBlocksModel;
-  final int? blockIndex;
-
-  @override
-  State<PaymentPage> createState() => _PaymentPageState();
-}
-
-class _PaymentPageState extends State<PaymentPage> {
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-  @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<FavouriteCubit,FavouriteState>(
-      builder: (context, state) {
-        return TapPayment(
-            apiKey: "sk_test_XKokBfNWv6FIYuTMg5sLPjhJ",
-            redirectUrl: "www.facebook.com",
-            postUrl: "www.facebook.com",
-            paymentData: {
-              "amount": widget.hotelBlocksModel.block![widget.blockIndex!].productPriceBreakdown!.grossAmount!.value!.toStringAsFixed(2),
-              "currency": widget.hotelBlocksModel.block![widget.blockIndex!].productPriceBreakdown!.grossAmount!.currency,
-              "threeDSecure": true,
-              "save_card": false,
-              "description": "Test Description",
-              "statement_descriptor": "Sample",
-              "metadata": {"udf1": "test 1", "udf2": "test 2"},
-              "reference": {
-                "transaction": "txn_0001",
-                "order": "ord_0001"
-              },
-              "receipt": {"email": false, "sms": true},
-              "customer": {
-                "first_name": dl.get<AuthBloc>().userEntity!.userName,
-                "middle_name": "",
-                "last_name": "",
-                "email": dl.get<AuthBloc>().userEntity!.email,
-                "phone": {
-                  "country_code": "965",
-                  "number": dl.get<AuthBloc>().userEntity!.phoneNumber
-                }
-              },
-              "source": {"id": "src_card"},
-            },
-            onSuccess: (Map data)async{
-               print(data);
-               await dl.get<NavigationService>().navigateTo('/PaymentDone');
-
-            },
-            onError: (error) {
-
-            });
-      },
-      listener: (context, state) {
-        if(state.message=="PaymentDone"){
-
-         // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const PaymentProcessEnd(),));
-        }
-      },
-    );
   }
 }

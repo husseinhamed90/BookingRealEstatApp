@@ -21,13 +21,11 @@ class HotelDetailsBloc extends Bloc<HotelDetailsEvent, HotelDetailsState> {
   HotelDetailsBloc() : super(const HotelDetailsState().copyWith(errorMessage: FireMessage("Initial"))) {
     on<FetchHotelDetailsEvent>((event, emit) async {
       emit(state.copyWith(errorMessage: FireMessage(loading),hotelDetailsModel: null,hotelDescriptionModel: null,hotelPhotoModel: null));
-
       final list = await dl<FetchHotelDetailsUseCase>().call(hotelId: event.hotelModel.hotelId!);
       list.fold((left) {
         emit(state.copyWith(errorMessage: left,hotelDetailsModel: null,hotelDescriptionModel: null,hotelPhotoModel: null));
-        emit(state.copyWith(errorMessage: FireMessage("")));
-      }, (right) {
-        state.copyWith(hotelDetailsModel: right,hotelModel: event.hotelModel,errorMessage: FireMessage("Hotel Details ef Loaded"));
+        }, (right) {
+        state.copyWith(hotelDetailsModel: right,hotelModel: event.hotelModel,errorMessage: FireMessage(""));
          add(FetchHotelDescriptionEvent(hotelModel: event.hotelModel,hotelDetailsModel: right));
       });
     });
@@ -37,9 +35,8 @@ class HotelDetailsBloc extends Bloc<HotelDetailsEvent, HotelDetailsState> {
       final list = await dl<FetchHotelDescriptionUseCase>().call(hotelId: event.hotelModel.hotelId!);
       list.fold((left) {
         emit(state.copyWith(errorMessage: left));
-        emit(state.copyWith(errorMessage: FireMessage("")));
       }, (right) {
-        emit(state.copyWith(hotelDescriptionModel : right,errorMessage: FireMessage("Hotel Description is Loaded"),hotelDetailsModel: event.hotelDetailsModel,hotelModel: event.hotelModel ));
+        emit(state.copyWith(hotelDescriptionModel : right,errorMessage: FireMessage(""),hotelDetailsModel: event.hotelDetailsModel,hotelModel: event.hotelModel ));
          add(FetchHotelPhotosEvent(hotelModel: event.hotelModel,hotelDetailsModel: event.hotelDetailsModel,hotelDescriptionModel: right));
       });
     });
@@ -49,9 +46,8 @@ class HotelDetailsBloc extends Bloc<HotelDetailsEvent, HotelDetailsState> {
       final list = await dl<FetchHotelPhotosUseCase>().call(hotelId: event.hotelModel.hotelId!);
       list.fold((left) {
         emit(state.copyWith(errorMessage: left));
-        emit(state.copyWith(errorMessage: FireMessage("")));
       }, (right) {
-        emit(state.copyWith(hotelPhotoModel : right,errorMessage: FireMessage("Hotel Photos Loaded"),hotelDetailsModel: event.hotelDetailsModel,hotelModel: event.hotelModel ));
+        emit(state.copyWith(hotelPhotoModel : right,errorMessage: FireMessage(""),hotelDetailsModel: event.hotelDetailsModel,hotelModel: event.hotelModel ));
       });
     });
 
@@ -63,9 +59,8 @@ class HotelDetailsBloc extends Bloc<HotelDetailsEvent, HotelDetailsState> {
       final list = await dl<FetchHotelRoomsUseCase>().call(hotelId: event.hotelId,userCurrency: event.currency);
       list.fold((left) {
         emit(state.copyWith(errorMessage: left));
-        emit(state.copyWith(errorMessage: FireMessage("")));
       }, (right) {
-        print(right);
+
         emit(state.copyWith(hotelBlockModel: right,errorMessage: FireMessage("Hotel Rooms Loaded") ));
       });
     });

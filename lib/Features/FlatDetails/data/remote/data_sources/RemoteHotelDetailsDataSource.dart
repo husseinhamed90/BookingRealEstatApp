@@ -86,7 +86,7 @@ class RemoteHotelDetailsDataSource {
             "X-RapidAPI-Key":apiKey,
           },
         ));
-    print(response.data);
+
     if (response.statusCode == 200) {
       return Right(HotelDetailsModel.fromJson(response.data));
     } else {

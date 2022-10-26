@@ -76,8 +76,6 @@ class _SearchResultsState extends State<SearchResults> {
                 builder: (context, state) {
                   return SliverList(delegate: SliverChildBuilderDelegate(
                           (context, index) {
-                            print("index");
-                            print(widget.hotels.length);
                         if(index==widget.hotels.length){
                           return SizedBox(
                               height: 40.w,

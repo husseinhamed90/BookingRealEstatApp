@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:either_dart/either.dart';
+import 'package:realestate/DependencyInjection.dart';
+import 'package:realestate/Features/SearchFilters/presentation/manager/DatePickerCubit.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/ReusableComponantes.dart';
@@ -11,6 +13,8 @@ class RemoteSearchFormDataSource{
     String apiKey = await getApiKey();
     DateTime cheekIn = DateTime.now();
     DateTime checkOut = DateTime.now().add(const Duration(days: 1));
+
+
     String checkInDateTime = "${cheekIn.year.toString()}-${cheekIn.month.toString()}-${cheekIn.day.toString()}";
     String checkOutDateTime = "${checkOut.year.toString()}-${checkOut.month.toString()}-${checkOut.day.toString()}";
     var response = await Dio().get('$BASE_URL/search-by-coordinates',
