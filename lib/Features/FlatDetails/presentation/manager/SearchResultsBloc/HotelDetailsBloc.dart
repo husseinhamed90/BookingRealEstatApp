@@ -20,7 +20,8 @@ class HotelDetailsBloc extends Bloc<HotelDetailsEvent, HotelDetailsState> {
 
   HotelDetailsBloc() : super(const HotelDetailsState().copyWith(errorMessage: FireMessage("Initial"))) {
     on<FetchHotelDetailsEvent>((event, emit) async {
-      emit(state.copyWith(errorMessage: FireMessage(loading)));
+      emit(state.copyWith(errorMessage: FireMessage(loading),hotelDetailsModel: null,hotelDescriptionModel: null,hotelPhotoModel: null));
+
       final list = await dl<FetchHotelDetailsUseCase>().call(hotelId: event.hotelModel.hotelId!);
       list.fold((left) {
         emit(state.copyWith(errorMessage: left));

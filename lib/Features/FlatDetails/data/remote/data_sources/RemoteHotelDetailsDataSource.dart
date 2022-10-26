@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:either_dart/either.dart';
 import '../../../../../Core/AppTheme/Strings.dart';
+import '../../../../../Core/ReusableComponantes.dart';
 import '../../../../../Core/SharedModel/FireMessage.dart';
 import '../models/DescriptionModel.dart';
 import '../models/HotelBlocksModel.dart';
@@ -9,7 +11,7 @@ import '../models/HotelPhotoModel.dart';
 
 class RemoteHotelDetailsDataSource {
   Future<Either<FireMessage, List<HotelBlocksModel>>> fetchRoomsOfHotel({required int hotelId,required String userCurrency}) async {
-
+    String apiKey = await getApiKey();
     DateTime cheekIn = DateTime.now();
     DateTime checkOut = DateTime.now().add(const Duration(days: 3));
     String checkInDateTime = "${cheekIn.year.toString()}-${cheekIn.month.toString()}-${cheekIn.day.toString()}";
@@ -30,19 +32,21 @@ class RemoteHotelDetailsDataSource {
             return true;
           },
           headers: {
-            "X-RapidAPI-Key":API_KEY,
+            "X-RapidAPI-Key":apiKey,
           },
         ));
     if (response.statusCode == 200) {
-
       List list = response.data;
       return Right(list.map((block) => HotelBlocksModel.fromJson(block)).toList());
-    } else {
+    }
+    else {
       return Left(FireMessage("Error When Fetching Hotels Rooms"));
     }
   }
 
+
   Future<Either<FireMessage, List<HotelPhotoModel>>> fetchHotelPhotos({required int hotelId}) async {
+    String apiKey = await getApiKey();
     var response = await Dio().get('$BASE_URL/photos',
         queryParameters: {
           "locale": 'en-gb',
@@ -54,7 +58,7 @@ class RemoteHotelDetailsDataSource {
             return true;
           },
           headers: {
-            "X-RapidAPI-Key":API_KEY,
+            "X-RapidAPI-Key":apiKey,
           },
         ));
     if (response.statusCode == 200) {
@@ -67,6 +71,7 @@ class RemoteHotelDetailsDataSource {
   }
 
   Future<Either<FireMessage, HotelDetailsModel>> fetchHotelDetails({required int hotelId}) async {
+    String apiKey = await getApiKey();
     var response = await Dio().get('$BASE_URL/data',
         queryParameters: {
           "locale": 'en-gb',
@@ -78,9 +83,10 @@ class RemoteHotelDetailsDataSource {
             return true;
           },
           headers: {
-            "X-RapidAPI-Key":API_KEY,
+            "X-RapidAPI-Key":apiKey,
           },
         ));
+    print(response.data);
     if (response.statusCode == 200) {
       return Right(HotelDetailsModel.fromJson(response.data));
     } else {
@@ -89,6 +95,7 @@ class RemoteHotelDetailsDataSource {
   }
 
   Future<Either<FireMessage, HotelDescriptionModel>> fetchHotelDescription({required int hotelId}) async {
+    String apiKey = await getApiKey();
     var response = await Dio().get('$BASE_URL/description',
         queryParameters: {
           "locale": 'en-gb',
@@ -100,7 +107,7 @@ class RemoteHotelDetailsDataSource {
             return true;
           },
           headers: {
-            "X-RapidAPI-Key":API_KEY,
+            "X-RapidAPI-Key":apiKey,
           },
         ));
     if (response.statusCode == 200) {

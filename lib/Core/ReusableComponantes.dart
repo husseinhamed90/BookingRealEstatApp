@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
@@ -52,7 +53,7 @@ TextField buildTextField({bool haveBorder=false,double ?height, int maxLines=1,}
         fillColor: secondColor,
         //filled: haveBorder,
         hintText: 'Enter something',
-        hintStyle: TextStyle(color: Colors.red)
+        hintStyle: const TextStyle(color: Colors.red)
       )
   );
 }
@@ -64,6 +65,13 @@ SizedBox buildDownloadIndicator(BuildContext context) {
   );
 }
 
+Future<String> getApiKey() async {
+  String apiKey ="";
+  await FirebaseFirestore.instance.collection("ApiKey").doc("ApiKey").get().then((value) {
+    apiKey = value.data()!['key'];
+  });
+  return apiKey;
+}
 Padding buildItemInfo({required Color color,required HotelDetailsModel hotelDetailsModel,required Hotel hotelModel}) {
   return Padding(
     padding: EdgeInsets.only(left: 20.w),

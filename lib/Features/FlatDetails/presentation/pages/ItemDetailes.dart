@@ -35,7 +35,7 @@ class _ItemDetailsState extends State<ItemDetails> {
     return Scaffold(
         body: BlocConsumer<HotelDetailsBloc,HotelDetailsState>(
           builder: (context, state) {
-            if(state.hotelPhotoModel==null&&state.errorMessage!.message!=loading){
+            if((state.hotelDetailsModel==null||state.hotelDescriptionModel==null||state.hotelPhotoModel==null)&&state.errorMessage!.message!=loading){
               return Center(child: Container(
                 height: 200.h,
                 width: 200.h,

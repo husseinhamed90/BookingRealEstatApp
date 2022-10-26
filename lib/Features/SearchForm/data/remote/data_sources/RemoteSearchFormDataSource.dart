@@ -2,12 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:either_dart/either.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 import '../../../../../Core/AppTheme/Strings.dart';
+import '../../../../../Core/ReusableComponantes.dart';
 import '../../../../../Core/SharedModel/FireMessage.dart';
 
 class RemoteSearchFormDataSource{
 
   Future<Either<FireMessage, List<HotelModel>>> fetchNearestHotels({required double latitude,required double longitude}) async {
-
+    String apiKey = await getApiKey();
     DateTime cheekIn = DateTime.now();
     DateTime checkOut = DateTime.now().add(const Duration(days: 1));
     String checkInDateTime = "${cheekIn.year.toString()}-${cheekIn.month.toString()}-${cheekIn.day.toString()}";
@@ -31,7 +32,7 @@ class RemoteSearchFormDataSource{
         return true;
       },
       headers: {
-        "X-RapidAPI-Key":API_KEY,
+        "X-RapidAPI-Key":apiKey,
       },
     ));
     if (response.statusCode == 200) {
