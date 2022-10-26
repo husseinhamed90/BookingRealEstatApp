@@ -1,12 +1,14 @@
 import 'dart:ui';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:realestate/Core/AppTheme/AppColors.dart';
 import 'package:realestate/DependencyInjection.dart';
 import 'package:realestate/Features/FavouriteIcon/data/repositories/FirebaseDataSourceRepo.dart';
 import 'package:realestate/Features/SearchForm/domain/entities/Hotel.dart';
 
+import '../../../../../PaymentDone.dart';
 import '../../../data/repositories/HiveDataSourceRepo.dart';
 
 part 'favourite_state.dart';
@@ -54,5 +56,9 @@ class FavouriteCubit extends Cubit<FavouriteState> {
 
   bool isItemExist(Hotel hotel) {
     return  dl.get<HiveDataSourceRepo>().isItemExist(hotel)?true:false;
+  }
+
+  void goToNexPage() {
+    emit(state.copyWith(message: "PaymentDone"));
   }
 }

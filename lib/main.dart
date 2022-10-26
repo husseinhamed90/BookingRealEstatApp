@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:realestate/Core/BottomNavBarBloc/bottom_nav_bar_bloc.dart';
 import 'package:realestate/Features/Authentication/presentation/manager/auth_bloc.dart';
+import 'package:realestate/Features/HomePageLayout/HomePageLayoutPage.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/DatePickerCubit.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/filters_bloc.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/sliders_cubit.dart';
 import 'package:realestate/Features/SearchForm/domain/entities/Hotel.dart';
 import 'package:realestate/Features/SearchForm/presentation/manager/HotelsByCoordinatedBloc/hotels_by_coordinates_bloc.dart';
+import 'package:realestate/PaymentDone.dart';
 import 'Core/AppTheme/AppColors.dart';
 import 'Core/AppTheme/Themes.dart';
 import 'DependencyInjection.dart';
@@ -36,14 +39,17 @@ void main()async {
   init();
 
 
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+
+   MyApp({super.key});
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
+
       designSize: const Size(375, 811),
       minTextAdapt: true,
       splitScreenMode: true,
@@ -76,14 +82,22 @@ class MyApp extends StatelessWidget {
             ),
           ],
           child: MaterialApp(
+            //routerConfig: _router,
             useInheritedMediaQuery: true,
             debugShowCheckedModeBanner: false,
+            initialRoute: '/',
             theme: getAppTheme(),
-            home: child,
+            navigatorKey: dl<NavigationService>().navigatorKey,
+            routes: {
+              '/' :(context) => const SplashScreenPage(),
+              // When navigating to the "/" route, build the FirstScreen widget.
+              // When navigating to the "/second" route, build the SecondScreen widget.
+              '/PaymentDone': (context) => const PaymentProcessEnd(),
+            },
           ),
         );
       },
-      child: const SplashScreenPage(),
+      //child: const SplashScreenPage(),
     );
   }
 }

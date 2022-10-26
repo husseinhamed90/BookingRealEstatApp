@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:realestate/Core/BottomNavBarBloc/bottom_nav_bar_bloc.dart';
@@ -29,7 +30,13 @@ import 'Features/FlatDetails/data/remote/data_sources/RemoteHotelDetailsDataSour
 import 'Features/SearchForm/domain/entities/Hotel.dart';
 
 final dl = GetIt.instance;
-
+class NavigationService {
+  final GlobalKey<NavigatorState> navigatorKey =
+  GlobalKey<NavigatorState>();
+  Future<dynamic> navigateTo(String routeName) {
+    return navigatorKey.currentState!.pushNamedAndRemoveUntil(routeName,(Route<dynamic> route) => false);
+  }
+}
 init(){
 
   Hive.registerAdapter(HotelAdapter());
@@ -46,6 +53,7 @@ init(){
   dl.registerLazySingleton<DatePickerCubit>(() => DatePickerCubit());
   dl.registerLazySingleton<SlidersCubit>(() => SlidersCubit());
 
+  dl.registerLazySingleton(() => NavigationService());
 
   dl.registerLazySingleton<LocationsRepository>(() => LocationsRepository(dl()));
   dl.registerLazySingleton<FirebaseDataSourceRepo>(() => FirebaseDataSourceRepo(dl()));

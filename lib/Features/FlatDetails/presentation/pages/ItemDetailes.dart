@@ -143,7 +143,7 @@ class _ItemDetailsState extends State<ItemDetails> {
             if(state.errorMessage!.message=="Hotel Rooms Loaded"){
               Navigator.push(context, MaterialPageRoute(builder: (context) => HotelRoomsPage(hotelBlockModel: state.hotelBlockModel!),));
             }
-            else if(state.errorMessage!.message=="Error"||state.errorMessage!.message=="Error When Fetching Hotels Details"){
+            else if(state.errorMessage!.message=="Error"||state.errorMessage!.message=="Error When Fetching Hotels Details"||state.errorMessage!.message=="Error When Fetching Hotels Rooms"){
               final snackBar = SnackBar(
                 content: Text(state.errorMessage!.message),
                 action: SnackBarAction(
