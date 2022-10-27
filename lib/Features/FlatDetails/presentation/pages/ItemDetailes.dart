@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:realestate/Core/AppTheme/Strings.dart';
 import 'package:realestate/Features/FlatDetails/presentation/manager/SearchResultsBloc/HotelDetailsState.dart';
 import 'package:realestate/Features/Rooms/presentation/pages/HotelRooms/HotelRoomsPage.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../../../Core/AppTheme/AppColors.dart';
 import '../../../../Core/ResuableWidgets/NoConnectionImage.dart';
 import '../../../../Core/ReusableComponantes.dart';

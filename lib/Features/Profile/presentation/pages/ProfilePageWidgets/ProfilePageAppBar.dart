@@ -52,7 +52,7 @@ class ProfilePageAppBar extends StatelessWidget {
                   }
                   else if(state.errorMessage=="No Internet"){
                     final snackBar = SnackBar(
-                      content: Text(state.message!.message),
+                      content: Text(state.errorMessage),
                       action: SnackBarAction(
                         label: 'Undo',
                         onPressed: () {},
