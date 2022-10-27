@@ -26,79 +26,92 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc() : super(AuthState(message: FireMessage("Initial"))) {
     on<SignInEvent>((event, emit) async{
-      if(await getInternetConnectionState()){
-        emit(AuthState().copyWith(message: FireMessage("Loading")));
-        final result = await  dl<AuthFirebaseDataSource>().login(email: event.email!, password: event.password!);
-        result.fold((left) {
-          emit(state.copyWith(message : left,errorMessage: left.message));
-        }, (right){
-          updateUserEntity(right);
-          add(OpenBox(userData: right));
-          fillTextFieldsController(right);
-          emit(state.copyWith(userEntity: right,message: FireMessage("Logged In"),errorMessage: ""));
-        });
-      }
-      else{
-        emit(state.copyWith(errorMessage: "No Internet"));
-      }
+      await handleInternetConnectionStates(
+          onSuccessConnection: ()async => await signIn(emit,event),
+          onFailureConnection: ()=> emit(state.copyWith(errorMessage: "No Internet"))
+      );
     });
 
     on<SignOutEvent>((event, emit) async{
-      if(await getInternetConnectionState()){
-        emit(AuthState().copyWith(message: FireMessage("Loading")));
-        await dl<AuthFirebaseDataSource>().signOut().fold((left){
-          emit(AuthState().copyWith(message: left,errorMessage: left.message,userEntity: null));
-        }, (right){
-          updateUserEntity(null);
-          emit(AuthState().copyWith(message: FireMessage("User Signed Out"),userEntity: null));
-        });
-      }
-      else{
-        emit(state.copyWith(errorMessage: "No Internet"));
-      }
+      await handleInternetConnectionStates(
+          onSuccessConnection: ()async => await signOut(emit),
+          onFailureConnection: ()=> emit(state.copyWith(errorMessage: "No Internet"))
+      );
     });
 
     on<SignUpEvent>((event, emit) async{
-      if(await getInternetConnectionState()){
-        emit(AuthState().copyWith(message: FireMessage("Loading")));
-        await dl<AuthFirebaseDataSource>().signUp(userEntity: event.userEntity!).fold((left){
-          emit(AuthState().copyWith(message: left,errorMessage: left.message));
-        }, (right){
-          fillTextFieldsController(right);
-          updateUserEntity(right);
-          emit(AuthState().copyWith(message: FireMessage("Logged in"),userEntity: right,errorMessage: ""));
-        });
-      }
-      else{
-        emit(state.copyWith(errorMessage: "No Internet"));
-      }
+      await handleInternetConnectionStates(
+          onSuccessConnection: ()async => await signUp(event, emit),
+          onFailureConnection: ()=> emit(state.copyWith(errorMessage: "No Internet"))
+      );
     });
 
     on<CheckIfUserLoggedIn>((event, emit) async{
-      if(await getInternetConnectionState()){
-        final result = await dl<AuthFirebaseDataSource>().checkIfUserLoggedIn();
-        result.fold((left) {
-          emit(AuthState().copyWith(message: left,errorMessage: left.message));
-        },(right) {
-          if(right==null){
-            emit(AuthState().copyWith(message: FireMessage("Not Logged"),userEntity: right));
-          }
-          else{
-            fillTextFieldsController(right);
-            updateUserEntity(right);
-            add(OpenBox(userData: right));
-          }
-        });
-      }
-      else{
-        emit(state.copyWith(errorMessage: "No Internet"));
-      }
+      await handleInternetConnectionStates(
+          onSuccessConnection: ()async => await checkIfUserLoggedIn(emit),
+          onFailureConnection: ()=> emit(state.copyWith(errorMessage: "No Internet"))
+      );
     });
 
-
     on<OpenBox>((event, emit) async{
-      await dl.get<FavouriteCubit>().openFavouritesBox();
-      emit(AuthState().copyWith(message: FireMessage("Already Logged"),userEntity: event.userData));
+      await openFavouritesHiveBox(emit, event);
+    });
+  }
+
+
+  Future<void> openFavouritesHiveBox(Emitter<AuthState> emit, OpenBox event) async {
+    await dl.get<FavouriteCubit>().openFavouritesBox();
+    emit(AuthState().copyWith(message: FireMessage("Already Logged"),userEntity: event.userData));
+  }
+
+  Future<void> signIn(Emitter<AuthState> emit, SignInEvent event) async {
+    emit(AuthState().copyWith(message: FireMessage("Loading")));
+    final result = await  dl<AuthFirebaseDataSource>().login(email: event.email!, password: event.password!);
+    result.fold((left) {
+      emit(state.copyWith(message : left,errorMessage: left.message));
+    }, (right){
+      updateUserEntity(right);
+      add(OpenBox(userData: right));
+      fillTextFieldsController(right);
+      emit(state.copyWith(userEntity: right,message: FireMessage("Logged In"),errorMessage: ""));
+    });
+  }
+
+  Future<void> signOut(Emitter<AuthState> emit) async {
+    emit(AuthState().copyWith(message: FireMessage("Loading")));
+    await dl<AuthFirebaseDataSource>().signOut().fold((left){
+      emit(AuthState().copyWith(message: left,errorMessage: left.message,userEntity: null));
+    }, (right){
+      updateUserEntity(null);
+      emit(AuthState().copyWith(message: FireMessage("User Signed Out"),userEntity: null));
+    });
+  }
+
+  Future<void> checkIfUserLoggedIn(Emitter<AuthState> emit) async {
+    emit(AuthState().copyWith(message: FireMessage("Loading")));
+    final result = await dl<AuthFirebaseDataSource>().checkIfUserLoggedIn();
+    result.fold((left) {
+      emit(AuthState().copyWith(message: left,errorMessage: left.message));
+    },(right) {
+      if(right==null){
+        emit(AuthState().copyWith(message: FireMessage("Not Logged"),userEntity: right));
+      }
+      else{
+        fillTextFieldsController(right);
+        updateUserEntity(right);
+        add(OpenBox(userData: right));
+      }
+    });
+  }
+
+  Future<void> signUp(SignUpEvent event, Emitter<AuthState> emit) async {
+    emit(AuthState().copyWith(message: FireMessage("Loading")));
+    await dl<AuthFirebaseDataSource>().signUp(userEntity: event.userEntity!).fold((left){
+      emit(AuthState().copyWith(message: left,errorMessage: left.message));
+    }, (right){
+      fillTextFieldsController(right);
+      updateUserEntity(right);
+      emit(AuthState().copyWith(message: FireMessage("Logged in"),userEntity: right,errorMessage: ""));
     });
   }
 

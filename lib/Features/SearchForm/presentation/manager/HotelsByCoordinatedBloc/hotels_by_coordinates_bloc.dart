@@ -12,50 +12,60 @@ import '../../../../FlatDetails/data/remote/models/HotelBlocksModel.dart';
 import '../../../../FlatDetails/data/remote/models/HotelDetailsModel.dart';
 import '../../../../SearchFilters/data/remote/models/LocationModel.dart';
 import '../../../data/remote/models/HotelModel.dart';
-import '../../../../FlatDetails/domain/use_cases/FetchHotelRoomsUseCase.dart';
 
 part 'hotels_by_coordinates_event.dart';
 part 'hotels_by_coordinates_state.dart';
 
 class HotelsByCoordinatesBloc extends Bloc<HotelsByCoordinatesEvent, HotelsByCoordinatesState> {
   HotelsByCoordinatesBloc() : super(const HotelsByCoordinatesState().copyWith(message: FireMessage(loading))) {
+
     on<FetchHotelsByCoordinatesEvent>((event, emit) async{
-      if(await getInternetConnectionState()){
-        emit(state.copyWith(message: FireMessage(loading)));
-        Position position = await determinePosition();
-        await dl<FetchNearestHotelsUseCase>().call(longitude: position.longitude,latitude: position.latitude).then((value){
-          value.fold((left) => emit(state.copyWith(message: left)), (right) {
-            emit(state.copyWith(hotels: right,message: FireMessage("Hotels Loaded")));
-          });
-        });
-      }
-      else{
-        emit(state.copyWith(message: FireMessage("No Internet")));
-      }
+      await handleInternetConnectionStates(
+          onSuccessConnection: ()async=>await getNearestHotelsToYourCurrentLocation(emit),
+          onFailureConnection: ()=> emit(state.copyWith(message: FireMessage("No Internet"))));
     });
   }
 
-  Future<Position> determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  Future<void> getNearestHotelsToYourCurrentLocation(Emitter<HotelsByCoordinatesState> emit) async {
+    emit(state.copyWith(message: FireMessage(loading)));
+    Position position = await determinePosition();
+    await getNearestHotels(position, emit);
+  }
+
+  Future<void> getNearestHotels(Position position, Emitter<HotelsByCoordinatesState> emit) async {
+     await dl<FetchNearestHotelsUseCase>().call(longitude: position.longitude,latitude: position.latitude).then((value) {
+       value.fold((left) => emit(state.copyWith(message: left)), (right) {
+         emit(state.copyWith(hotels: right,message: FireMessage("Hotels Loaded")));
+       });
+     });
+  }
+
+  Future checkIfLocationServiceEnabled()async{
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       return Future.error('Location services are disabled.');
     }
+  }
 
-    permission = await Geolocator.checkPermission();
+  Future handleDeniedPermission(LocationPermission permission)async{
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         return Future.error('Location permissions are denied');
       }
     }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    return await Geolocator.getCurrentPosition();
   }
-}
+
+  Future handleDeniedPermissionForever(LocationPermission permission)async{
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('Location permissions are permanently denied, we cannot request permissions.');
+    }
+  }
+
+  Future<Position> determinePosition() async {
+    LocationPermission permission = await Geolocator.requestPermission();
+    await checkIfLocationServiceEnabled();
+    await handleDeniedPermission(permission);
+    await handleDeniedPermissionForever(permission);
+    return await Geolocator.getCurrentPosition();
+  }}

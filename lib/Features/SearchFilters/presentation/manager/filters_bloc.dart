@@ -22,35 +22,17 @@ class FilteringBloc extends Bloc<LocationsEvent, FilteringState> {
   int pageNumber=0;
 
   FilteringBloc() : super(FilteringState(errorMessage: FireMessage("Initial"),hotels: const [])) {
-    startDateController.text="${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
-    endDateController.text="${DateTime.now().add(const Duration(days: 1)).year}-${DateTime.now().add(const Duration(days: 1)).month}-${DateTime.now().add(const Duration(days: 1)).day}";
 
+    putInitialStartAndEndDate();
     on<FetchLocationsEvent>((event, emit) async{
-      if(await getInternetConnectionState()){
-        pageNumber=event.pageNumber;
-        if(locationController.text!=""){
-          emit(state.copyWith(errorMessage: FireMessage(loading)));
-          final result  = await dl<FetchLocationsUseCase>().call(locationString: locationController.text);
-          result.fold((left) =>emit(state.copyWith(errorMessage: left)),
-                  (right) {
-                emit(state.copyWith(errorMessage: FireMessage(""), locations: right,hotels: []));
-                pageNumber=0;
-                add(StartFilterDataEvent(locations: right,pageNumber: event.pageNumber));
-              }
-          );
-        }
-        else{
-          emit(state.copyWith(errorMessage: FireMessage("Location Field Is Required")));
-        }
-      }
-      else{
-        emit(state.copyWith(errorMessage: FireMessage("No Internet")));
-      }
-
+      await handleInternetConnectionStates(
+          onSuccessConnection: () async => await getLocations(event, emit),
+          onFailureConnection: ()=>  emit(state.copyWith(errorMessage: FireMessage("No Internet")))
+      );
     });
+
     on<FetchMore>((event, emit) async{
-      pageNumber++;
-      add(StartFilterDataEvent(locations: state.locations!,pageNumber: pageNumber));
+      await getMoreData();
     });
 
     on<FireErrorMessageEvent>((event, emit) async{
@@ -58,19 +40,62 @@ class FilteringBloc extends Bloc<LocationsEvent, FilteringState> {
     });
 
     on<StartFilterDataEvent>((event, emit) async{
-      emit(state.copyWith(errorMessage: FireMessage(loading)));
-      if(event.locations.isNotEmpty){
-        state.copyWith(hotels: state.hotels);
-        final result = await dl<FilterResultsUseCase>().call(pageNumber: pageNumber,maxPrice: dl<SlidersCubit>().pricesValues.end,minPrice: dl<SlidersCubit>().pricesValues.start,locationModel: event.locations[0],numberOfRooms: dl<SlidersCubit>().initRoomsNumber!.toInt(),numberOfAdults: dl<SlidersCubit>().initAdultsNumber!.toInt(),checkIn: startDateController.text,checkOut: endDateController.text);
-        result.fold((left) =>emit(state.copyWith(errorMessage: left)),
-                (right) {
-                  emit(state.copyWith(errorMessage: FireMessage("result loaded"), hotels: state.hotels+=right,locations: event.locations));
-                }
-        );
-      }
-      else{
-        emit(state.copyWith(errorMessage: FireMessage("No Location With This Name")));
-      }
+      await handleInternetConnectionStates(
+          onSuccessConnection: () async => await startFilterResults(emit, event),
+          onFailureConnection: ()=>  emit(state.copyWith(errorMessage: FireMessage("No Internet")))
+      );
     });
+  }
+
+  void putInitialStartAndEndDate() {
+    startDateController.text="${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
+    endDateController.text="${DateTime.now().add(const Duration(days: 1)).year}-${DateTime.now().add(const Duration(days: 1)).month}-${DateTime.now().add(const Duration(days: 1)).day}";
+  }
+
+  Future<void> startFilterResults(Emitter<FilteringState> emit, StartFilterDataEvent event) async {
+     emit(state.copyWith(errorMessage: FireMessage(loading)));
+    await checkForLocationTextFieldValidation(event, emit);
+  }
+
+  Future<void> checkForLocationTextFieldValidation(StartFilterDataEvent event, Emitter<FilteringState> emit) async {
+    if(event.locations.isNotEmpty){
+      await startFiltering(event, emit);
+    }
+    else{
+      emit(state.copyWith(errorMessage: FireMessage("No Location With This Name")));
+    }
+  }
+
+  Future<void> startFiltering(StartFilterDataEvent event, Emitter<FilteringState> emit) async {
+    state.copyWith(hotels: state.hotels);
+    final result = await dl<FilterResultsUseCase>().call(pageNumber: pageNumber,maxPrice: dl<SlidersCubit>().pricesValues.end,minPrice: dl<SlidersCubit>().pricesValues.start,locationModel: event.locations[0],numberOfRooms: dl<SlidersCubit>().initRoomsNumber!.toInt(),numberOfAdults: dl<SlidersCubit>().initAdultsNumber!.toInt(),checkIn: startDateController.text,checkOut: endDateController.text);
+    result.fold((left) =>emit(state.copyWith(errorMessage: left)),
+            (right){
+              emit(state.copyWith(errorMessage: FireMessage("result loaded"), hotels: state.hotels+=right,locations: event.locations));
+            }
+    );
+  }
+
+  Future<void> getMoreData() async{
+    pageNumber++;
+    add(StartFilterDataEvent(locations: state.locations!,pageNumber: pageNumber));
+  }
+
+  Future<void> getLocations(FetchLocationsEvent event, Emitter<FilteringState> emit) async {
+     pageNumber=event.pageNumber;
+    if(locationController.text!=""){
+      emit(state.copyWith(errorMessage: FireMessage(loading)));
+      final result  = await dl<FetchLocationsUseCase>().call(locationString: locationController.text);
+      result.fold((left) =>emit(state.copyWith(errorMessage: left)),
+              (right) {
+            emit(state.copyWith(errorMessage: FireMessage(""), locations: right,hotels: []));
+            pageNumber=0;
+            add(StartFilterDataEvent(locations: right,pageNumber: event.pageNumber));
+          }
+      );
+    }
+    else{
+      emit(state.copyWith(errorMessage: FireMessage("Location Field Is Required")));
+    }
   }
 }

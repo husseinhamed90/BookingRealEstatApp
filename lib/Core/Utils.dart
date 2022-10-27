@@ -34,6 +34,15 @@ int calcDifferenceBetweenTwoDay(BuildContext context){
   }
 }
 
+Future<void> handleInternetConnectionStates({required Function onSuccessConnection,required Function onFailureConnection}) async {
+  if(await getInternetConnectionState()){
+    await onSuccessConnection();
+  }
+  else{
+    await onFailureConnection();
+  }
+}
+
 String getUrl(HotelBlocksModel hotelBlocksModel,int blockIndex){
   Room currentRoom =hotelBlocksModel.rooms![getKeyOfRoom(hotelBlocksModel,blockIndex)]!;
   if(currentRoom.photos!.isEmpty){

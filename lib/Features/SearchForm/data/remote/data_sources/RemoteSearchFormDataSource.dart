@@ -12,7 +12,6 @@ class RemoteSearchFormDataSource{
     DateTime cheekIn = DateTime.now();
     DateTime checkOut = DateTime.now().add(const Duration(days: 1));
 
-
     String checkInDateTime = "${cheekIn.year.toString()}-${cheekIn.month.toString()}-${cheekIn.day.toString()}";
     String checkOutDateTime = "${checkOut.year.toString()}-${checkOut.month.toString()}-${checkOut.day.toString()}";
     var response = await Dio().get('$BASE_URL/search-by-coordinates',
