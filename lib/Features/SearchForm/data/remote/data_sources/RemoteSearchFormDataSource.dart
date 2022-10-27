@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:either_dart/either.dart';
-import 'package:realestate/DependencyInjection.dart';
-import 'package:realestate/Features/SearchFilters/presentation/manager/DatePickerCubit.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/ReusableComponantes.dart';
@@ -43,7 +41,7 @@ class RemoteSearchFormDataSource{
       List list = response.data["result"];
       return Right(list.map((location) => HotelModel.fromJson(location)).toList());
     } else {
-      return Left(FireMessage("Error"));
+      return Left(FireMessage("Error When Trying to get nearest hotels"));
     }
   }
 }

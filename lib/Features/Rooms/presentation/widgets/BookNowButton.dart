@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:realestate/Core/Utils.dart';
 
 import '../../../../Core/AppTheme/Strings.dart';
 import '../../../FlatDetails/data/remote/models/HotelBlocksModel.dart';
@@ -20,13 +21,24 @@ class BookNowButton extends StatelessWidget {
     return SizedBox(
       width: 110.w,
       height: 50.h,
-      child: ElevatedButton(onPressed: (){
-        Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (BuildContext context) => PaymentTap(hotelBlocksModel: hotelBlocksModel, blockIndex: blockIndex)
-          ),
-        );
-
+      child: ElevatedButton(onPressed: ()async{
+        if(await getInternetConnectionState()){
+          Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (BuildContext context) => PaymentTap(hotelBlocksModel: hotelBlocksModel, blockIndex: blockIndex)
+            ),
+          );
+        }
+        else{
+          final snackBar = SnackBar(
+            content: const Text("No Internet Connection"),
+            action: SnackBarAction(
+              label: 'Undo',
+              onPressed: () {},
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
       }, style: ButtonStyle(
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),

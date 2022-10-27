@@ -8,7 +8,7 @@ import 'package:realestate/DependencyInjection.dart';
 import 'package:realestate/Features/FavouriteIcon/data/repositories/FirebaseDataSourceRepo.dart';
 import 'package:realestate/Features/SearchForm/domain/entities/Hotel.dart';
 
-import '../../../../../PaymentDone.dart';
+import '../../../../Rooms/presentation/pages/PaymentDone.dart';
 import '../../../data/repositories/HiveDataSourceRepo.dart';
 
 part 'favourite_state.dart';

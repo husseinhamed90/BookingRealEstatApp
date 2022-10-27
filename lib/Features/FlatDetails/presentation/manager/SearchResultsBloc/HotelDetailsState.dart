@@ -31,13 +31,13 @@ class HotelDetailsState extends Equatable{
   }) {
 
     return HotelDetailsState(
-        hotelBlockModel: hotelBlockModel ?? this.hotelBlockModel,
-        hotelDetailsModel :hotelDetailsModel??this.hotelDetailsModel,
-        errorMessage: errorMessage ?? this.errorMessage,
-        isFav :isFav??this.isFav,
-        hotelModel: hotelModel??this.hotelModel,
-        hotelPhotoModel: hotelPhotoModel??this.hotelPhotoModel,
-        hotelDescriptionModel: hotelDescriptionModel??this.hotelDescriptionModel
+        hotelBlockModel: hotelBlockModel,
+        hotelDetailsModel :hotelDetailsModel,
+        errorMessage: errorMessage,
+        isFav :isFav,
+        hotelModel: hotelModel,
+        hotelPhotoModel: hotelPhotoModel,
+        hotelDescriptionModel: hotelDescriptionModel
     );
   }
   @override

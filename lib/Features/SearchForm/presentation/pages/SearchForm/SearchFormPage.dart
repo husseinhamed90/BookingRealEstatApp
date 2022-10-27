@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:realestate/Core/AppTheme/AppColors.dart';
 import 'package:realestate/Features/Authentication/presentation/pages/SignIn/SignInWidgets/CustomTextField.dart';
 import 'package:realestate/Features/SearchForm/presentation/manager/HotelsByCoordinatedBloc/hotels_by_coordinates_bloc.dart';
 import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/ResuableWidgets/BuildItem.dart';
+import '../../../../../Core/ResuableWidgets/NoConnectionImage.dart';
 import '../../../../../Core/ReusableComponantes.dart';
 import '../../../../../DependencyInjection.dart';
 import '../../../../FlatDetails/presentation/pages/ItemDetailes.dart';
@@ -18,7 +20,7 @@ class SearchForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<HotelsByCoordinatesBloc,HotelsByCoordinatesState>(
       listener: (context, state) {
-         if(state.errorMessage!.message=="Error"||state.errorMessage!.message=="Error When Fetching Hotels Details"){
+         if(state.errorMessage!.message=="Error When Trying to get nearest hotels"){
           final snackBar = SnackBar(
             content: Text(state.errorMessage!.message),
             action: SnackBarAction(
@@ -35,16 +37,10 @@ class SearchForm extends StatelessWidget {
         if(state.errorMessage!.message==loading){
           return buildDownloadIndicator(context);
         }
-        if(state.hotels==null){
-          return Center(child: Container(
-            height: 200.h,
-            width: 200.h,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage("https://cdn3.iconfinder.com/data/icons/wifi-2/460/connection-error-512.png")
-              )
-            ),
-          ));
+        if(state.errorMessage!.message=="No Internet"||state.hotels==null){
+          return  NoConnectionImage(onTryAgain: () {
+            dl<HotelsByCoordinatesBloc>().add(FetchHotelsByCoordinatesEvent());
+          },);
         }
         else{
           return ListView(
@@ -106,3 +102,5 @@ class SearchForm extends StatelessWidget {
     );
   }
 }
+
+

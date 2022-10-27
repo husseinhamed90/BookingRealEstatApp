@@ -9,13 +9,18 @@ class AuthFirebaseDataSource{
 
   Future<Either<FireMessage, UserEntity>> login({required String email,required String password})async{
     try {
-      UserCredential ?userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-      if(userCredential.user==null){
-        return Left(FireMessage("Error"));
+      if(email.isEmpty||password.isEmpty){
+        return Left(FireMessage("Required Field Found"));
       }
       else{
-        QuerySnapshot <Map>?querySnapshot = await FirebaseFirestore.instance.collection("Users").where("id",isEqualTo: userCredential.user!.uid).get();
-        return Right(UserEntity.fromJson(querySnapshot.docs[0].data().cast()));
+        UserCredential ?userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+        if(userCredential.user==null){
+          return Left(FireMessage("Error"));
+        }
+        else{
+          QuerySnapshot <Map>?querySnapshot = await FirebaseFirestore.instance.collection("Users").where("id",isEqualTo: userCredential.user!.uid).get();
+          return Right(UserEntity.fromJson(querySnapshot.docs[0].data().cast()));
+        }
       }
     } on FirebaseAuthException catch  (e) {
       return Left(FireMessage(e.message!));
@@ -43,7 +48,8 @@ class AuthFirebaseDataSource{
       return Left(FireMessage(e.message!));
     }
   }
-     Future<Either<FireMessage, UserEntity?>> checkIfUserLoggedIn()async{
+
+  Future<Either<FireMessage, UserEntity?>> checkIfUserLoggedIn()async{
      if (FirebaseAuth.instance.currentUser == null){
        return const Right(null);
      }
@@ -57,4 +63,5 @@ class AuthFirebaseDataSource{
        }
      }
    }
+
 }

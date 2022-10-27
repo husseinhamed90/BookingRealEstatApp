@@ -7,14 +7,13 @@ import '../../../../Core/AppTheme/Strings.dart';
 import '../../../../Core/Utils.dart';
 
 class ZoomIconButton extends StatelessWidget {
-  ZoomIconButton({Key ?key,required this.hotelBlocksModel,required this.blockIndex}) : super(key: key);
-  HotelBlocksModel hotelBlocksModel;
-  int blockIndex;
+  const ZoomIconButton({Key ?key,required this.hotelBlocksModel,required this.blockIndex}) : super(key: key);
+  final HotelBlocksModel hotelBlocksModel;
+  final int blockIndex;
   @override
   Widget build(BuildContext context) {
     return Positioned(
       right: 20,top: 20,
-
       child: GestureDetector(
         onTap: () async{
           await alertDialog(context);
@@ -30,15 +29,14 @@ class ZoomIconButton extends StatelessWidget {
       ),
     );
   }
+
   Future alertDialog(BuildContext context)async{
     return await showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(32.0))),
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
           content: SizedBox(
             height: 435.h,
             width: MediaQuery.of(context).size.width,

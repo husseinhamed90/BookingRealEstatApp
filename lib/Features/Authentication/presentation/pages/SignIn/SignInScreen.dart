@@ -28,6 +28,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void initState() {
     super.initState();
+
     dl<AuthBloc>().add(CheckIfUserLoggedIn());
   }
 
@@ -66,16 +67,16 @@ class _SignInScreenState extends State<SignInScreen> {
                       height: 60.h,
                       child: ElevatedButton(onPressed: () {
                         dl<AuthBloc>().add(SignInEvent(email: emailController.text,password: passwordController.text));
-                      }, child: Text(signInLabel)),
+                      }, child: const Text(signInLabel)),
                     );
                   },
                   listener: (context, state) {
                     if(state.message!.message=="Logged In"||state.message!.message=="Already Logged"){
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  const HomePageLayoutPage(),));
                     }
-                    else if(state.errorMessage=="Error"){
+                    else if(state.errorMessage!=""){
                       final snackBar = SnackBar(
-                        content: Text(state.message!.message),
+                        content: Text(state.errorMessage),
                         action: SnackBarAction(
                           label: 'Undo',
                           onPressed: () {},

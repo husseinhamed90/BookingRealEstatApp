@@ -24,7 +24,6 @@ class RemoteDataSource{
 
   Future<Either<FireMessage, List<LocationModel>>> fetchLocations(String locationName) async {
     String apiKey = await getApiKey();
-    print(apiKey);
       if(locationName==""){
         return Left(FireMessage("Required Field Not Found"));
       }
@@ -63,6 +62,8 @@ class RemoteDataSource{
         required LocationModel locationModel}) async {
 
         String apiKey = await getApiKey();
+
+        print("ASDD");
 
         var response = await Dio().get('$BASE_URL/search',
         queryParameters: {

@@ -14,7 +14,7 @@ import 'package:realestate/Features/SearchFilters/presentation/manager/filters_b
 import 'package:realestate/Features/SearchFilters/presentation/manager/sliders_cubit.dart';
 import 'package:realestate/Features/SearchForm/domain/entities/Hotel.dart';
 import 'package:realestate/Features/SearchForm/presentation/manager/HotelsByCoordinatedBloc/hotels_by_coordinates_bloc.dart';
-import 'package:realestate/PaymentDone.dart';
+import 'package:realestate/Features/Rooms/presentation/pages/PaymentDone.dart';
 import 'Core/AppTheme/AppColors.dart';
 import 'Core/AppTheme/Themes.dart';
 import 'DependencyInjection.dart';
@@ -23,6 +23,7 @@ import 'Features/FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite
 import 'Features/FlatDetails/presentation/manager/SearchResultsBloc/HotelDetailsBloc.dart';
 import 'SplachScreenPage.dart';
 import 'firebase_options.dart';
+import 'package:screen_size_test/screen_size_test.dart';
 
 void main()async {
 
@@ -69,7 +70,7 @@ class MyApp extends StatelessWidget {
               create: (BuildContext context) => dl<HotelDetailsBloc>(),
             ),
             BlocProvider<AuthBloc>(
-              create: (BuildContext context) => dl<AuthBloc>()..add(CheckIfUserLoggedIn())
+              create: (BuildContext context) => dl<AuthBloc>()
             ),
             BlocProvider<FavouriteCubit>(
                 create: (BuildContext context) => dl<FavouriteCubit>()
@@ -82,7 +83,6 @@ class MyApp extends StatelessWidget {
             ),
           ],
           child: MaterialApp(
-            //routerConfig: _router,
             useInheritedMediaQuery: true,
             debugShowCheckedModeBanner: false,
             initialRoute: '/',
@@ -90,14 +90,11 @@ class MyApp extends StatelessWidget {
             navigatorKey: dl<NavigationService>().navigatorKey,
             routes: {
               '/' :(context) => const SplashScreenPage(),
-              // When navigating to the "/" route, build the FirstScreen widget.
-              // When navigating to the "/second" route, build the SecondScreen widget.
               '/PaymentDone': (context) => const PaymentProcessEnd(),
             },
           ),
         );
       },
-      //child: const SplashScreenPage(),
     );
   }
 }

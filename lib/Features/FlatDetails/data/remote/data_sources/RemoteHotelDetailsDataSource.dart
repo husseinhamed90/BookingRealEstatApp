@@ -43,8 +43,6 @@ class RemoteHotelDetailsDataSource {
       return Left(FireMessage("Error When Fetching Hotels Rooms"));
     }
   }
-
-
   Future<Either<FireMessage, List<HotelPhotoModel>>> fetchHotelPhotos({required int hotelId}) async {
     String apiKey = await getApiKey();
     var response = await Dio().get('$BASE_URL/photos',
@@ -90,7 +88,7 @@ class RemoteHotelDetailsDataSource {
     if (response.statusCode == 200) {
       return Right(HotelDetailsModel.fromJson(response.data));
     } else {
-      return Left(FireMessage("Error When Fetching Hotels Details"));
+      return Left(FireMessage("Error When Fetching Hotel Details"));
     }
   }
 
@@ -113,7 +111,7 @@ class RemoteHotelDetailsDataSource {
     if (response.statusCode == 200) {
       return Right(HotelDescriptionModel.fromJson(response.data));
     } else {
-      return Left(FireMessage("Error When Fetching Hotels Details"));
+      return Left(FireMessage("Error When Fetching Hotel Details"));
     }
   }
 }

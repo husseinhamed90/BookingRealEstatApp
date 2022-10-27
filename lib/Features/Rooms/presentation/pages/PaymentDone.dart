@@ -11,23 +11,16 @@ class PaymentProcessEnd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-
-            Container(
-              width: double.infinity,
-              height: 80.h,
-              padding: const EdgeInsets.only(left: 20,right: 20,bottom: 30),
-              child: ElevatedButton(
-                child: const Text("Go To Home Page"),
-                onPressed: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePageLayoutPage(),));
-                },
-
-              )
-            )
-          ],
+        bottomNavigationBar: Container(
+          width: double.infinity,
+          height: 80.h,
+          padding: const EdgeInsets.only(left: 20,right: 20,bottom: 30),
+          child: ElevatedButton(
+            child: const Text("Go To Home Page"),
+            onPressed: () {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePageLayoutPage(),));
+            },
+          )
         ),
         body: SingleChildScrollView(
           child: Column(

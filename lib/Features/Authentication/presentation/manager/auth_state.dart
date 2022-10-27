@@ -17,7 +17,7 @@ class AuthState extends Equatable {
   }
   @override
   // TODO: implement props
-  List<Object?> get props => [message,userEntity];
+  List<Object?> get props => [message,userEntity,identityHashCode(this)];
 
   AuthState({this.message,this.userEntity,this.errorMessage=""});
 }

@@ -7,6 +7,7 @@ import 'package:realestate/Features/FlatDetails/presentation/manager/SearchResul
 import 'package:realestate/Features/Rooms/presentation/pages/HotelRooms/HotelRoomsPage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../Core/AppTheme/AppColors.dart';
+import '../../../../Core/ResuableWidgets/NoConnectionImage.dart';
 import '../../../../Core/ReusableComponantes.dart';
 import '../../../../DependencyInjection.dart';
 import '../../../FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite_cubit.dart';
@@ -24,30 +25,27 @@ class ItemDetails extends StatefulWidget {
 
 class _ItemDetailsState extends State<ItemDetails> {
 
+  late Function onTryAgain;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    dl<HotelDetailsBloc>().add(FetchHotelDetailsEvent(hotelModel: widget.hotelModel));
+    onTryAgain=(){
+      dl<HotelDetailsBloc>().add(FetchHotelDetailsEvent(hotelModel: widget.hotelModel));
+    };
+    onTryAgain();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: BlocConsumer<HotelDetailsBloc,HotelDetailsState>(
           builder: (context, state) {
-            if(state.errorMessage!.message!=loading && state.hotelDescriptionModel==null&&state.hotelPhotoModel==null&&state.hotelDetailsModel==null){
-              return Center(child: Container(
-                height: 200.h,
-                width: 200.h,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(networkErrorPhotoUrl)
-                    )
-                ),
-              ));
-            }
             if(state.errorMessage!.message==loading){
-               return buildDownloadIndicator(context);
+              return buildDownloadIndicator(context);
+            }
+            else if(state.errorMessage!.message=="No Internet"||state.hotelDetailsModel==null||state.hotelDescriptionModel==null||state.hotelPhotoModel==null){
+              return  NoConnectionImage(onTryAgain: () {
+                onTryAgain();
+              },);
             }
             else{
                return ListView(
@@ -84,7 +82,10 @@ class _ItemDetailsState extends State<ItemDetails> {
                                 width: 254.w,
                                 height: 60.h,
                                 child: ElevatedButton(onPressed: () async{
-                                  dl<HotelDetailsBloc>().add(FetchRoomsEvent(currency: widget.hotelModel.currencyCode!,hotelId:widget.hotelModel.hotelId! ));
+                                  onTryAgain=(){
+                                    dl<HotelDetailsBloc>().add(FetchRoomsEvent(currency: widget.hotelModel.currencyCode!,hotelId:widget.hotelModel.hotelId! ));
+                                  };
+                                  onTryAgain();
                                 }, child: const Text(showRooms)),
                               ),
                               const Spacer(),
@@ -143,7 +144,7 @@ class _ItemDetailsState extends State<ItemDetails> {
             if(state.errorMessage!.message=="Hotel Rooms Loaded"){
               Navigator.push(context, MaterialPageRoute(builder: (context) => HotelRoomsPage(hotelBlockModel: state.hotelBlockModel!),));
             }
-            else if(state.errorMessage!.message=="Error"||state.errorMessage!.message=="Error When Fetching Hotels Details"||state.errorMessage!.message=="Error When Fetching Hotels Rooms"){
+            else if(state.errorMessage!.message=="Error When Fetching Hotel Details"||state.errorMessage!.message=="Error When Fetching Hotels Rooms"){
               final snackBar = SnackBar(
                 content: Text(state.errorMessage!.message),
                 action: SnackBarAction(

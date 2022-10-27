@@ -50,6 +50,16 @@ class ProfilePageAppBar extends StatelessWidget {
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignInScreen(),));
                     dl<BottomNavBarBloc>().add(const ChangeNavBarIndexEvent(newIndex: 0));
                   }
+                  else if(state.errorMessage=="No Internet"){
+                    final snackBar = SnackBar(
+                      content: Text(state.message!.message),
+                      action: SnackBarAction(
+                        label: 'Undo',
+                        onPressed: () {},
+                      ),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
                 },
               ),
             ],

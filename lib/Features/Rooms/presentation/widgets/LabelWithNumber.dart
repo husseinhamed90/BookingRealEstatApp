@@ -20,10 +20,10 @@ class LabelWithNumber extends StatelessWidget {
         children: [
           AutoSizeText(number,style: TextStyle(
               color: const Color(0xff312D2C),fontSize: 24.sp,fontWeight: FontWeight.w700
-          ),maxLines: 1),
+          ),maxLines: 1,overflow: TextOverflow.ellipsis),
           AutoSizeText(text,style: TextStyle(
               color: const Color(0xff9197A2),fontSize: 14.sp,fontWeight: FontWeight.w400, height: 1.2.h
-          ),maxLines: 1),
+          ),maxLines: 1,overflow: TextOverflow.ellipsis),
         ],
       ),
     );
