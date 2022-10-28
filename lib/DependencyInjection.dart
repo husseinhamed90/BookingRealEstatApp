@@ -22,7 +22,7 @@ import 'package:realestate/Features/FlatDetails/domain/use_cases/FetchHotelDetai
 import 'package:realestate/Features/FlatDetails/domain/use_cases/FetchHotelRoomsUseCase.dart';
 import 'package:realestate/Features/SearchForm/domain/use_cases/FetchNearestHotelsUseCase.dart';
 import 'package:realestate/Features/SearchForm/presentation/manager/HotelsByCoordinatedBloc/hotels_by_coordinates_bloc.dart';
-import 'Core/NavigationService.dart';
+import 'Core/NavigationService/NavigationService.dart';
 import 'Features/FavouriteIcon/data/data_sources/LocalDataSource/HiveDataSource.dart';
 import 'Features/FavouriteIcon/data/repositories/FirebaseDataSourceRepo.dart';
 import 'Features/FavouriteIcon/data/repositories/HiveDataSourceRepo.dart';

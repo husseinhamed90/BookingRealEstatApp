@@ -13,7 +13,7 @@ import 'package:realestate/Features/SearchForm/presentation/manager/HotelsByCoor
 import 'package:realestate/Features/Rooms/presentation/pages/PaymentDone.dart';
 import 'Core/AppTheme/AppColors.dart';
 import 'Core/AppTheme/Themes.dart';
-import 'Core/NavigationService.dart';
+import 'Core/NavigationService/NavigationService.dart';
 import 'DependencyInjection.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Features/FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite_cubit.dart';

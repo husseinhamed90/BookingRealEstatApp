@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
-
-import '../Features/Authentication/presentation/pages/SignIn/SignInWidgets/CustomTextField.dart';
 import '../Features/FlatDetails/data/remote/models/HotelDetailsModel.dart';
 import '../Features/SearchForm/domain/entities/Hotel.dart';
 import 'AppTheme/AppColors.dart';

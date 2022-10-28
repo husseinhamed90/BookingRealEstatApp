@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tap_payment/flutter_tap_payment.dart';
-import '../../../../Core/NavigationService.dart';
+import '../../../../Core/NavigationService/NavigationService.dart';
 import '../../../../DependencyInjection.dart';
 import '../../../Authentication/presentation/manager/auth_bloc.dart';
 import '../../../FlatDetails/data/remote/models/HotelBlocksModel.dart';
@@ -28,12 +28,12 @@ class PaymentTap extends StatelessWidget {
           "save_card": false,
           "description": "Test Description",
           "statement_descriptor": "Sample",
-          "metadata": {"udf1": "test 1", "udf2": "test 2"},
-          "reference": {
+          "metadata": const {"udf1": "test 1", "udf2": "test 2"},
+          "reference": const {
             "transaction": "txn_0001",
             "order": "ord_0001"
           },
-          "receipt": {"email": false, "sms": true},
+          "receipt": const {"email": false, "sms": true},
           "customer": {
             "first_name": dl.get<AuthBloc>().userEntity!.userName,
             "middle_name": "",
@@ -44,7 +44,7 @@ class PaymentTap extends StatelessWidget {
               "number": dl.get<AuthBloc>().userEntity!.phoneNumber
             }
           },
-          "source": {"id": "src_card"},
+          "source": const {"id": "src_card"},
         },
         onSuccess: (Map data)async{
           await dl.get<NavigationService>().navigateTo('/PaymentDone');

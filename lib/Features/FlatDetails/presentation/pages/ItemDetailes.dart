@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:realestate/Core/AppTheme/Strings.dart';
 import 'package:realestate/Features/FavouriteIcon/presentation/widgets/favourite_icon_button.dart';
+import 'package:realestate/Features/FlatDetails/data/remote/models/DescriptionModel.dart';
 import 'package:realestate/Features/FlatDetails/data/remote/models/HotelPhotoModel.dart';
 import 'package:realestate/Features/FlatDetails/presentation/manager/HotelDetailsBloc/HotelDetailsBloc.dart';
 import 'package:realestate/Features/Rooms/presentation/pages/HotelRooms/HotelRoomsPage.dart';
@@ -15,7 +16,9 @@ import '../../../../Core/ReusableComponantes.dart';
 import '../../../../DependencyInjection.dart';
 import '../../../FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite_cubit.dart';
 import '../../../SearchForm/domain/entities/Hotel.dart';
+import '../../data/remote/models/HotelDetailsModel.dart';
 import '../manager/HotelDetailsBloc/HotelDetailsState.dart';
+import '../widgets/HotelDetailsBody.dart';
 
 
 class ItemDetails extends StatefulWidget {
@@ -45,20 +48,7 @@ class _ItemDetailsState extends State<ItemDetails> {
               return NoConnectionImage(eventCommand: dl.get<HotelDetailsBloc>());
             }
             else{
-               return ListView(
-                children: [
-                  buildImageSlider(state, context),
-                  SizedBox(height: 30.h,),
-                  buildItemInfo(color: primaryColor,hotelDetailsModel: state.hotelDetailsModel!,hotelModel: widget.hotelModel),
-                  SizedBox(height: 14.h,),
-                  Padding(
-                    padding: EdgeInsets.only(left: 20.w),
-                    child: Text(state.hotelDescriptionModel!.description.toString(),style: TextStyle(
-                      color: const Color(0xff9197A2),fontSize: 16.sp,fontWeight: FontWeight.w400,height: 27.h/16,
-                    ),),
-                  )
-                ],
-              );
+               return HotelDetailsBody(hotelDescriptionModel: state.hotelDescriptionModel!, hotelDetailsModel: state.hotelDetailsModel!, hotelPhotoModels: state.hotelPhotoModel!, hotel: state.hotelModel!);
             }
           },
           listener: (context, state) {
@@ -79,92 +69,4 @@ class _ItemDetailsState extends State<ItemDetails> {
         ));
   }
 
-  SizedBox buildImageSlider(HotelDetailsState state, BuildContext context) {
-    return SizedBox(
-      height: 405.h,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          SliderOfHotelImages(hotelPhotoModels: state.hotelPhotoModel!),
-          Positioned(
-              bottom: 0,
-              left: 20.w,
-              right: 20.w,
-              child: RowOfButtonAndIconButton(hotel: widget.hotelModel,)
-          ),
-          const BackButton()
-        ],
-      ),
-    );
-  }
-}
-
-class RowOfButtonAndIconButton extends StatelessWidget {
-  final Hotel hotel;
-  const RowOfButtonAndIconButton({
-    required this.hotel,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 254.w,
-          height: 60.h,
-          child: ElevatedButton(onPressed: () async{
-            dl<HotelDetailsBloc>().add(FetchRoomsEvent(currency: hotel.currencyCode!,hotelId:hotel.hotelId! ));
-          }, child: const Text(showRooms)),
-        ),
-        const Spacer(),
-        FavouriteIconButton(hotelModel: hotel),
-      ],
-    );
-  }
-}
-
-class BackButton extends StatelessWidget {
-  const BackButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-        top: 20.h,left: 20.w,
-        child: GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: const Icon(Icons.arrow_back_outlined,color: Colors.black,size: 25,))
-    );
-  }
-}
-
-class SliderOfHotelImages extends StatelessWidget {
-  final List<HotelPhotoModel> hotelPhotoModels;
-  const SliderOfHotelImages({
-    required this.hotelPhotoModels,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 375.h,
-      child: PageView.builder(
-          itemCount: hotelPhotoModels.length,
-          pageSnapping: true,
-          itemBuilder: (context,index){
-            return  Container(
-              height: 375.h,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: NetworkImage(hotelPhotoModels[index].urlMax!)
-                  )
-              ),
-            );
-          }),
-    );
-  }
 }
