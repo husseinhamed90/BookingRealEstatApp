@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tap_payment/flutter_tap_payment.dart';
+import '../../../../Core/NavigationService.dart';
 import '../../../../DependencyInjection.dart';
 import '../../../Authentication/presentation/manager/auth_bloc.dart';
 import '../../../FlatDetails/data/remote/models/HotelBlocksModel.dart';

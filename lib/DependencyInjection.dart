@@ -22,6 +22,7 @@ import 'package:realestate/Features/FlatDetails/domain/use_cases/FetchHotelDetai
 import 'package:realestate/Features/FlatDetails/domain/use_cases/FetchHotelRoomsUseCase.dart';
 import 'package:realestate/Features/SearchForm/domain/use_cases/FetchNearestHotelsUseCase.dart';
 import 'package:realestate/Features/SearchForm/presentation/manager/HotelsByCoordinatedBloc/hotels_by_coordinates_bloc.dart';
+import 'Core/NavigationService.dart';
 import 'Features/FavouriteIcon/data/data_sources/LocalDataSource/HiveDataSource.dart';
 import 'Features/FavouriteIcon/data/repositories/FirebaseDataSourceRepo.dart';
 import 'Features/FavouriteIcon/data/repositories/HiveDataSourceRepo.dart';
@@ -30,15 +31,10 @@ import 'Features/FlatDetails/data/remote/data_sources/RemoteHotelDetailsDataSour
 import 'Features/SearchForm/domain/entities/Hotel.dart';
 
 final dl = GetIt.instance;
-class NavigationService {
-  final GlobalKey<NavigatorState> navigatorKey =
-  GlobalKey<NavigatorState>();
-  Future<dynamic> navigateTo(String routeName) {
-    return navigatorKey.currentState!.pushNamedAndRemoveUntil(routeName,(Route<dynamic> route) => false);
-  }
-}
-init(){
 
+
+
+init(){
   Hive.registerAdapter(HotelAdapter());
   Hive.registerAdapter(CompositePriceBreakdownAdapter());
   Hive.registerAdapter(GrossAmountAdapter());
