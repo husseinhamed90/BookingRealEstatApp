@@ -6,7 +6,7 @@ import 'package:realestate/Features/Authentication/data/remote/data_sources/Auth
 import 'package:realestate/Features/Authentication/presentation/manager/auth_bloc.dart';
 import 'package:realestate/Features/FavouriteIcon/data/data_sources/RemoteDataSource/FirebaseDataSource.dart';
 import 'package:realestate/Features/FlatDetails/data/repositories/RemoteHotelDetailsRepository.dart';
-import 'package:realestate/Features/FlatDetails/presentation/manager/SearchResultsBloc/HotelDetailsBloc.dart';
+import 'package:realestate/Features/FlatDetails/presentation/manager/HotelDetailsBloc/HotelDetailsBloc.dart';
 import 'package:realestate/Features/SearchFilters/data/remote/data_sources/RemoteDataSource.dart';
 import 'package:realestate/Features/SearchFilters/data/repositories/LocationsRepository.dart';
 import 'package:realestate/Features/SearchFilters/domain/use_cases/FetchLocationsUseCase.dart';

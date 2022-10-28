@@ -4,15 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:realestate/Core/AppTheme/Strings.dart';
-import 'package:realestate/Features/FlatDetails/presentation/manager/SearchResultsBloc/HotelDetailsState.dart';
+import 'package:realestate/Features/FavouriteIcon/presentation/widgets/favourite_icon_button.dart';
+import 'package:realestate/Features/FlatDetails/data/remote/models/HotelPhotoModel.dart';
+import 'package:realestate/Features/FlatDetails/presentation/manager/HotelDetailsBloc/HotelDetailsBloc.dart';
 import 'package:realestate/Features/Rooms/presentation/pages/HotelRooms/HotelRoomsPage.dart';
+import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 import '../../../../Core/AppTheme/AppColors.dart';
 import '../../../../Core/ResuableWidgets/NoConnectionImage.dart';
 import '../../../../Core/ReusableComponantes.dart';
 import '../../../../DependencyInjection.dart';
 import '../../../FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite_cubit.dart';
 import '../../../SearchForm/domain/entities/Hotel.dart';
-import '../manager/SearchResultsBloc/HotelDetailsBloc.dart';
+import '../manager/HotelDetailsBloc/HotelDetailsState.dart';
 
 
 class ItemDetails extends StatefulWidget {
@@ -25,14 +28,10 @@ class ItemDetails extends StatefulWidget {
 
 class _ItemDetailsState extends State<ItemDetails> {
 
-  late Function onTryAgain;
   @override
   void initState() {
     super.initState();
-    onTryAgain=(){
-      dl<HotelDetailsBloc>().add(FetchHotelDetailsEvent(hotelModel: widget.hotelModel));
-    };
-    onTryAgain();
+    dl<HotelDetailsBloc>().add(FetchHotelDetailsEvent(hotelModel: widget.hotelModel));
   }
   @override
   Widget build(BuildContext context) {
@@ -43,90 +42,12 @@ class _ItemDetailsState extends State<ItemDetails> {
               return buildDownloadIndicator(context);
             }
             else if(state.errorMessage!=null||state.hotelDetailsModel==null||state.hotelDescriptionModel==null||state.hotelPhotoModel==null){
-              return  NoConnectionImage(onTryAgain: () {
-                onTryAgain();
-              },);
+              return NoConnectionImage(eventCommand: dl.get<HotelDetailsBloc>());
             }
             else{
                return ListView(
                 children: [
-                  SizedBox(
-                    height: 405.h,
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        SizedBox(
-                          height: 375.h,
-                          child: PageView.builder(
-                              itemCount: state.hotelPhotoModel!.length,
-                              pageSnapping: true,
-                              itemBuilder: (context,index){
-                                return  Container(
-                                  height: 375.h,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          fit: BoxFit.fill,
-                                          image: NetworkImage(state.hotelPhotoModel![index].urlMax!)
-                                      )
-                                  ),
-                                );
-                              }),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          left: 20.w,
-                          right: 20.w,
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 254.w,
-                                height: 60.h,
-                                child: ElevatedButton(onPressed: () async{
-                                  onTryAgain=(){
-                                    dl<HotelDetailsBloc>().add(FetchRoomsEvent(currency: widget.hotelModel.currencyCode!,hotelId:widget.hotelModel.hotelId! ));
-                                  };
-                                  onTryAgain();
-                                }, child: const Text(showRooms)),
-                              ),
-                              const Spacer(),
-                              BlocBuilder<FavouriteCubit,FavouriteState>(
-                                builder: (context, state) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      context.read<FavouriteCubit>().updateList(widget.hotelModel);
-                                    },
-                                    child: Card(
-                                      elevation: 0.5,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(100),
-                                      ),
-                                      child:  Container(
-                                          decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          height: 40.h,width: 40.h,
-                                          child: Padding(
-                                            padding:  EdgeInsets.all(12.h),
-                                            child: SvgPicture.asset(fillHeartIconAsset,color: context.watch<FavouriteCubit>().getCorrectIconColor(widget.hotelModel))),
-                                          )
-                                      ),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                            top: 20.h,left: 20.w,
-                            child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Icon(Icons.arrow_back_outlined,color: Colors.black,size: 25,)))
-                      ],
-                    ),
-                  ),
+                  buildImageSlider(state, context),
                   SizedBox(height: 30.h,),
                   buildItemInfo(color: primaryColor,hotelDetailsModel: state.hotelDetailsModel!,hotelModel: widget.hotelModel),
                   SizedBox(height: 14.h,),
@@ -145,7 +66,6 @@ class _ItemDetailsState extends State<ItemDetails> {
               Navigator.push(context, MaterialPageRoute(builder: (context) => HotelRoomsPage(hotelBlockModel: state.hotelBlockModel!),));
             }
             else if(state.errorMessage!=null){
-
               final snackBar = SnackBar(
                 content: Text(state.errorMessage!.message),
                 action: SnackBarAction(
@@ -157,5 +77,94 @@ class _ItemDetailsState extends State<ItemDetails> {
             }
           },
         ));
+  }
+
+  SizedBox buildImageSlider(HotelDetailsState state, BuildContext context) {
+    return SizedBox(
+      height: 405.h,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          SliderOfHotelImages(hotelPhotoModels: state.hotelPhotoModel!),
+          Positioned(
+              bottom: 0,
+              left: 20.w,
+              right: 20.w,
+              child: RowOfButtonAndIconButton(hotel: widget.hotelModel,)
+          ),
+          const BackButton()
+        ],
+      ),
+    );
+  }
+}
+
+class RowOfButtonAndIconButton extends StatelessWidget {
+  final Hotel hotel;
+  const RowOfButtonAndIconButton({
+    required this.hotel,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SizedBox(
+          width: 254.w,
+          height: 60.h,
+          child: ElevatedButton(onPressed: () async{
+            dl<HotelDetailsBloc>().add(FetchRoomsEvent(currency: hotel.currencyCode!,hotelId:hotel.hotelId! ));
+          }, child: const Text(showRooms)),
+        ),
+        const Spacer(),
+        FavouriteIconButton(hotelModel: hotel),
+      ],
+    );
+  }
+}
+
+class BackButton extends StatelessWidget {
+  const BackButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+        top: 20.h,left: 20.w,
+        child: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: const Icon(Icons.arrow_back_outlined,color: Colors.black,size: 25,))
+    );
+  }
+}
+
+class SliderOfHotelImages extends StatelessWidget {
+  final List<HotelPhotoModel> hotelPhotoModels;
+  const SliderOfHotelImages({
+    required this.hotelPhotoModels,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 375.h,
+      child: PageView.builder(
+          itemCount: hotelPhotoModels.length,
+          pageSnapping: true,
+          itemBuilder: (context,index){
+            return  Container(
+              height: 375.h,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: NetworkImage(hotelPhotoModels[index].urlMax!)
+                  )
+              ),
+            );
+          }),
+    );
   }
 }

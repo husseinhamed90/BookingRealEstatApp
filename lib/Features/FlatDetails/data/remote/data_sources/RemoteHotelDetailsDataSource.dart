@@ -61,7 +61,6 @@ class RemoteHotelDetailsDataSource {
           },
         ));
     if (response.statusCode == 200) {
-
       List list = response.data;
       return Right(list.map((photo) => HotelPhotoModel.fromJson(photo)).toList());
     } else {

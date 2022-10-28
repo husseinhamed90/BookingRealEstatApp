@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:realestate/Core/Utils.dart';
 import 'package:realestate/Features/SearchForm/domain/use_cases/FetchNearestHotelsUseCase.dart';
 import '../../../../../Core/AppTheme/Strings.dart';
+import '../../../../../Core/EventCommand.dart';
 import '../../../../../Core/SharedModel/FireMessage.dart';
 import '../../../../../DependencyInjection.dart';
 import '../../../../FlatDetails/data/remote/models/HotelBlocksModel.dart';
@@ -16,10 +17,18 @@ import '../../../data/remote/models/HotelModel.dart';
 part 'hotels_by_coordinates_event.dart';
 part 'hotels_by_coordinates_state.dart';
 
-class HotelsByCoordinatesBloc extends Bloc<HotelsByCoordinatesEvent, HotelsByCoordinatesState> {
+class HotelsByCoordinatesBloc extends Bloc<HotelsByCoordinatesEvent, HotelsByCoordinatesState> implements EventCommand{
+
+  HotelsByCoordinatesEvent ? lastExecutedEvent;
+
+  void setLastExecutedEvent(HotelsByCoordinatesEvent hotelsByCoordinatesEvent){
+    lastExecutedEvent = hotelsByCoordinatesEvent;
+  }
+
   HotelsByCoordinatesBloc() : super(const HotelsByCoordinatesState().copyWith(message: FireMessage(loading))) {
 
     on<FetchHotelsByCoordinatesEvent>((event, emit) async{
+      setLastExecutedEvent(event);
       await handleInternetConnectionStates(
           onSuccessConnection: ()async=>await getNearestHotelsToYourCurrentLocation(emit),
           onFailureConnection: ()=> emit(state.copyWith(errorMessage: FireMessage("No Internet"),message: FireMessage(""))));
@@ -70,4 +79,8 @@ class HotelsByCoordinatesBloc extends Bloc<HotelsByCoordinatesEvent, HotelsByCoo
     return await Geolocator.getCurrentPosition();
   }
 
+  @override
+  void executeCommand() {
+    add(lastExecutedEvent!);
+  }
 }

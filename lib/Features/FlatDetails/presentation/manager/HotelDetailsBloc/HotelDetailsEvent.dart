@@ -1,5 +1,8 @@
 part of 'HotelDetailsBloc.dart';
 
+
+
+
 abstract class HotelDetailsEvent extends Equatable {
   const HotelDetailsEvent();
 }

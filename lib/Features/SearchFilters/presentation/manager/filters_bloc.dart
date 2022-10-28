@@ -2,6 +2,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:realestate/Core/EventCommand.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/sliders_cubit.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 import '../../../../Core/AppTheme/Strings.dart';
@@ -15,16 +16,22 @@ import '../../domain/use_cases/FilterResultsUseCase.dart';
 part 'filters_event.dart';
 part 'filters_state.dart';
 
-class FilteringBloc extends Bloc<LocationsEvent, FilteringState> {
+class FilteringBloc extends Bloc<FilteringEvent, FilteringState> implements EventCommand{
   TextEditingController locationController = TextEditingController();
   TextEditingController startDateController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
   int pageNumber=0;
+  FilteringEvent ? lastExecutedEvent;
+
+  void setLastExecutedEvent(FilteringEvent filteringEvent){
+    lastExecutedEvent = filteringEvent;
+  }
 
   FilteringBloc() : super(FilteringState(message: FireMessage("Initial"),hotels: const [])) {
 
     putInitialStartAndEndDate();
     on<FetchLocationsEvent>((event, emit) async{
+      setLastExecutedEvent(event);
       await handleInternetConnectionStates(
           onSuccessConnection: () async => await getLocations(event, emit),
           onFailureConnection: ()=>  emit(state.copyWith(errorMessage: FireMessage("No Internet"),message: FireMessage("")))
@@ -32,14 +39,17 @@ class FilteringBloc extends Bloc<LocationsEvent, FilteringState> {
     });
 
     on<FetchMore>((event, emit) async{
+      setLastExecutedEvent(event);
       await getMoreData();
     });
 
     on<FireErrorMessageEvent>((event, emit) async{
+      setLastExecutedEvent(event);
       emit(state.copyWith(errorMessage: event.errorMessage,message: FireMessage("")));
     });
 
     on<StartFilterDataEvent>((event, emit) async{
+      setLastExecutedEvent(event);
       await handleInternetConnectionStates(
           onSuccessConnection: () async => await startFilterResults(emit, event),
           onFailureConnection: ()=>  emit(state.copyWith(errorMessage: FireMessage("No Internet"),message: FireMessage("")))
@@ -95,5 +105,10 @@ class FilteringBloc extends Bloc<LocationsEvent, FilteringState> {
   Future<void> getMoreData() async{
     pageNumber++;
     add(StartFilterDataEvent(locations: state.locations!,pageNumber: pageNumber));
+  }
+
+  @override
+  void executeCommand() {
+    add(lastExecutedEvent!);
   }
 }

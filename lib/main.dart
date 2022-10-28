@@ -1,14 +1,11 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:realestate/Core/BottomNavBarBloc/bottom_nav_bar_bloc.dart';
 import 'package:realestate/Features/Authentication/presentation/manager/auth_bloc.dart';
-import 'package:realestate/Features/HomePageLayout/HomePageLayoutPage.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/DatePickerCubit.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/filters_bloc.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/sliders_cubit.dart';
@@ -19,8 +16,8 @@ import 'Core/AppTheme/Themes.dart';
 import 'DependencyInjection.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Features/FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite_cubit.dart';
-import 'Features/FlatDetails/presentation/manager/SearchResultsBloc/HotelDetailsBloc.dart';
-import 'SplachScreenPage.dart';
+import 'package:realestate/Features/FlatDetails/presentation/manager/HotelDetailsBloc/HotelDetailsBloc.dart';
+import 'Features/SplashScreen/SplachScreenPage.dart';
 import 'firebase_options.dart';
 
 void main()async {

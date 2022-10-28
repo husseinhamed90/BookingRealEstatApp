@@ -37,10 +37,8 @@ class SearchForm extends StatelessWidget {
         if(state.message!.message==loading){
           return buildDownloadIndicator(context);
         }
-        if(state.errorMessage!=null||state.hotels==null){
-          return  NoConnectionImage(onTryAgain: () {
-            dl<HotelsByCoordinatesBloc>().add(FetchHotelsByCoordinatesEvent());
-          },);
+        if(state.errorMessage!=null){
+          return  NoConnectionImage(eventCommand: dl.get<HotelsByCoordinatesBloc>());
         }
         else{
           return ListView(

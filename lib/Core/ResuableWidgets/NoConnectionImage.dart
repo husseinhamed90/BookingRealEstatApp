@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../DependencyInjection.dart';
+import '../../Features/FlatDetails/presentation/manager/HotelDetailsBloc/HotelDetailsBloc.dart';
+import '../EventCommand.dart';
+
 class NoConnectionImage extends StatelessWidget {
-  final Function onTryAgain;
+  final EventCommand eventCommand;
   const NoConnectionImage({
-    Key? key,required this.onTryAgain
+    required this.eventCommand,
+    Key? key
   }) : super(key: key);
 
   @override
@@ -19,8 +24,8 @@ class NoConnectionImage extends StatelessWidget {
           width: 200.h,
           child: SvgPicture.asset("Assets/Images/wifi.svg"),
         ),
-        ElevatedButton(onPressed: () async{
-          await onTryAgain();
+        ElevatedButton(onPressed: () {
+          eventCommand.executeCommand();
         }, child: const Text("Try Again"))
       ],
     ));

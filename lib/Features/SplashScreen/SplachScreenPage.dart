@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:realestate/Core/AppTheme/AppColors.dart';
 import 'package:realestate/Features/Authentication/presentation/pages/SignIn/SignInScreen.dart';
-import 'Core/AppTheme/Strings.dart';
+import '../../Core/AppTheme/Strings.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({Key? key}) : super(key: key);

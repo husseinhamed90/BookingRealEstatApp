@@ -4,11 +4,10 @@ import 'package:equatable/equatable.dart';
 import 'package:realestate/Features/FlatDetails/data/remote/models/DescriptionModel.dart';
 import 'package:realestate/Features/FlatDetails/data/remote/models/HotelBlocksModel.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/DatePickerCubit.dart';
-import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 import 'package:realestate/Features/FlatDetails/domain/use_cases/FetchHotelDescriptionUseCase.dart';
 import 'package:realestate/Features/FlatDetails/domain/use_cases/FetchHotelDetailsUseCase.dart';
-
 import '../../../../../Core/AppTheme/Strings.dart';
+import '../../../../../Core/EventCommand.dart';
 import '../../../../../Core/SharedModel/FireMessage.dart';
 import '../../../../../Core/Utils.dart';
 import '../../../../../DependencyInjection.dart';
@@ -20,10 +19,16 @@ import 'HotelDetailsState.dart';
 
 part 'HotelDetailsEvent.dart';
 
-class HotelDetailsBloc extends Bloc<HotelDetailsEvent, HotelDetailsState> {
+class HotelDetailsBloc extends Bloc<HotelDetailsEvent, HotelDetailsState> implements EventCommand{
 
+  HotelDetailsEvent ? lastExecutedEvent;
+
+  void setLastExecutedEvent(HotelDetailsEvent hotelDetailsEvent){
+    lastExecutedEvent = hotelDetailsEvent;
+  }
   HotelDetailsBloc() : super(const HotelDetailsState().copyWith(message: FireMessage(loading),hotelDetailsModel: null,hotelDescriptionModel: null,hotelPhotoModel: null)){
     on<FetchHotelDetailsEvent>((event, emit) async {
+      setLastExecutedEvent(event);
       await handleInternetConnectionStates(
           onSuccessConnection: ()async => await getHotelDetails(emit, event),
           onFailureConnection: ()=>  emit(state.copyWith(errorMessage: FireMessage("No Internet"),message: FireMessage("")))
@@ -39,6 +44,7 @@ class HotelDetailsBloc extends Bloc<HotelDetailsEvent, HotelDetailsState> {
     });
 
     on<FetchRoomsEvent>((event, emit) async {
+      setLastExecutedEvent(event);
       await handleInternetConnectionStates(
           onSuccessConnection: ()async => await getHotelRooms(emit, event),
           onFailureConnection: ()=> emit(state.copyWith(message: FireMessage(""),errorMessage: FireMessage("No Internet"),hotelPhotoModel: state.hotelPhotoModel,hotelDetailsModel: state.hotelDetailsModel,hotelDescriptionModel: state.hotelDescriptionModel,hotelModel: state.hotelModel,isFav: state.isFav))
@@ -48,7 +54,6 @@ class HotelDetailsBloc extends Bloc<HotelDetailsEvent, HotelDetailsState> {
   }
 
   Future<void> getHotelRooms(Emitter<HotelDetailsState> emit, FetchRoomsEvent event) async {
-
     emit(state.copyWith(message: FireMessage(loading),hotelPhotoModel: state.hotelPhotoModel,hotelDetailsModel: state.hotelDetailsModel,hotelDescriptionModel: state.hotelDescriptionModel,hotelModel: state.hotelModel,isFav: state.isFav));
     final Either<FireMessage, List<HotelBlocksModel>> list;
     if(dl.get<DatePickerCubit>().startData==null||dl.get<DatePickerCubit>().endData==null){
@@ -91,5 +96,10 @@ class HotelDetailsBloc extends Bloc<HotelDetailsEvent, HotelDetailsState> {
     }, (right) {
       add(FetchHotelDescriptionEvent(hotelModel: event.hotelModel,hotelDetailsModel: right));
     });
+  }
+
+  @override
+  void executeCommand() {
+    add(lastExecutedEvent!);
   }
 }

@@ -22,7 +22,6 @@ class SearchFiltersPage extends StatelessWidget {
       ),
       body: BlocConsumer<FilteringBloc, FilteringState>(
         listener: (context, state) {
-          print(state.errorMessage);
           if (state.message!.message == "result loaded") {
             Navigator.push(
                 context,
