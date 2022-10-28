@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hive/hive.dart';
-import 'package:realestate/DependencyInjection.dart';
-import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:realestate/Features/SearchForm/domain/entities/Hotel.dart';
-
-import '../../Features/FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite_cubit.dart';
 import '../../Features/FavouriteIcon/presentation/widgets/favourite_icon_button.dart';
 import '../../Features/FlatDetails/presentation/pages/ItemDetailes.dart';
-import '../AppTheme/AppColors.dart';
 import '../AppTheme/Strings.dart';
 
 class BuildItem extends StatelessWidget {

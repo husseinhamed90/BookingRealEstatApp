@@ -1,4 +1,3 @@
-
 const String BASE_URL ="https://booking-com.p.rapidapi.com/v1/hotels";
 const String logoImageAsset ="Assets/Images/logo.svg";
 const String backgroundImageAsset="Assets/Images/loginbackground.svg";

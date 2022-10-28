@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-
 import '../Features/FlatDetails/data/remote/models/HotelBlocksModel.dart';
 import '../Features/SearchFilters/presentation/manager/DatePickerCubit.dart';
 import '../Features/SearchForm/domain/entities/Room.dart';

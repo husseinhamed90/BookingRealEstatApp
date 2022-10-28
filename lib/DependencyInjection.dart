@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:realestate/Core/BottomNavBarBloc/bottom_nav_bar_bloc.dart';
@@ -31,8 +30,6 @@ import 'Features/FlatDetails/data/remote/data_sources/RemoteHotelDetailsDataSour
 import 'Features/SearchForm/domain/entities/Hotel.dart';
 
 final dl = GetIt.instance;
-
-
 
 init(){
   Hive.registerAdapter(HotelAdapter());

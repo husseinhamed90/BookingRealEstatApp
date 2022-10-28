@@ -12,7 +12,7 @@ class DatePickerCubit extends Cubit<DatePickerState> {
 
     }
     else{
-      endData=startData!.add(Duration(days: 1));
+      endData=startData!.add(const Duration(days: 1));
     }
     emit(StartDataFilled());
   }

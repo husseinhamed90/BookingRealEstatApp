@@ -28,7 +28,8 @@ class PaymentProcessEnd extends StatelessWidget {
               CustomSizedBox(160),
               Container(
                   padding: EdgeInsets.symmetric(horizontal: 90.w)
-                  ,child: SvgPicture.asset("Assets/Images/EndProcess.svg",color: primaryColor,height: 150.h,)),
+                  ,child: SvgPicture.asset("Assets/Images/EndProcess.svg",color: primaryColor,height: 150.h,)
+              ),
               CustomSizedBox(30),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 60.w),

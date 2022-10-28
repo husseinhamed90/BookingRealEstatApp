@@ -117,6 +117,16 @@ Padding buildItemInfo({required Color color,required HotelDetailsModel hotelDeta
   );
 }
 
+void showSnackBar(String message, BuildContext context) {
+  final snackBar = SnackBar(
+    content: Text(message),
+    action: SnackBarAction(
+      label: 'Undo',
+      onPressed: () {},
+    ),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
 
 Text drawLabelText(String label) {
   return Text(label,style: TextStyle(

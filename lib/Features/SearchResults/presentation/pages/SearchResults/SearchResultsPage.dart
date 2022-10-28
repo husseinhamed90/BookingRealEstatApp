@@ -1,18 +1,14 @@
 
 import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:realestate/Core/AppTheme/AppColors.dart';
-import 'package:realestate/Features/HomePageLayout/HomePageLayoutPage.dart';
 import 'package:realestate/Features/SearchFilters/data/remote/data_sources/RemoteDataSource.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/filters_bloc.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 import '../../../../../Core/AppTheme/Strings.dart';
-import '../../../../../Core/ResuableWidgets/BottomNavBar.dart';
-import '../../../../../Core/ResuableWidgets/BuildItem.dart';
 import '../../../../../DependencyInjection.dart';
-import '../../../../Authentication/presentation/pages/SignIn/SignInWidgets/CustomTextField.dart';
+import '../../widgets/HotelsListPageHeader.dart';
+import '../../widgets/HotelsListResult.dart';
 
 
 class SearchResults extends StatefulWidget {
@@ -58,42 +54,13 @@ class _SearchResultsState extends State<SearchResults> {
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
-          SliverToBoxAdapter(
-            child: Container(
-                color:primaryColor,
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: CustomTextField(isSecure: false,isClickable: false,controller: dl<FilteringBloc>().locationController ,iconName: "Assets/Icons/searchbar.svg",hindText: dl<FilteringBloc>().locationController.text,readOnly: true,haveBorder: false,textAlign: TextAlign.left),
-                )
-            ),
-          ),
+          const HotelsListPageHeader(),
           SliverToBoxAdapter(
             child: SizedBox(height: 20.h,),
           ),
-          SliverPadding(
-              padding: EdgeInsets.only(right: 20.w,left: 20.w),
-              sliver: BlocConsumer<FilteringBloc,FilteringState>(
-                builder: (context, state) {
-                  return SliverList(delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                        if(index==widget.hotels.length){
-                          return SizedBox(
-                              height: 40.w,
-                              width: 40.w,
-                              child: const Center(child: CircularProgressIndicator(color: primaryColor),));
-                        }
-                        else{
-                          return BuildItem(bottomPaddingValue: 0,hotelModel: widget.hotels[index],);
-                        }
-                      },childCount:widget.hotels.length+1)
-                  );
-                },
-                listener: (context, state) {},
-              )
-          )
+          HotelsListResult(hotels: widget.hotels,)
         ],
       ),
     );
   }
 }
-

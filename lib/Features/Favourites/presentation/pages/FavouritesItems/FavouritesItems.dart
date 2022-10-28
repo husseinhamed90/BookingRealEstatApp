@@ -5,7 +5,6 @@ import 'package:realestate/Core/AppTheme/AppColors.dart';
 import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/ResuableWidgets/BuildItem.dart';
 import '../../../../../Core/ReusableComponantes.dart';
-import '../../../../../DependencyInjection.dart';
 import '../../../../FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite_cubit.dart';
 import '../../../../SearchForm/data/remote/models/HotelModel.dart';
 

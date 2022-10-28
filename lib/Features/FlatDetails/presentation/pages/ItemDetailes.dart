@@ -1,22 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:realestate/Core/AppTheme/Strings.dart';
-import 'package:realestate/Features/FavouriteIcon/presentation/widgets/favourite_icon_button.dart';
-import 'package:realestate/Features/FlatDetails/data/remote/models/DescriptionModel.dart';
-import 'package:realestate/Features/FlatDetails/data/remote/models/HotelPhotoModel.dart';
 import 'package:realestate/Features/FlatDetails/presentation/manager/HotelDetailsBloc/HotelDetailsBloc.dart';
 import 'package:realestate/Features/Rooms/presentation/pages/HotelRooms/HotelRoomsPage.dart';
-import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
-import '../../../../Core/AppTheme/AppColors.dart';
 import '../../../../Core/ResuableWidgets/NoConnectionImage.dart';
 import '../../../../Core/ReusableComponantes.dart';
 import '../../../../DependencyInjection.dart';
-import '../../../FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite_cubit.dart';
 import '../../../SearchForm/domain/entities/Hotel.dart';
-import '../../data/remote/models/HotelDetailsModel.dart';
 import '../manager/HotelDetailsBloc/HotelDetailsState.dart';
 import '../widgets/HotelDetailsBody.dart';
 
@@ -56,17 +46,11 @@ class _ItemDetailsState extends State<ItemDetails> {
               Navigator.push(context, MaterialPageRoute(builder: (context) => HotelRoomsPage(hotelBlockModel: state.hotelBlockModel!),));
             }
             else if(state.errorMessage!=null){
-              final snackBar = SnackBar(
-                content: Text(state.errorMessage!.message),
-                action: SnackBarAction(
-                  label: 'Undo',
-                  onPressed: () {},
-                ),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              showSnackBar(state.errorMessage!.message, context);
             }
           },
         ));
   }
+
 
 }

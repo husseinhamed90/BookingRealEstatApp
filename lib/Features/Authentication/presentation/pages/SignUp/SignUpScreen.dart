@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -58,7 +57,7 @@ class SignUpScreen extends StatelessWidget {
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  const HomePageLayoutPage(),));
                     }
                     else if(state.message!.message=="Error"){
-                      showSnackBar(state, context);
+                      showSnackBar(state.message!.message, context);
                     }
                   },
                   builder: (context, state) {
@@ -101,17 +100,6 @@ class SignUpScreen extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  void showSnackBar(AuthState state, BuildContext context) {
-     final snackBar = SnackBar(
-      content: Text(state.message!.message),
-      action: SnackBarAction(
-        label: 'Undo',
-        onPressed: () {},
-      ),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
 
