@@ -1,4 +1,5 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -16,8 +17,21 @@ String getDiscount(HotelBlocksModel hotelBlocksModel,int blockIndex) {
   }
 }
 
+Future<String> getApiKey() async {
+  String apiKey ="";
+  await FirebaseFirestore.instance.collection("ApiKey").doc("ApiKey").get().then((value) {
+    apiKey = value.data()!['key'];
+  });
+  return apiKey;
+}
+
+
 Future<bool> getInternetConnectionState() async =>  await InternetConnectionChecker().hasConnection;
 
+
+String getDateInFormat(DateTime  dateTime){
+  return "${dateTime.year}-${dateTime.month}-${dateTime.day}";
+}
 
 String getDescription(HotelBlocksModel hotelBlocksModel,int blockIndex){
   return hotelBlocksModel.rooms![getKeyOfRoom(hotelBlocksModel,blockIndex)]!.description!;

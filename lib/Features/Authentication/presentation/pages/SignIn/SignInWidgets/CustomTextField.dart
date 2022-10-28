@@ -9,28 +9,28 @@ import 'package:realestate/Features/SearchFilters/presentation/manager/filters_b
 import 'package:realestate/Features/SearchFilters/presentation/pages/SearchFilters/SearchFiltersPage.dart';
 
 import '../../../../../../Core/AppTheme/Themes.dart';
+import '../../../../../../Core/ReusableComponantes.dart';
+import '../../../../../../Core/Utils.dart';
 
 class CustomTextField extends StatelessWidget {
-  TextAlign textAlign;
-  String? iconName;
-  String hindText;
-  bool isClickable;
-  bool isSecure;
-  bool haveIcon=true;
-  bool readOnly,haveBorder;
-  String start="",end="";
+  final TextAlign textAlign;
+  final String? iconName;
+  final String hindText;
+  final bool isClickable;
+  final bool isSecure;
+  final bool haveIcon;
+  final bool readOnly,haveBorder;
+  final String start="",end="";
 
-  TextEditingController ?controller;
-  CustomTextField({
+  final TextEditingController ?controller;
+  const CustomTextField({
     Key? key,required this.isSecure,required this.isClickable,this.iconName,required this.hindText,required this.readOnly,required this.haveBorder,required this.textAlign,required this.controller,this.haveIcon=true
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DatePickerCubit,DatePickerState>(
-      listener: (context, state) {
-
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         return TextFormField(
           obscureText: isSecure,
@@ -41,10 +41,10 @@ class CustomTextField extends StatelessWidget {
           onTap: () {
             if(isClickable){
               if(hindText==chooseStartDate){
-                choseStartDate(context);
+                choseStartDateFromDatePicker(context);
               }
               else if(hindText==chooseEndDate){
-                choseEndDate(context);
+                choseEndDateFromDatePicker(context);
               }
               else{
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchFiltersPage(),));
@@ -92,55 +92,4 @@ class CustomTextField extends StatelessWidget {
       },
     );
   }
-
-
-  void choseStartDate(BuildContext context) {
-    buildShowDatePicker(context,"start").then((value) {
-
-      if(value!=null){
-        String start = getDateInFormat(value);
-        context.read<DatePickerCubit>().setStartDate(value);
-        context.read<FilteringBloc>().startDateController.text=start;
-        if(context.read<DatePickerCubit>().endData==null){
-          context.read<DatePickerCubit>().endData=context.read<DatePickerCubit>().startData!.add(const Duration(days: 1));
-          context.read<FilteringBloc>().endDateController.text=getDateInFormat(context.read<DatePickerCubit>().startData!.add(const Duration(days: 1)));
-        }
-        else{
-          if(context.read<DatePickerCubit>().startData!.isAfter(context.read<DatePickerCubit>().endData!)){
-            context.read<FilteringBloc>().endDateController.text =getDateInFormat(context.read<DatePickerCubit>().startData!.add(Duration(days: 1)));
-          }
-          else{
-            context.read<FilteringBloc>().endDateController.text =getDateInFormat(context.read<DatePickerCubit>().endData!);
-          }
-        }
-      }
-    });
-  }
-  
-  void choseEndDate(BuildContext context) {
-     buildShowDatePicker(context,"end").then((value) {
-      if(value!=null){
-        String end = getDateInFormat(value);
-        context.read<DatePickerCubit>().setEndDate(value);
-        context.read<FilteringBloc>().endDateController.text=end;
-      }
-    });
-  }
-
-
-
-  Future<DateTime?> buildShowDatePicker(BuildContext context,String dateType) {
-    return showDatePicker(
-        builder: (context, child) => datePickerTheme(context, child),context: context,
-        initialDate: dateType =="start"? context.read<DatePickerCubit>().startData==null?DateTime.now():context.read<DatePickerCubit>().startData!
-            :context.read<DatePickerCubit>().startData!.add(const Duration(days: 1)),
-        firstDate: dateType =="start"?DateTime.now(): context.read<DatePickerCubit>().startData!.add(const Duration(days: 1)),
-        lastDate: DateTime(2100)
-    );
-  }
-
-  String getDateInFormat(DateTime  dateTime){
-    return "${dateTime.year}-${dateTime.month}-${dateTime.day}";
-  }
-
 }

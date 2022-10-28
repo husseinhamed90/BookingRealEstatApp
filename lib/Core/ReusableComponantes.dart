@@ -1,19 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../Features/FlatDetails/data/remote/models/HotelDetailsModel.dart';
+import '../Features/SearchFilters/presentation/manager/DatePickerCubit.dart';
+import '../Features/SearchFilters/presentation/manager/filters_bloc.dart';
 import '../Features/SearchForm/domain/entities/Hotel.dart';
 import 'AppTheme/AppColors.dart';
-
-Widget getTextFieldWithLabel({required bool isClickable,required bool readOnly,required String label,required String hintText,required TextAlign textAlign,TextEditingController ?controller, bool haveIcon=true}){
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      drawLabelText(label),
-      SizedBox(height: 6.h,),
-    ],
-  );
-}
+import 'AppTheme/Themes.dart';
+import 'Utils.dart';
 
 Widget buildCustomText({required String text,required double size,required FontWeight fontWeight}){
   return Text(
@@ -34,26 +28,7 @@ Center buildTextFieldLabelText({required String text,required int fontSize,requi
         )),
   );
 }
-TextField buildTextField({bool haveBorder=false,double ?height, int maxLines=1,}) {
-  return TextField(
-      maxLines: maxLines,
-      textAlign: TextAlign.left,
-      style: const TextStyle(
-      ),
-      decoration:InputDecoration(
-        contentPadding:EdgeInsets.only(left: 20.w,top: 26.h),
-        border : OutlineInputBorder(borderRadius: BorderRadius.all( Radius.circular(8.0.r),),
-          borderSide: BorderSide(
-            width: 1.w,
-          ),
-        ),
-        fillColor: secondColor,
-        //filled: haveBorder,
-        hintText: 'Enter something',
-        hintStyle: const TextStyle(color: Colors.red)
-      )
-  );
-}
+
 SizedBox buildDownloadIndicator(BuildContext context) {
   return SizedBox(
       height: MediaQuery.of(context).size.height,
@@ -62,13 +37,6 @@ SizedBox buildDownloadIndicator(BuildContext context) {
   );
 }
 
-Future<String> getApiKey() async {
-  String apiKey ="";
-  await FirebaseFirestore.instance.collection("ApiKey").doc("ApiKey").get().then((value) {
-    apiKey = value.data()!['key'];
-  });
-  return apiKey;
-}
 Padding buildItemInfo({required Color color,required HotelDetailsModel hotelDetailsModel,required Hotel hotelModel}) {
   return Padding(
     padding: EdgeInsets.only(left: 20.w),
@@ -114,6 +82,48 @@ Padding buildItemInfo({required Color color,required HotelDetailsModel hotelDeta
         ),
       ],
     ),
+  );
+}
+
+void choseStartDateFromDatePicker(BuildContext context) {
+  buildShowDatePicker(context,"start").then((value) {
+    if(value!=null){
+      String start = getDateInFormat(value);
+      context.read<DatePickerCubit>().setStartDate(value);
+      context.read<FilteringBloc>().startDateController.text=start;
+      if(context.read<DatePickerCubit>().endData==null){
+        context.read<DatePickerCubit>().endData=context.read<DatePickerCubit>().startData!.add(const Duration(days: 1));
+        context.read<FilteringBloc>().endDateController.text=getDateInFormat(context.read<DatePickerCubit>().startData!.add(const Duration(days: 1)));
+      }
+      else{
+        if(context.read<DatePickerCubit>().startData!.isAfter(context.read<DatePickerCubit>().endData!)){
+          context.read<FilteringBloc>().endDateController.text =getDateInFormat(context.read<DatePickerCubit>().startData!.add(Duration(days: 1)));
+        }
+        else{
+          context.read<FilteringBloc>().endDateController.text =getDateInFormat(context.read<DatePickerCubit>().endData!);
+        }
+      }
+    }
+  });
+}
+
+void choseEndDateFromDatePicker(BuildContext context) {
+  buildShowDatePicker(context,"end").then((value) {
+    if(value!=null){
+      String end = getDateInFormat(value);
+      context.read<DatePickerCubit>().setEndDate(value);
+      context.read<FilteringBloc>().endDateController.text=end;
+    }
+  });
+}
+
+Future<DateTime?> buildShowDatePicker(BuildContext context,String dateType) {
+  return showDatePicker(
+      builder: (context, child) => datePickerTheme(context, child),context: context,
+      initialDate: dateType =="start"? context.read<DatePickerCubit>().startData==null?DateTime.now():context.read<DatePickerCubit>().startData!
+          :context.read<DatePickerCubit>().startData!.add(const Duration(days: 1)),
+      firstDate: dateType =="start"?DateTime.now(): context.read<DatePickerCubit>().startData!.add(const Duration(days: 1)),
+      lastDate: DateTime(2100)
   );
 }
 

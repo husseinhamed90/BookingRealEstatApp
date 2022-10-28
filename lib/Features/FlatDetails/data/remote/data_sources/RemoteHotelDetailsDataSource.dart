@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:either_dart/either.dart';
 import '../../../../../Core/AppTheme/Strings.dart';
-import '../../../../../Core/ReusableComponantes.dart';
 import '../../../../../Core/SharedModel/FireMessage.dart';
+import '../../../../../Core/Utils.dart';
 import '../models/DescriptionModel.dart';
 import '../models/HotelBlocksModel.dart';
 import '../models/HotelDetailsModel.dart';

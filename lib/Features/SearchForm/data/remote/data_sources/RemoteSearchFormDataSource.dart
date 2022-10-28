@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:either_dart/either.dart';
 import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dart';
 import '../../../../../Core/AppTheme/Strings.dart';
-import '../../../../../Core/ReusableComponantes.dart';
 import '../../../../../Core/SharedModel/FireMessage.dart';
+import '../../../../../Core/Utils.dart';
 
 class RemoteSearchFormDataSource{
 
