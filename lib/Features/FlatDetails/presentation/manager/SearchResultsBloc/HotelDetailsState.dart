@@ -11,6 +11,7 @@ import '../../../../SearchForm/data/remote/models/HotelModel.dart';
 
 
 class HotelDetailsState extends Equatable{
+  final FireMessage ?message;
   final FireMessage ?errorMessage;
   final bool ?isFav;
   final List<HotelBlocksModel>?hotelBlockModel;
@@ -18,9 +19,10 @@ class HotelDetailsState extends Equatable{
   final Hotel? hotelModel;
   final HotelDescriptionModel? hotelDescriptionModel;
   final List<HotelPhotoModel>?hotelPhotoModel;
-  const HotelDetailsState({this.errorMessage, this.hotelBlockModel, this.hotelDetailsModel,this.hotelModel,this.hotelDescriptionModel,this.hotelPhotoModel,this.isFav});
+  const HotelDetailsState({this.errorMessage,this.message, this.hotelBlockModel, this.hotelDetailsModel,this.hotelModel,this.hotelDescriptionModel,this.hotelPhotoModel,this.isFav});
 
   HotelDetailsState copyWith({
+    FireMessage ?message,
     FireMessage ?errorMessage,
     List<HotelBlocksModel>?hotelBlockModel,
     HotelDetailsModel? hotelDetailsModel,
@@ -32,8 +34,9 @@ class HotelDetailsState extends Equatable{
 
     return HotelDetailsState(
         hotelBlockModel: hotelBlockModel,
-        hotelDetailsModel :hotelDetailsModel,
         errorMessage: errorMessage,
+        hotelDetailsModel :hotelDetailsModel,
+        message: message,
         isFav :isFav,
         hotelModel: hotelModel,
         hotelPhotoModel: hotelPhotoModel,
@@ -41,7 +44,7 @@ class HotelDetailsState extends Equatable{
     );
   }
   @override
-  List<Object?> get props =>[identityHashCode(this),hotelBlockModel,hotelDetailsModel,errorMessage,hotelModel,hotelDescriptionModel,hotelPhotoModel,isFav];
+  List<Object?> get props =>[errorMessage,identityHashCode(this),hotelBlockModel,hotelDetailsModel,message,hotelModel,hotelDescriptionModel,hotelPhotoModel,isFav];
 }
 
 

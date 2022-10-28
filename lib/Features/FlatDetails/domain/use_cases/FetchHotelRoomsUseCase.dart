@@ -7,7 +7,7 @@ class FetchHotelRoomsUseCase{
   RemoteHotelDetailsDataSource remoteHotelDetailsDataSource;
   FetchHotelRoomsUseCase(this.remoteHotelDetailsDataSource);
 
-  Future<Either<FireMessage, List<HotelBlocksModel>>>call({required int hotelId,required String userCurrency})async{
-     return await remoteHotelDetailsDataSource.fetchRoomsOfHotel(hotelId: hotelId, userCurrency: userCurrency);
+  Future<Either<FireMessage, List<HotelBlocksModel>>>call({required DateTime startDate,required DateTime endDate,required int hotelId,required String userCurrency})async{
+     return await remoteHotelDetailsDataSource.fetchRoomsOfHotel(startDate: startDate,endDate: endDate,hotelId: hotelId, userCurrency: userCurrency);
   }
 }

@@ -39,10 +39,10 @@ class _ItemDetailsState extends State<ItemDetails> {
     return Scaffold(
         body: BlocConsumer<HotelDetailsBloc,HotelDetailsState>(
           builder: (context, state) {
-            if(state.errorMessage!.message==loading){
+            if(state.message!.message==loading){
               return buildDownloadIndicator(context);
             }
-            else if(state.errorMessage!.message=="No Internet"||state.hotelDetailsModel==null||state.hotelDescriptionModel==null||state.hotelPhotoModel==null){
+            else if(state.errorMessage!=null||state.hotelDetailsModel==null||state.hotelDescriptionModel==null||state.hotelPhotoModel==null){
               return  NoConnectionImage(onTryAgain: () {
                 onTryAgain();
               },);
@@ -141,10 +141,11 @@ class _ItemDetailsState extends State<ItemDetails> {
             }
           },
           listener: (context, state) {
-            if(state.errorMessage!.message=="Hotel Rooms Loaded"){
+            if(state.message!.message=="Hotel Rooms Loaded"){
               Navigator.push(context, MaterialPageRoute(builder: (context) => HotelRoomsPage(hotelBlockModel: state.hotelBlockModel!),));
             }
-            else if(state.errorMessage!.message=="Error When Fetching Hotel Details"||state.errorMessage!.message=="Error When Fetching Hotels Rooms"){
+            else if(state.errorMessage!=null){
+
               final snackBar = SnackBar(
                 content: Text(state.errorMessage!.message),
                 action: SnackBarAction(

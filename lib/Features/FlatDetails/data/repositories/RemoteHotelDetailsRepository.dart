@@ -17,8 +17,8 @@ class RemoteHotelDetailsRepository extends BaseHotelDetailsRepository{
   }
 
   @override
-  Future<Either<FireMessage, List<HotelBlocksModel>>> getHotelBlocks({required int hotelId, required String userCurrency}) async{
-    return await remoteHotelDetailsDataSource.fetchRoomsOfHotel(hotelId: hotelId,userCurrency: userCurrency);
+  Future<Either<FireMessage, List<HotelBlocksModel>>> getHotelBlocks({required DateTime startDate,required DateTime endDate,required int hotelId, required String userCurrency}) async{
+    return await remoteHotelDetailsDataSource.fetchRoomsOfHotel(startDate: startDate,endDate: endDate,hotelId: hotelId,userCurrency: userCurrency);
   }
 
   @override

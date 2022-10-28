@@ -22,19 +22,19 @@ class HotelsByCoordinatesBloc extends Bloc<HotelsByCoordinatesEvent, HotelsByCoo
     on<FetchHotelsByCoordinatesEvent>((event, emit) async{
       await handleInternetConnectionStates(
           onSuccessConnection: ()async=>await getNearestHotelsToYourCurrentLocation(emit),
-          onFailureConnection: ()=> emit(state.copyWith(message: FireMessage("No Internet"))));
+          onFailureConnection: ()=> emit(state.copyWith(errorMessage: FireMessage("No Internet"),message: FireMessage(""))));
     });
   }
 
   Future<void> getNearestHotelsToYourCurrentLocation(Emitter<HotelsByCoordinatesState> emit) async {
-    emit(state.copyWith(message: FireMessage(loading)));
+    emit(state.copyWith(message: FireMessage(loading),errorMessage: null));
     Position position = await determinePosition();
     await getNearestHotels(position, emit);
   }
 
   Future<void> getNearestHotels(Position position, Emitter<HotelsByCoordinatesState> emit) async {
      await dl<FetchNearestHotelsUseCase>().call(longitude: position.longitude,latitude: position.latitude).then((value) {
-       value.fold((left) => emit(state.copyWith(message: left)), (right) {
+       value.fold((left) => emit(state.copyWith(errorMessage: left,message: FireMessage(""))), (right) {
          emit(state.copyWith(hotels: right,message: FireMessage("Hotels Loaded")));
        });
      });
@@ -68,4 +68,6 @@ class HotelsByCoordinatesBloc extends Bloc<HotelsByCoordinatesEvent, HotelsByCoo
     await handleDeniedPermission(permission);
     await handleDeniedPermissionForever(permission);
     return await Geolocator.getCurrentPosition();
-  }}
+  }
+
+}

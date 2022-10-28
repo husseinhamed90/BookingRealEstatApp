@@ -6,7 +6,7 @@ import '../../data/remote/models/HotelPhotoModel.dart';
 import '../entities/HotelDetails.dart';
 
 abstract class BaseHotelDetailsRepository{
-  Future<Either<FireMessage, List<HotelBlocksModel>>>getHotelBlocks({required int hotelId,required String userCurrency});
+  Future<Either<FireMessage, List<HotelBlocksModel>>>getHotelBlocks({required DateTime startDate,required DateTime endDate,required int hotelId,required String userCurrency});
   Future<Either<FireMessage, List<HotelPhotoModel>>>getHotelPhotos({required int hotelId});
   Future<Either<FireMessage, HotelDetails>> getHotelDetails({required int hotelId});
 }

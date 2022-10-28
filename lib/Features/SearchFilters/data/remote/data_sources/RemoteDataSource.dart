@@ -63,8 +63,6 @@ class RemoteDataSource{
 
         String apiKey = await getApiKey();
 
-        print("ASDD");
-
         var response = await Dio().get('$BASE_URL/search',
         queryParameters: {
           "checkout_date": checkOut,
@@ -92,7 +90,7 @@ class RemoteDataSource{
       List list = response.data["result"];
       return Right(list.map((hotel) => HotelModel.fromJson(hotel)).where((element) => maxPrice==100000? element.minTotalPrice!<=maxPrice&&element.minTotalPrice!>=minPrice:element.minTotalPrice!>=minPrice||element.minTotalPrice!>=10000).toList());
     } else {
-      return Left(FireMessage("Required Field Not Found"));
+      return Left(FireMessage("Error When Trying To Filtering Data"));
     }
   }
 }

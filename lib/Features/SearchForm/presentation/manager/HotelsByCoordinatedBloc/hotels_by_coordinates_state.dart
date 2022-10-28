@@ -7,16 +7,18 @@ part of 'hotels_by_coordinates_bloc.dart';
 
 class HotelsByCoordinatesState extends Equatable{
   final FireMessage ?errorMessage;
+  final FireMessage ?message;
   final List<HotelModel>?hotels;
   final List<LocationModel>?locations;
   final List<HotelBlocksModel>?hotelBlocksModel;
   final HotelModel? hotelModel;
   final HotelDetailsModel ?hotelDetailsModel;
 
-  const HotelsByCoordinatesState({this.errorMessage, this.hotels, this.locations,this.hotelDetailsModel,this.hotelBlocksModel,this.hotelModel});
+  const HotelsByCoordinatesState({this.message,this.errorMessage, this.hotels, this.locations,this.hotelDetailsModel,this.hotelBlocksModel,this.hotelModel});
 
   HotelsByCoordinatesState copyWith({
     FireMessage ?message,
+    FireMessage ?errorMessage,
     List<HotelModel>?hotels,
     List<LocationModel>?locations,
     HotelDetailsModel?hotelDetailsModel,
@@ -25,13 +27,14 @@ class HotelsByCoordinatesState extends Equatable{
   }) {
     return HotelsByCoordinatesState(
       locations: locations ?? this.locations,
+      message: message,
       hotels: hotels ?? this.hotels,
       hotelModel: hotelModel ?? this.hotelModel,
-      errorMessage: message ?? this.errorMessage,
+      errorMessage: errorMessage,
       hotelDetailsModel: hotelDetailsModel ?? this.hotelDetailsModel,
       hotelBlocksModel: hotelBlocksModel ?? this.hotelBlocksModel,
     );
   }
   @override
-  List<Object?> get props =>[locations,hotels,errorMessage,hotelBlocksModel,hotelDetailsModel];
+  List<Object?> get props =>[message,locations,hotels,errorMessage,hotelBlocksModel,hotelDetailsModel];
 }

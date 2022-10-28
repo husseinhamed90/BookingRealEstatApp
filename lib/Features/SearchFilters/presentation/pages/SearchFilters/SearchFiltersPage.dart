@@ -22,14 +22,15 @@ class SearchFiltersPage extends StatelessWidget {
       ),
       body: BlocConsumer<FilteringBloc, FilteringState>(
         listener: (context, state) {
-          if (state.errorMessage!.message == "result loaded") {
+          print(state.errorMessage);
+          if (state.message!.message == "result loaded") {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => SearchResults(hotels: state.hotels),
                 ));
           }
-          else if(state.errorMessage!.message!=loading&&state.errorMessage!.message!=""){
+          else if(state.errorMessage!=null){
             final snackBar = SnackBar(
               content: Text(state.errorMessage!.message),
               action: SnackBarAction(
@@ -41,7 +42,7 @@ class SearchFiltersPage extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state.errorMessage!.message == loading) {
+          if (state.message!.message == loading) {
             return buildDownloadIndicator(context);
           }
           return ListView(

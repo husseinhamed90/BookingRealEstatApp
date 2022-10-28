@@ -10,10 +10,11 @@ import '../models/HotelDetailsModel.dart';
 import '../models/HotelPhotoModel.dart';
 
 class RemoteHotelDetailsDataSource {
-  Future<Either<FireMessage, List<HotelBlocksModel>>> fetchRoomsOfHotel({required int hotelId,required String userCurrency}) async {
+  Future<Either<FireMessage, List<HotelBlocksModel>>> fetchRoomsOfHotel({required DateTime startDate,required DateTime endDate,required int hotelId,required String userCurrency}) async {
     String apiKey = await getApiKey();
-    DateTime cheekIn = DateTime.now();
-    DateTime checkOut = DateTime.now().add(const Duration(days: 3));
+    DateTime cheekIn =startDate;
+    DateTime checkOut=endDate;
+
     String checkInDateTime = "${cheekIn.year.toString()}-${cheekIn.month.toString()}-${cheekIn.day.toString()}";
     String checkOutDateTime = "${checkOut.year.toString()}-${checkOut.month.toString()}-${checkOut.day.toString()}";
     var response = await Dio().get('$BASE_URL/room-list',

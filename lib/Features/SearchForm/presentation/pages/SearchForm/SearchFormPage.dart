@@ -20,7 +20,7 @@ class SearchForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<HotelsByCoordinatesBloc,HotelsByCoordinatesState>(
       listener: (context, state) {
-         if(state.errorMessage!.message=="Error When Trying to get nearest hotels"){
+         if(state.errorMessage!=null){
           final snackBar = SnackBar(
             content: Text(state.errorMessage!.message),
             action: SnackBarAction(
@@ -34,10 +34,10 @@ class SearchForm extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if(state.errorMessage!.message==loading){
+        if(state.message!.message==loading){
           return buildDownloadIndicator(context);
         }
-        if(state.errorMessage!.message=="No Internet"||state.hotels==null){
+        if(state.errorMessage!=null||state.hotels==null){
           return  NoConnectionImage(onTryAgain: () {
             dl<HotelsByCoordinatesBloc>().add(FetchHotelsByCoordinatesEvent());
           },);

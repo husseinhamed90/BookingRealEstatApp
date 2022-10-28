@@ -12,7 +12,6 @@ import 'package:realestate/Features/HomePageLayout/HomePageLayoutPage.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/DatePickerCubit.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/filters_bloc.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/sliders_cubit.dart';
-import 'package:realestate/Features/SearchForm/domain/entities/Hotel.dart';
 import 'package:realestate/Features/SearchForm/presentation/manager/HotelsByCoordinatedBloc/hotels_by_coordinates_bloc.dart';
 import 'package:realestate/Features/Rooms/presentation/pages/PaymentDone.dart';
 import 'Core/AppTheme/AppColors.dart';
@@ -23,7 +22,6 @@ import 'Features/FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite
 import 'Features/FlatDetails/presentation/manager/SearchResultsBloc/HotelDetailsBloc.dart';
 import 'SplachScreenPage.dart';
 import 'firebase_options.dart';
-import 'package:screen_size_test/screen_size_test.dart';
 
 void main()async {
 
