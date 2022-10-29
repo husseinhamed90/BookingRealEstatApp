@@ -9,7 +9,7 @@ import '../LabelWithNumber.dart';
 class DrawSecondRowOfInfo extends StatelessWidget {
    final bool isBookedRooms;
    const DrawSecondRowOfInfo({
-     this.isBookedRooms=false,
+     required this.isBookedRooms,
     Key? key,
     required this.block,
   }) : super(key: key);
@@ -24,8 +24,7 @@ class DrawSecondRowOfInfo extends StatelessWidget {
         Container(height: 55.h,color: const Color(0xff9197A2),width: 1),
         SizedBox(width: 10.w,),
         LabelWithNumber(text: "Nights", number: "${calcDifferenceBetweenTwoDay(context)}"),
-        BookNowButton(block: block),
-        SizedBox(width: 15.w,),
+        !isBookedRooms ? BookNowButton(block: block):Container(),
       ],
     );
   }

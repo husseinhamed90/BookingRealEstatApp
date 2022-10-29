@@ -5,7 +5,12 @@ import '../../widgets/RoomItemParts/BuildUpperImage.dart';
 import '../../widgets/zoom_icon_button.dart';
 
 class RoomItem extends StatelessWidget {
-  const RoomItem({Key? key,required this.block}) : super(key: key);
+  final bool isBookedRooms;
+  const RoomItem({
+    required this.isBookedRooms,
+    Key? key,
+    required this.block,
+  }) : super(key: key);
   final Block block;
 
   @override
@@ -15,7 +20,7 @@ class RoomItem extends StatelessWidget {
         Column(
           children: [
             BuildUpperImage(block: block),
-            BuildRoomInfo(block: block),
+            BuildRoomInfo(block: block,isBookedRooms: isBookedRooms),
           ],
         ),
         ZoomIconButton(block: block),

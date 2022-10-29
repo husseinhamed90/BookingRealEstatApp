@@ -5,11 +5,12 @@ import 'package:realestate/Features/FlatDetails/domain/entities/HotelRooms.dart'
 import 'DrawFirstRowOfInfo.dart';
 import 'DrawSecondRowOfInfo.dart';
 class BuildRoomInfo extends StatelessWidget {
+  final bool isBookedRooms;
   const BuildRoomInfo({
+    required this.isBookedRooms,
     Key? key,
     required this.block,
   }) : super(key: key);
-
   final Block block;
 
   @override
@@ -29,7 +30,7 @@ class BuildRoomInfo extends StatelessWidget {
           ),),
           DrawFirstRowOfInfo(block:block ),
           SizedBox(height: 16.h,),
-          DrawSecondRowOfInfo(block: block),
+          DrawSecondRowOfInfo(block: block,isBookedRooms: isBookedRooms),
           SizedBox(height: 15.h,),
         ],
       ),

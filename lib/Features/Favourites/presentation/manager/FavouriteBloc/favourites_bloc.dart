@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:realestate/Core/AppTheme/AppColors.dart';
-import 'package:realestate/Core/EventCommand.dart';
 import 'package:realestate/Core/Utils.dart';
 import 'package:realestate/DependencyInjection.dart';
 import 'package:realestate/Features/SearchForm/domain/entities/Hotel.dart';
@@ -74,6 +73,7 @@ class FavouriteBloc extends Bloc<FavouriteBlocEvent,FavouriteState> {
       add(AddHotel(hotel: hotelModel));
     }
   }
+
   Color getCorrectIconColor(Hotel hotelModel) {
     return isItemExist(hotelModel)?primaryColor:const Color(0xff9197a2);
   }

@@ -10,6 +10,7 @@ import 'package:realestate/Features/BookedRooms/presentation/manager/booked_room
 import 'package:realestate/Features/FlatDetails/data/remote/models/HotelBlocksModel.dart';
 import 'package:realestate/Features/FlatDetails/domain/entities/HotelRooms.dart';
 
+import '../../../../Core/ReusableComponantes.dart';
 import '../../../Rooms/presentation/widgets/RoomsList.dart';
 import '../manager/booked_rooms_event.dart';
 import '../manager/booked_rooms_state.dart';
@@ -34,7 +35,7 @@ class _BookedRoomsState extends State<BookedRooms> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title:  const Text("BOOKED ROOMS"),
+          title:  const Text(hotelRoomsAppbarTitle),
         ),
         body:  BlocConsumer<BookedRoomsBloc,BookedRoomsState>(
           listener: (context, state) {
@@ -50,9 +51,25 @@ class _BookedRoomsState extends State<BookedRooms> {
             return CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
+                  child: Container(
+                    color: primaryColor,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20.w),
+                          child: getColumn(firstString: bookedItemsTitle,secondString: "Your Booked Rooms is ${state.blocksList!.length} Room"),
+                        ),
+                        SizedBox(height: 20.h,)
+                      ],
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
                   child: SizedBox(height: 20.h,),
                 ),
-                RoomsList(blocks: state.blocksList!,)
+                RoomsList(blocks: state.blocksList!,isBookedRooms: true,)
               ],
             );
           },
