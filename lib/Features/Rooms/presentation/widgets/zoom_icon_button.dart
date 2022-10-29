@@ -2,11 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:realestate/Features/FlatDetails/data/remote/models/HotelBlocksModel.dart';
 import 'package:realestate/Features/FlatDetails/domain/entities/HotelRooms.dart';
-import 'package:realestate/Features/BookedRooms/presentation/pages/booked_rooms.dart';
 import '../../../../Core/AppTheme/Strings.dart';
-import '../../../../Core/Utils.dart';
 
 class ZoomIconButton extends StatelessWidget {
   const ZoomIconButton({Key ?key,required this.block}) : super(key: key);

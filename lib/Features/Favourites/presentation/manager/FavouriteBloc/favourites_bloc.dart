@@ -16,7 +16,7 @@ import 'favourites_event.dart';
 
 part 'favourites_state.dart';
 
-class FavouriteBloc extends Bloc<FavouriteBlocEvent,FavouriteState> implements EventCommand{
+class FavouriteBloc extends Bloc<FavouriteBlocEvent,FavouriteState> {
 
   late Box<Hotel> favouriteBox;
 
@@ -59,12 +59,6 @@ class FavouriteBloc extends Bloc<FavouriteBlocEvent,FavouriteState> implements E
       }
     });
   }
-
-  @override
-  void executeCommand() {
-    add(lastExecutedEvent!);
-  }
-
   Future openFavouritesBox(Emitter<FavouriteState> emit)async{
     return await dl.get<FavouritesHiveDataSourceRepo>().openHiveBox().then((value) {
       favouriteBox=value;
