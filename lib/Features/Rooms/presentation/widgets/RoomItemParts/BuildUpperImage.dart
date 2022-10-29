@@ -28,8 +28,15 @@ class BuildUpperImage extends StatelessWidget {
             ),
           )
       ),
-      placeholder: (context, url) => const CircularProgressIndicator(color: primaryColor),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
+        placeholder: (context, url) =>  Container(
+          height: 200.h,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+
+          ),
+            child: const Center(child: CircularProgressIndicator(color: primaryColor))
+        ),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
     );
   }
 }

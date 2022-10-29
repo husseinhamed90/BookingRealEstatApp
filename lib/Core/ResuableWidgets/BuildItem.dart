@@ -49,7 +49,13 @@ class BuildItem extends StatelessWidget {
                             ),
                           )
                       ),
-                      placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: primaryColor)),
+                      placeholder: (context, url) => Container(
+                          height: 200.h,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+                          ),
+                        child: const Center(child: CircularProgressIndicator(color: primaryColor,)),
+                      ),
                       errorWidget: (context, url, error) => const Icon(Icons.error),
                     ),
                     SizedBox(height: 21.h,),
@@ -102,7 +108,10 @@ class BuildItem extends StatelessWidget {
                   ],
                 ),
               ),
-              FavouriteIconButton(hotelModel: hotelModel)
+              Positioned(
+                  right: 10.w,
+                  top: 10.w,
+                  child: FavouriteIconButton(hotelModel: hotelModel))
             ],
           ),
         )

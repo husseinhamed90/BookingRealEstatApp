@@ -8,11 +8,11 @@ import '../../../FlatDetails/data/remote/models/HotelBlocksModel.dart';
 
 class UpperSection extends StatelessWidget {
   const UpperSection({
+    required this.title,
+    required this.subTitle,
     Key? key,
-    required this.hotelBlockModel,
   }) : super(key: key);
-
-  final List<HotelBlocksModel> hotelBlockModel;
+  final String title,subTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class UpperSection extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: getColumn(firstString: hotelRoomsAppbarTitle,secondString: "We Have ${hotelBlockModel[0].rooms!.length.toString()} Types Of Rooms And ${hotelBlockModel[0].blocks!.length.toString()} Available Block"),
+              child: getColumn(firstString: title,secondString: subTitle),
             ),
             SizedBox(height: 20.h,),
           ],

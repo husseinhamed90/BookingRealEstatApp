@@ -9,6 +9,7 @@ import 'package:realestate/Features/BookedRooms/data/repositories/FirebaseBooked
 import 'package:realestate/Features/BookedRooms/presentation/manager/booked_rooms_bloc.dart';
 import 'package:realestate/Features/FlatDetails/data/remote/models/HotelBlocksModel.dart';
 import 'package:realestate/Features/FlatDetails/domain/entities/HotelRooms.dart';
+import 'package:realestate/Features/Rooms/presentation/widgets/UpperSection.dart';
 
 import '../../../../Core/ReusableComponantes.dart';
 import '../../../Rooms/presentation/widgets/RoomsList.dart';
@@ -50,22 +51,7 @@ class _BookedRoomsState extends State<BookedRooms> {
             }
             return CustomScrollView(
               slivers: [
-                SliverToBoxAdapter(
-                  child: Container(
-                    color: primaryColor,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.w),
-                          child: getColumn(firstString: bookedItemsTitle,secondString: "Your Booked Rooms is ${state.blocksList!.length} Room"),
-                        ),
-                        SizedBox(height: 20.h,)
-                      ],
-                    ),
-                  ),
-                ),
+                UpperSection(title: bookedItemsTitle, subTitle: "Your Booked Rooms is ${state.blocksList!.length} Room"),
                 SliverToBoxAdapter(
                   child: SizedBox(height: 20.h,),
                 ),

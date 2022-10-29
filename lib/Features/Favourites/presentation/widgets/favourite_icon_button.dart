@@ -14,47 +14,43 @@ class FavouriteIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Positioned(
-      right: 15.w,
-      top: 15.w,
-      child: GestureDetector(
-        onTap: () {
-          context.read<FavouriteBloc>().updateList(hotelModel);
+    return  GestureDetector(
+      onTap: () {
+        context.read<FavouriteBloc>().updateList(hotelModel);
+      },
+      child: BlocConsumer<FavouriteBloc,FavouriteState>(
+        listener: (context, state) {
+          if(state.message=="No Internet"){
+            showSnackBar(state.message!, context);
+          }
         },
-        child: BlocConsumer<FavouriteBloc,FavouriteState>(
-          listener: (context, state) {
-            if(state.message=="No Internet"){
-              showSnackBar(state.message!, context);
-            }
-          },
-          builder: (context, state) {
-            if(state.message==loading){
-              return SizedBox(
-                  height: 15.h,width: 15.h,
-                  child: const Center(child: CircularProgressIndicator(color: primaryColor),)
-              );
-            }
-            else{
-              return Card(
-                elevation: 0.5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child:  Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    height: 40.h,width: 40.h,
-                    child: Padding(
-                      padding:  EdgeInsets.all(12.h),
-                      child: SvgPicture.asset(fillHeartIconAsset,color: context.read<FavouriteBloc>().getCorrectIconColor(hotelModel)),
-                    )
-                ),
-              );
-            }
-          },
-        ),
+        builder: (context, state) {
+          if(state.message==loading){
+            return SizedBox(
+                height: 15.h,width: 15.h,
+                child: const Center(child: CircularProgressIndicator(color: primaryColor),)
+            );
+          }
+          else{
+            return Card(
+              elevation: 0.5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child:  Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  height: 40.h,width: 40.h,
+                  child: Padding(
+                    padding:  EdgeInsets.all(12.h),
+                    child: SvgPicture.asset(fillHeartIconAsset,color: context.read<FavouriteBloc>().getCorrectIconColor(hotelModel)),
+                  )
+              ),
+            );
+          }
+        },
       ),
     );
   }

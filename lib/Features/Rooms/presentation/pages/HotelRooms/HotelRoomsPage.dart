@@ -16,7 +16,7 @@ class HotelRoomsPage extends StatelessWidget {
       ),
       body: CustomScrollView(
         slivers: [
-          UpperSection(hotelBlockModel: hotelBlockModel),
+          UpperSection(title: hotelRoomsAppbarTitle,subTitle: "We Have ${hotelBlockModel[0].rooms!.length.toString()} Types Of Rooms And ${hotelBlockModel[0].blocks!.length.toString()} Available Block"),
           SliverToBoxAdapter(
             child: SizedBox(height: 20.h,),
           ),

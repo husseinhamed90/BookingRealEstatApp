@@ -5,7 +5,7 @@ import 'package:realestate/Core/AppTheme/AppColors.dart';
 import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/ResuableWidgets/BuildItem.dart';
 import '../../../../../Core/ReusableComponantes.dart';
-import '../../../../SearchForm/data/remote/models/HotelModel.dart';
+import '../../../../Rooms/presentation/widgets/UpperSection.dart';
 import '../../manager/FavouriteBloc/favourites_bloc.dart';
 
 
@@ -21,22 +21,7 @@ class FavouritesItemsPage extends StatelessWidget {
         builder: (context, state) {
           return  CustomScrollView(
             slivers: [
-              SliverToBoxAdapter(
-                child: Container(
-                  color: primaryColor,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.w),
-                        child: getColumn(firstString: favoriteItemsTitle,secondString: "You have ${state.favouritesList!.length} Hotel In Your Favourite List"),
-                      ),
-                      SizedBox(height: 20.h,)
-                    ],
-                  ),
-                ),
-              ),
+              UpperSection(title: favoriteItemsTitle, subTitle:"You have ${state.favouritesList!.length} Hotel In Your Favourite List"),
               SliverToBoxAdapter(
                 child: SizedBox(height: 20.h,),
               ),
