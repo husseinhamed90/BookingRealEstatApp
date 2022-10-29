@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../Core/AppTheme/Strings.dart';
 import '../../../../DependencyInjection.dart';
-import '../../../FavouriteIcon/presentation/widgets/favourite_icon_button.dart';
+import '../../../Favourites/presentation/widgets/favourite_icon_button.dart';
 import '../../../SearchForm/domain/entities/Hotel.dart';
 import '../manager/HotelDetailsBloc/HotelDetailsBloc.dart';
 

@@ -20,7 +20,7 @@ class HotelRoomsPage extends StatelessWidget {
           SliverToBoxAdapter(
             child: SizedBox(height: 20.h,),
           ),
-          RoomsList(hotelBlockModel: hotelBlockModel)
+          RoomsList(blocks: hotelBlockModel[0].blocks!)
         ],
       )
     );

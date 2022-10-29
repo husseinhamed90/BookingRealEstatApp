@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../Features/FlatDetails/data/remote/models/HotelBlocksModel.dart';
+import '../Features/FlatDetails/domain/entities/HotelRooms.dart';
 import '../Features/SearchFilters/presentation/manager/DatePickerCubit.dart';
 import '../Features/SearchForm/domain/entities/Room.dart';
 import 'AppTheme/Strings.dart';
 
-String getDiscount(HotelBlocksModel hotelBlocksModel,int blockIndex) {
-  if(hotelBlocksModel.block![blockIndex].productPriceBreakdown!.discountedAmount!=null){
-    return hotelBlocksModel.block![blockIndex].productPriceBreakdown!.discountedAmount!.value!.toStringAsFixed(2);
+String getDiscount(Block block) {
+  if(block.productPriceBreakdown!.discountedAmount!=null){
+    return block.productPriceBreakdown!.discountedAmount!.value!.toStringAsFixed(2);
   }
   else{
     return "0.00";
@@ -33,10 +34,10 @@ String getDateInFormat(DateTime  dateTime){
   return "${dateTime.year}-${dateTime.month}-${dateTime.day}";
 }
 
-String getDescription(HotelBlocksModel hotelBlocksModel,int blockIndex){
-  return hotelBlocksModel.rooms![getKeyOfRoom(hotelBlocksModel,blockIndex)]!.description!;
+String getDescription(Block room,Map roomsMap){
+  return roomsMap[room.roomId]!.description!;
 }
-double getTotalPrice(BuildContext context,HotelBlocksModel hotelBlocksModel,int blockIndex) => (hotelBlocksModel.block![blockIndex!].productPriceBreakdown!.grossAmount!.value!*calcDifferenceBetweenTwoDay(context));
+double getTotalPrice(BuildContext context,Block block) => (block.productPriceBreakdown!.grossAmount!.value!*calcDifferenceBetweenTwoDay(context));
 
 int calcDifferenceBetweenTwoDay(BuildContext context){
   if(context.read<DatePickerCubit>().endData!=null&&context.read<DatePickerCubit>().startData!=null){
@@ -56,8 +57,7 @@ Future<void> handleInternetConnectionStates({required Function onSuccessConnecti
   }
 }
 
-String getUrl(HotelBlocksModel hotelBlocksModel,int blockIndex){
-  Room currentRoom =hotelBlocksModel.rooms![getKeyOfRoom(hotelBlocksModel,blockIndex)]!;
+String getUrl(Room currentRoom){
   if(currentRoom.photos!.isEmpty){
     return defaultImageIfNoImageFound;
   }
@@ -66,10 +66,10 @@ String getUrl(HotelBlocksModel hotelBlocksModel,int blockIndex){
   }
 
 }
-String getKeyOfRoom(HotelBlocksModel hotelBlocksModel,int blockIndex){
-  return hotelBlocksModel.block![blockIndex].roomId.toString();
+String getKeyOfRoom(List<Block> hotelBlocksModel,int blockIndex){
+  return hotelBlocksModel[blockIndex].roomId.toString();
 }
 
-Room getRoom(HotelBlocksModel hotelBlocksModel,int blockIndex){
-  return hotelBlocksModel.rooms![getKeyOfRoom(hotelBlocksModel,blockIndex)]!;
+Room getRoom(HotelBlocksModel hotelBlocksModel,int blockIndex,List<Block> rooms){
+  return hotelBlocksModel.rooms![getKeyOfRoom(rooms,blockIndex)]!;
 }

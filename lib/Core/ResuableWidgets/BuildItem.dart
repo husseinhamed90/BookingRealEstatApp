@@ -1,10 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:realestate/Features/SearchForm/domain/entities/Hotel.dart';
-import '../../Features/FavouriteIcon/presentation/widgets/favourite_icon_button.dart';
+import '../../Features/Favourites/presentation/widgets/favourite_icon_button.dart';
 import '../../Features/FlatDetails/presentation/pages/ItemDetailes.dart';
+import '../AppTheme/AppColors.dart';
 import '../AppTheme/Strings.dart';
 
 class BuildItem extends StatelessWidget {
@@ -35,15 +37,20 @@ class BuildItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      height: 200.h,
-                      decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
-                          image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(hotelModel.maxPhotoUrl==null?defaultImageIfNoImageFound:hotelModel.maxPhotoUrl!)
+                    CachedNetworkImage(
+                      imageUrl: hotelModel.maxPhotoUrl==null?defaultImageIfNoImageFound:hotelModel.maxPhotoUrl!,
+                      imageBuilder: (context, imageProvider) => Container(
+                          height: 200.h,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
                           )
                       ),
+                      placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: primaryColor)),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                     ),
                     SizedBox(height: 21.h,),
                     Padding(

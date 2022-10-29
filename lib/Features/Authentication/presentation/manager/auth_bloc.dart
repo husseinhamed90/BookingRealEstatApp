@@ -2,15 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:realestate/Core/SharedModel/FireMessage.dart';
 import 'package:realestate/DependencyInjection.dart';
 import 'package:realestate/Features/Authentication/domain/entities/UserEntity.dart';
 
 import '../../../../Core/Utils.dart';
-import '../../../FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite_cubit.dart';
 import '../../data/remote/data_sources/AuthFirebaseDataSource.dart';
 
 part 'auth_event.dart';
@@ -53,15 +50,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     });
 
-    on<OpenBox>((event, emit) async{
-      await openFavouritesHiveBox(emit, event);
-    });
-  }
-
-
-  Future<void> openFavouritesHiveBox(Emitter<AuthState> emit, OpenBox event) async {
-    await dl.get<FavouriteCubit>().openFavouritesBox();
-    emit(AuthState().copyWith(message: FireMessage("Already Logged"),userEntity: event.userData));
   }
 
   Future<void> signIn(Emitter<AuthState> emit, SignInEvent event) async {
@@ -71,7 +59,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(state.copyWith(message : left,errorMessage: left.message));
     }, (right){
       updateUserEntity(right);
-      add(OpenBox(userData: right));
       fillTextFieldsController(right);
       emit(state.copyWith(userEntity: right,message: FireMessage("Logged In"),errorMessage: ""));
     });
@@ -99,7 +86,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       else{
         fillTextFieldsController(right);
         updateUserEntity(right);
-        add(OpenBox(userData: right));
+        emit(AuthState().copyWith(message: FireMessage("Already Logged"),userEntity: right));
       }
     });
   }

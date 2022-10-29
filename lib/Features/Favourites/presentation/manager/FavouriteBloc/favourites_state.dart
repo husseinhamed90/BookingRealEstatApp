@@ -1,4 +1,4 @@
-part of 'favourite_cubit.dart';
+part of 'favourites_bloc.dart';
 
 class FavouriteState extends Equatable {
   final List<Hotel>?favouritesList;
@@ -8,7 +8,6 @@ class FavouriteState extends Equatable {
   FavouriteState copyWith({
     List<Hotel>?favouritesList,
     String ?message,
-    Color?color
   }) {
     return FavouriteState(
       favouritesList :favouritesList??this.favouritesList,

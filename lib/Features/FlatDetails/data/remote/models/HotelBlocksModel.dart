@@ -7,12 +7,15 @@ class HotelBlocksModel extends HotelBlocks {
 
   HotelBlocksModel.fromJson(Map<String, dynamic> json) {
     if (json['block'] != null) {
-      block = <Block>[];
+      blocks = <Block>[];
       rooms = {};
       json['block'].forEach((v) {
-        block!.add(Block.fromJson(v));
         Room room =Room.fromJson(json["rooms"]['${(v["room_id"])}']);
         room.roomId=v["room_id"];
+        roomsObjets.add(room);
+        Block newBlock =Block.fromJson(v);
+        newBlock.blockRoom =Room.fromJson(json["rooms"]['${(v["room_id"])}']);
+        blocks!.add(newBlock);
         rooms!["${v["room_id"]}"]=room;
       });
     }
@@ -21,8 +24,8 @@ class HotelBlocksModel extends HotelBlocks {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (block != null) {
-      data['block'] = block!.map((v) => v.toJson()).toList();
+    if (blocks != null) {
+      data['block'] = blocks!.map((v) => v.toJson()).toList();
     }
     data['hotel_id'] = hotelId;
     return data;

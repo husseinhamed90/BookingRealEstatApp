@@ -1,23 +1,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../Core/AppTheme/Strings.dart';
-import '../../../../../Core/Utils.dart';
-import '../../../../FlatDetails/data/remote/models/HotelBlocksModel.dart';
+import 'package:realestate/Features/FlatDetails/domain/entities/HotelRooms.dart';
 import 'DrawFirstRowOfInfo.dart';
 import 'DrawSecondRowOfInfo.dart';
-import '../PaymentTap.dart';
-import '../LabelWithNumber.dart';
-
 class BuildRoomInfo extends StatelessWidget {
   const BuildRoomInfo({
     Key? key,
-    required this.hotelBlocksModel,
-    required this.blockIndex,
+    required this.block,
   }) : super(key: key);
 
-  final HotelBlocksModel hotelBlocksModel;
-  final int? blockIndex;
+  final Block block;
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +21,15 @@ class BuildRoomInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 15.h,),
-          Text(hotelBlocksModel.block![blockIndex!].roomName!,style: TextStyle(
+          Text(block.roomName!,style: TextStyle(
               color: const Color(0xff312D2C),fontSize: 20.sp,fontWeight: FontWeight.w800,height: 35.h/22
           ),),
-          Text(getDescription(hotelBlocksModel,blockIndex!),style: TextStyle(
+          Text(block.blockRoom!.description!,style: TextStyle(
               color: const Color(0xff9197A2),fontSize: 14.sp,fontWeight: FontWeight.w800,height: 35.h/22
           ),),
-          DrawFirstRowOfInfo(hotelBlocksModel: hotelBlocksModel, blockIndex: blockIndex),
+          DrawFirstRowOfInfo(block:block ),
           SizedBox(height: 16.h,),
-          DrawSecondRowOfInfo(hotelBlocksModel: hotelBlocksModel, blockIndex: blockIndex),
+          DrawSecondRowOfInfo(block: block),
           SizedBox(height: 15.h,),
         ],
       ),

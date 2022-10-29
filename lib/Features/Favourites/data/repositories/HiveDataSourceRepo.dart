@@ -1,11 +1,11 @@
 import 'package:hive/hive.dart';
-import 'package:realestate/Features/FavouriteIcon/domain/repositories/BaseLocalDataSource.dart';
 import 'package:realestate/Features/SearchForm/domain/entities/Hotel.dart';
-import '../data_sources/LocalDataSource/HiveDataSource.dart';
+import '../../domain/repositories/BaseLocalDataSource.dart';
+import '../data_sources/LocalDataSource/FavouritesHiveDataSource.dart';
 
-class HiveDataSourceRepo extends BaseLocalDataSource{
-  HiveDataSource hiveDataSource;
-  HiveDataSourceRepo(this.hiveDataSource);
+class FavouritesHiveDataSourceRepo extends BaseLocalDataSource{
+  FavouritesHiveDataSource hiveDataSource;
+  FavouritesHiveDataSourceRepo(this.hiveDataSource);
   @override
   Box<Hotel> addHotel(Hotel hotel) {
     return hiveDataSource.addHotel(hotel);

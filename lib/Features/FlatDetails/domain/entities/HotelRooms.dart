@@ -1,15 +1,17 @@
 import '../../../SearchForm/domain/entities/Room.dart';
 
 class HotelBlocks {
-  List<Block>? block;
+  List<Block>? blocks;
   int? hotelId;
-  HotelBlocks({this.block, this.hotelId,this.rooms});
+  HotelBlocks({this.blocks, this.hotelId});
   Map<String,Room>? rooms;
+  List<Room> roomsObjets=[];
 }
 
 class Block {
   ProductPriceBreakdown? productPriceBreakdown;
   int? numberOfBathrooms;
+  Room ? blockRoom;
   String? nameWithoutPolicy;
   double? roomSurfaceInFeet2;
   String? blockId;
@@ -56,6 +58,9 @@ class Block {
     roomSurfaceInFeet2 = json['room_surface_in_feet2'];
     blockId = json['block_id'];
     roomId = json['room_id'];
+    blockRoom = json['room'] != null
+        ? Room.fromJson(json['room'])
+        : null;
     dinnerIncluded = json['dinner_included'];
     breakfastIncluded = json['breakfast_included'];
     lunchIncluded = json['lunch_included'];
@@ -75,6 +80,7 @@ class Block {
     if (productPriceBreakdown != null) {
       data['product_price_breakdown'] = productPriceBreakdown!.toJson();
     }
+    data['room'] =blockRoom!.toJson();
     data['number_of_bathrooms'] = numberOfBathrooms;
     data['name_without_policy'] = nameWithoutPolicy;
     data['room_surface_in_feet2'] = roomSurfaceInFeet2;

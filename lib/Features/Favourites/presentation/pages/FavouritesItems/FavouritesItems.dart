@@ -5,8 +5,9 @@ import 'package:realestate/Core/AppTheme/AppColors.dart';
 import '../../../../../Core/AppTheme/Strings.dart';
 import '../../../../../Core/ResuableWidgets/BuildItem.dart';
 import '../../../../../Core/ReusableComponantes.dart';
-import '../../../../FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite_cubit.dart';
 import '../../../../SearchForm/data/remote/models/HotelModel.dart';
+import '../../manager/FavouriteBloc/favourites_bloc.dart';
+
 
 class FavouritesItemsPage extends StatelessWidget {
   final List<HotelModel>?hotels;
@@ -38,7 +39,7 @@ class FavouritesItemsPage extends StatelessWidget {
           SliverToBoxAdapter(
             child: SizedBox(height: 20.h,),
           ),
-          BlocBuilder<FavouriteCubit,FavouriteState>(
+          BlocBuilder<FavouriteBloc,FavouriteState>(
             builder: (context, state) {
               return SliverPadding(
                 padding: EdgeInsets.only(right: 20.w,left: 20.w),
@@ -50,7 +51,6 @@ class FavouritesItemsPage extends StatelessWidget {
           )
         ],
       ),
-
     );
   }
 }

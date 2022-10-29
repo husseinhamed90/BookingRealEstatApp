@@ -24,7 +24,7 @@ class UpperSection extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: getColumn(firstString: hotelRoomsAppbarTitle,secondString: "We Have ${hotelBlockModel[0].rooms!.length.toString()} Types Of Rooms And ${hotelBlockModel[0].block!.length.toString()} Available Block"),
+              child: getColumn(firstString: hotelRoomsAppbarTitle,secondString: "We Have ${hotelBlockModel[0].rooms!.length.toString()} Types Of Rooms And ${hotelBlockModel[0].blocks!.length.toString()} Available Block"),
             ),
             SizedBox(height: 20.h,),
           ],

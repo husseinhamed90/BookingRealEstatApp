@@ -7,32 +7,32 @@ import 'package:realestate/Features/SearchForm/data/remote/models/HotelModel.dar
 
 import '../../../../SearchForm/domain/entities/Hotel.dart';
 
-class HiveDataSource{
-  late Box<Hotel>favouritesBox;
+class FavouritesHiveDataSource{
+  Box<Hotel>?favouritesBox;
 
   Future<Box<Hotel>> openHiveBox()async {
     await Hive.openBox<Hotel>(dl.get<AuthBloc>().userEntity!.id.toString());
     favouritesBox = Hive.box<Hotel>(dl.get<AuthBloc>().userEntity!.id.toString());
-    await favouritesBox.clear();
+    await favouritesBox!.clear();
     await FirebaseFirestore.instance.collection("Users").doc(dl.get<AuthBloc>().userEntity!.id).collection("Favourites").get().then((value) {
 
       for (var element in value.docs) {
-        favouritesBox.put(element.data()["hotel_id"].toString(),HotelModel.fromJson(element.data()));
+        favouritesBox!.put(element.data()["hotel_id"].toString(),HotelModel.fromJson(element.data()));
       }
     });
-    return favouritesBox;
+    return favouritesBox!;
   }
   bool isItemExist(Hotel hotel){
-    return favouritesBox.get(hotel.hotelId.toString())!=null;
+    return favouritesBox!.get(hotel.hotelId.toString())!=null;
   }
 
   Box<Hotel> addHotel(Hotel hotel){
-    favouritesBox.put(hotel.hotelId.toString(), hotel);
-    return favouritesBox;
+    favouritesBox!.put(hotel.hotelId.toString(), hotel);
+    return favouritesBox!;
   }
 
   Box<Hotel> removeHotel(Hotel hotel){
-    favouritesBox.delete(hotel.hotelId.toString());
-    return favouritesBox;
+    favouritesBox!.delete(hotel.hotelId.toString());
+    return favouritesBox!;
   }
 }

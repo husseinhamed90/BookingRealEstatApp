@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:realestate/Core/BottomNavBarBloc/bottom_nav_bar_bloc.dart';
 import 'package:realestate/Features/Authentication/presentation/manager/auth_bloc.dart';
+import 'package:realestate/Features/BookedRooms/presentation/manager/booked_rooms_bloc.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/DatePickerCubit.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/filters_bloc.dart';
 import 'package:realestate/Features/SearchFilters/presentation/manager/sliders_cubit.dart';
@@ -15,8 +16,9 @@ import 'Core/AppTheme/Themes.dart';
 import 'Core/NavigationService/NavigationService.dart';
 import 'DependencyInjection.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'Features/FavouriteIcon/presentation/manager/FavouriteIconCubit/favourite_cubit.dart';
 import 'package:realestate/Features/FlatDetails/presentation/manager/HotelDetailsBloc/HotelDetailsBloc.dart';
+import 'Features/Favourites/presentation/manager/FavouriteBloc/favourites_bloc.dart';
+import 'Features/Favourites/presentation/manager/FavouriteBloc/favourites_event.dart';
 import 'Features/SplashScreen/SplachScreenPage.dart';
 import 'firebase_options.dart';
 
@@ -33,8 +35,6 @@ void main()async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   init();
-
-
   runApp( MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -67,14 +67,17 @@ class MyApp extends StatelessWidget {
             BlocProvider<AuthBloc>(
               create: (BuildContext context) => dl<AuthBloc>()
             ),
-            BlocProvider<FavouriteCubit>(
-                create: (BuildContext context) => dl<FavouriteCubit>()
+            BlocProvider<FavouriteBloc>(
+                create: (BuildContext context) => dl<FavouriteBloc>()..add(OpenBox(userData: dl.get<AuthBloc>().userEntity!))
             ),
             BlocProvider<DatePickerCubit>(
                 create: (BuildContext context) => dl<DatePickerCubit>()
             ),
             BlocProvider<SlidersCubit>(
                 create: (BuildContext context) => dl<SlidersCubit>()
+            ),
+            BlocProvider<BookedRoomsBloc>(
+                create: (BuildContext context) => dl<BookedRoomsBloc>()
             ),
           ],
           child: MaterialApp(

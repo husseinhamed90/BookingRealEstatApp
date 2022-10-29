@@ -3,20 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:realestate/Features/FlatDetails/data/remote/models/HotelBlocksModel.dart';
+import 'package:realestate/Features/FlatDetails/domain/entities/HotelRooms.dart';
+import 'package:realestate/Features/BookedRooms/presentation/pages/booked_rooms.dart';
 import '../../../../Core/AppTheme/Strings.dart';
 import '../../../../Core/Utils.dart';
 
 class ZoomIconButton extends StatelessWidget {
-  const ZoomIconButton({Key ?key,required this.hotelBlocksModel,required this.blockIndex}) : super(key: key);
-  final HotelBlocksModel hotelBlocksModel;
-  final int blockIndex;
+  const ZoomIconButton({Key ?key,required this.block}) : super(key: key);
+  final Block block;
   @override
   Widget build(BuildContext context) {
     return Positioned(
       right: 20,top: 20,
       child: GestureDetector(
         onTap: () async{
-          await alertDialog(context);
+          await alertDialog(context,block);
         },
         child: SizedBox(
           width: 30,
@@ -30,7 +31,7 @@ class ZoomIconButton extends StatelessWidget {
     );
   }
 
-  Future alertDialog(BuildContext context)async{
+  Future alertDialog(BuildContext context,Block block)async{
     return await showDialog(
       context: context,
       barrierDismissible: false,
@@ -52,7 +53,7 @@ class ZoomIconButton extends StatelessWidget {
                       },child: const Icon(Icons.cancel)),
                       SizedBox(width: 10.w,),
                       Expanded(
-                        child: AutoSizeText(overflow: TextOverflow.ellipsis,maxLines: 2,hotelBlocksModel.block![blockIndex!].roomName!,style: TextStyle(
+                        child: AutoSizeText(overflow: TextOverflow.ellipsis,maxLines: 2,block.roomName!,style: TextStyle(
                             color: const Color(0xff312D2C),fontSize: 20.sp,fontWeight: FontWeight.w800
                         ),),
                       ),
@@ -63,7 +64,7 @@ class ZoomIconButton extends StatelessWidget {
                 SizedBox(
                   height: 375.h,
                   child: PageView.builder(
-                      itemCount: getRoom(hotelBlocksModel,blockIndex!).photos!.length,
+                      itemCount: block.blockRoom!.photos!.length,
                       pageSnapping: true,
                       itemBuilder: (context,index){
                         return  Column(
@@ -74,7 +75,7 @@ class ZoomIconButton extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
                                       fit: BoxFit.fill,
-                                      image: NetworkImage(getRoom(hotelBlocksModel,blockIndex!).photos![index].urlOriginal!)
+                                      image: NetworkImage(block.blockRoom!.photos![index].urlOriginal!)
                                   )
                               ),
                             ),

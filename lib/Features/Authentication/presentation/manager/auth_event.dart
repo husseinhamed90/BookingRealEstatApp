@@ -3,6 +3,12 @@ part of 'auth_bloc.dart';
 abstract class AuthEvent extends Equatable {
   const AuthEvent();
 }
+class OpenFavouritesBox extends AuthEvent{
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+
+}
 
 class SignInEvent extends AuthEvent{
   @override
@@ -32,13 +38,4 @@ class GetUserData extends AuthEvent{
   @override
   GetUserData({this.userId});
   List<Object?> get props =>[userId];
-}
-
-class OpenBox extends AuthEvent{
-  UserEntity ?userData;
-  OpenBox({this.userData});
-
-  @override
-  List<Object?> get props => [userData];
-
 }

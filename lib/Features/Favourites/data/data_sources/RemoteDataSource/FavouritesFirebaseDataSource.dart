@@ -3,13 +3,21 @@ import 'package:realestate/DependencyInjection.dart';
 import 'package:realestate/Features/Authentication/presentation/manager/auth_bloc.dart';
 import 'package:realestate/Features/SearchForm/domain/entities/Hotel.dart';
 
-class FirebaseDataSource{
+class FavouritesFirebaseDataSource{
 
   Future addHotel(Hotel hotel){
     Map<String, dynamic> data = convertToMap(hotel);
     return FirebaseFirestore.instance.collection("Users").doc(dl.get<AuthBloc>().userEntity!.id).collection("Favourites").add(data);
   }
 
+  Future removeHotel(int hotelID)async{
+    return await FirebaseFirestore.instance.collection("Users").doc(dl.get<AuthBloc>().userEntity!.id).collection('Favourites').where('hotel_id',isEqualTo: hotelID).get().then((value){
+      for (var element in value.docs) {
+        element.reference.delete();
+      }
+    });
+  }
+  
   Map<String, dynamic> convertToMap(Hotel hotel) {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['hotel_id'] = hotel.hotelId;
@@ -27,14 +35,5 @@ class FirebaseDataSource{
     data['hotel_name'] = hotel.hotelName;
     data['max_photo_url'] = hotel.maxPhotoUrl;
     return data;
-  }
-
-  Future removeHotel(int hotelID)async{
-    return await FirebaseFirestore.instance.collection("Users").doc(dl.get<AuthBloc>().userEntity!.id).collection('Favourites').where('hotel_id',isEqualTo: hotelID).get().then((value){
-      for (var element in value.docs) {
-        element.reference.delete();
-      }
-    });
-
   }
 }
