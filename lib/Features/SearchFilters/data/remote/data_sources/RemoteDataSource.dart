@@ -11,17 +11,6 @@ import '../models/LocationModel.dart';
 
 class RemoteDataSource{
 
-  Future<Either<FireMessage, List<HotelModel>>> moreHotelsResponse() {
-    return dl<RemoteDataSource>().filterResults(numberOfRooms: 1,
-        pageNumber: dl<FilteringBloc>().pageNumber,
-        cheekIn: dl<FilteringBloc>().startDateController.text,
-        checkOut: dl<FilteringBloc>().endDateController.text,
-        numberOfAdults: 1, minPrice: dl<SlidersCubit>().pricesValues.start,
-        maxPrice: dl<SlidersCubit>().pricesValues.end,
-        locationModel: dl<FilteringBloc>().state.locations![0]
-    );
-  }
-
   Future<Either<FireMessage, List<LocationModel>>> fetchLocations(String locationName) async {
     String apiKey = await getApiKey();
       if(locationName==""){

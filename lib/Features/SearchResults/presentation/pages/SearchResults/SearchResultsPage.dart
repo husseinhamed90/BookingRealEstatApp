@@ -12,8 +12,7 @@ import '../../widgets/HotelsListResult.dart';
 
 
 class SearchResults extends StatefulWidget {
-  List<HotelModel> hotels;
-  SearchResults({Key? key,required this.hotels}) : super(key: key);
+  SearchResults({Key? key}) : super(key: key);
 
   @override
   State<SearchResults> createState() => _SearchResultsState();
@@ -27,12 +26,7 @@ class _SearchResultsState extends State<SearchResults> {
     super.initState();
     _scrollController.addListener(() async {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-        dl<RemoteDataSource>().moreHotelsResponse().fold((left) {},(right) {
-          setState(() {
-            dl<FilteringBloc>().pageNumber++;
-            widget.hotels+=right;
-          });
-        });
+        dl.get<FilteringBloc>().add(FetchMore());
       }
     });
   }
@@ -58,7 +52,7 @@ class _SearchResultsState extends State<SearchResults> {
           SliverToBoxAdapter(
             child: SizedBox(height: 20.h,),
           ),
-          HotelsListResult(hotels: widget.hotels,)
+          const HotelsListResult()
         ],
       ),
     );

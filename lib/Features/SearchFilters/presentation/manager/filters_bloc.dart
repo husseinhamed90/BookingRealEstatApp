@@ -40,7 +40,7 @@ class FilteringBloc extends Bloc<FilteringEvent, FilteringState> implements Even
 
     on<FetchMore>((event, emit) async{
       setLastExecutedEvent(event);
-      await getMoreData();
+      await getMoreData(emit);
     });
 
     on<FireErrorMessageEvent>((event, emit) async{
@@ -59,7 +59,7 @@ class FilteringBloc extends Bloc<FilteringEvent, FilteringState> implements Even
   Future<void> getLocations(FetchLocationsEvent event, Emitter<FilteringState> emit) async {
     pageNumber=event.pageNumber;
     if(locationController.text!=""){
-      emit(state.copyWith(message: FireMessage(loading),errorMessage: null));
+      emit(state.copyWith(message: FireMessage(loading),errorMessage: null,hotels: []));
       final result  = await dl<FetchLocationsUseCase>().call(locationString: locationController.text);
       result.fold((left) =>emit(state.copyWith(errorMessage: left,message: FireMessage(""))),
               (right) {
@@ -93,7 +93,6 @@ class FilteringBloc extends Bloc<FilteringEvent, FilteringState> implements Even
   }
 
   Future<void> startFiltering(StartFilterDataEvent event, Emitter<FilteringState> emit) async {
-    state.copyWith(hotels: state.hotels);
     final result = await dl<FilterResultsUseCase>().call(pageNumber: pageNumber,maxPrice: dl<SlidersCubit>().pricesValues.end,minPrice: dl<SlidersCubit>().pricesValues.start,locationModel: event.locations[0],numberOfRooms: dl<SlidersCubit>().initRoomsNumber!.toInt(),numberOfAdults: dl<SlidersCubit>().initAdultsNumber!.toInt(),checkIn: startDateController.text,checkOut: endDateController.text);
     result.fold((left) =>emit(state.copyWith(errorMessage: left,message: FireMessage(""))),
             (right){
@@ -102,9 +101,14 @@ class FilteringBloc extends Bloc<FilteringEvent, FilteringState> implements Even
     );
   }
 
-  Future<void> getMoreData() async{
+  Future<void> getMoreData(Emitter<FilteringState> emit) async{
+
     pageNumber++;
-    add(StartFilterDataEvent(locations: state.locations!,pageNumber: pageNumber));
+    final result = await dl<FilterResultsUseCase>().call(pageNumber: pageNumber,maxPrice: dl<SlidersCubit>().pricesValues.end,minPrice: dl<SlidersCubit>().pricesValues.start,locationModel: state.locations![0],numberOfRooms: dl<SlidersCubit>().initRoomsNumber!.toInt(),numberOfAdults: dl<SlidersCubit>().initAdultsNumber!.toInt(),checkIn: startDateController.text,checkOut: endDateController.text);
+    result.fold((left) =>emit(state.copyWith(errorMessage: left,message: FireMessage(""))),
+            (right){
+          emit(state.copyWith(errorMessage: null,message: FireMessage("more result loaded"), hotels: state.hotels+=right,locations: state.locations));
+        });
   }
 
   @override

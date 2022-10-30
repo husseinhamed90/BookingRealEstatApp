@@ -8,8 +8,7 @@ import '../../../SearchFilters/presentation/manager/filters_bloc.dart';
 import '../../../SearchForm/data/remote/models/HotelModel.dart';
 
 class HotelsListResult extends StatelessWidget {
-  final List<HotelModel> hotels;
-  const HotelsListResult({required this.hotels,Key? key}) : super(key: key);
+  const HotelsListResult({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +18,16 @@ class HotelsListResult extends StatelessWidget {
           builder: (context, state) {
             return SliverList(delegate: SliverChildBuilderDelegate(
                     (context, index) {
-                  if(index==hotels.length){
+                  if(index==state.hotels.length){
                     return SizedBox(
                         height: 40.w,
                         width: 40.w,
                         child: const Center(child: CircularProgressIndicator(color: primaryColor),));
                   }
                   else{
-                    return BuildItem(bottomPaddingValue: 0,hotelModel: hotels[index],);
+                    return BuildItem(bottomPaddingValue: 0,hotelModel: state.hotels[index],);
                   }
-                },childCount:hotels.length+1)
+                },childCount:state.hotels.length+1)
             );
           },
           listener: (context, state) {},
