@@ -36,6 +36,7 @@ class FavouriteBloc extends Bloc<FavouriteBlocEvent,FavouriteState> {
       }
       else{
         emit(state.copyWith(message: "No Internet"));
+        emit(state.copyWith(message: ""));
       }
     });
 
@@ -55,6 +56,7 @@ class FavouriteBloc extends Bloc<FavouriteBlocEvent,FavouriteState> {
       }
       else{
         emit(state.copyWith(message: "No Internet"));
+        emit(state.copyWith(message: ""));
       }
     });
   }
@@ -65,7 +67,12 @@ class FavouriteBloc extends Bloc<FavouriteBlocEvent,FavouriteState> {
     });
   }
 
-  void updateList(Hotel hotelModel){
+  int hotelModelId=-1;
+
+  Color defaultColor =primaryColor;
+  updateList(Hotel hotelModel){
+
+    hotelModelId=hotelModel.hotelId!;
     if(isItemExist(hotelModel)){
       add(RemoveHotel(hotel: hotelModel));
     }

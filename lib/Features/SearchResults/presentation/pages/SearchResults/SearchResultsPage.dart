@@ -12,8 +12,7 @@ import '../../widgets/HotelsListResult.dart';
 
 
 class SearchResults extends StatefulWidget {
-  SearchResults({Key? key}) : super(key: key);
-
+  const SearchResults({Key? key}) : super(key: key);
   @override
   State<SearchResults> createState() => _SearchResultsState();
 }

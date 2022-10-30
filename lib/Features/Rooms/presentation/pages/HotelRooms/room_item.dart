@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:realestate/Core/Utils.dart';
 import 'package:realestate/Features/FlatDetails/domain/entities/HotelRooms.dart';
 import '../../widgets/RoomItemParts/BuildRoomInfo.dart';
 import '../../widgets/RoomItemParts/BuildUpperImage.dart';
@@ -19,7 +20,7 @@ class RoomItem extends StatelessWidget {
       children: [
         Column(
           children: [
-            BuildUpperImage(block: block),
+            BuildUpperImage(url: getUrl(block.blockRoom!)),
             BuildRoomInfo(block: block,isBookedRooms: isBookedRooms),
           ],
         ),

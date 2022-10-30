@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:realestate/Core/AppTheme/AppColors.dart';
-import 'package:realestate/Core/ReusableComponantes.dart';
 import '../../../../Core/AppTheme/Strings.dart';
+import '../../../../DependencyInjection.dart';
 import '../../../SearchForm/domain/entities/Hotel.dart';
 import '../manager/FavouriteBloc/favourites_bloc.dart';
 
@@ -14,25 +14,18 @@ class FavouriteIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  GestureDetector(
-      onTap: () {
-        context.read<FavouriteBloc>().updateList(hotelModel);
-      },
-      child: BlocConsumer<FavouriteBloc,FavouriteState>(
-        listener: (context, state) {
-          if(state.message=="No Internet"){
-            showSnackBar(state.message!, context);
-          }
-        },
-        builder: (context, state) {
-          if(state.message==loading){
-            return SizedBox(
-                height: 15.h,width: 15.h,
-                child: const Center(child: CircularProgressIndicator(color: primaryColor),)
-            );
-          }
-          else{
-            return Card(
+
+    return BlocBuilder<FavouriteBloc, FavouriteState>(
+      buildWhen: (previous, current) => dl.get<FavouriteBloc>().hotelModelId==hotelModel.hotelId || dl.get<FavouriteBloc>().hotelModelId==-1,
+      builder: (context, state) {
+        if(state.message==loading){
+          return const Center(child: CircularProgressIndicator(color: primaryColor));
+        }
+        return  GestureDetector(
+            onTap: () {
+              context.read<FavouriteBloc>().updateList(hotelModel);
+            },
+            child: Card(
               elevation: 0.5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(100),
@@ -45,13 +38,12 @@ class FavouriteIconButton extends StatelessWidget {
                   height: 40.h,width: 40.h,
                   child: Padding(
                     padding:  EdgeInsets.all(12.h),
-                    child: SvgPicture.asset(fillHeartIconAsset,color: context.read<FavouriteBloc>().getCorrectIconColor(hotelModel)),
+                    child: SvgPicture.asset(fillHeartIconAsset,color: context.watch<FavouriteBloc>().getCorrectIconColor(hotelModel)),
                   )
               ),
-            );
-          }
-        },
-      ),
+            )
+        );
+      },
     );
   }
 }

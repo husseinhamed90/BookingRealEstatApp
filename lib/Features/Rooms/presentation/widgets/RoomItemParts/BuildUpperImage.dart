@@ -8,16 +8,17 @@ import '../../../../FlatDetails/domain/entities/HotelRooms.dart';
 class BuildUpperImage extends StatelessWidget {
   const BuildUpperImage({
     Key? key,
-    required this.block,
+    required this.url,
   }) : super(key: key);
 
-  final Block block;
+  final String url;
 
   @override
   Widget build(BuildContext context) {
 
     return CachedNetworkImage(
-      imageUrl: getUrl(block.blockRoom!),
+     // imageUrl: getUrl(block.blockRoom!),
+      imageUrl: url,
       imageBuilder: (context, imageProvider) => Container(
         height: 200.h,
           decoration: BoxDecoration(
