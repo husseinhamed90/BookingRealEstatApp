@@ -14,5 +14,5 @@ class FavouriteState extends Equatable {
       message: message??this.message);
   }
   @override
-  List<Object?> get props => [favouritesList,message];
+  List<Object?> get props => [favouritesList,identityHashCode(this),message];
 }

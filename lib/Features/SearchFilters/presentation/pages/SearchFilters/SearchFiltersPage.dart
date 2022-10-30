@@ -19,7 +19,7 @@ class SearchFiltersPage extends StatelessWidget {
       body: BlocConsumer<FilteringBloc, FilteringState>(
         listener: (context, state) {
           if (state.message!.message == "result loaded") {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => SearchResults(),));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchResults(),));
           }
           else if(state.errorMessage!=null){
             showSnackBar(state.errorMessage!.message, context);

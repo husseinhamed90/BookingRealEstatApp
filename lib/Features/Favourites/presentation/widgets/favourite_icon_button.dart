@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:realestate/Core/AppTheme/AppColors.dart';
 import '../../../../Core/AppTheme/Strings.dart';
+import '../../../../Core/ReusableComponantes.dart';
 import '../../../../DependencyInjection.dart';
 import '../../../SearchForm/domain/entities/Hotel.dart';
 import '../manager/FavouriteBloc/favourites_bloc.dart';
@@ -15,7 +16,13 @@ class FavouriteIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return BlocBuilder<FavouriteBloc, FavouriteState>(
+    return BlocConsumer<FavouriteBloc, FavouriteState>(
+      listener: (context, state) {
+        if(state.message=="No Internet"){
+          showSnackBar(state.message!, context);
+        }
+      },
+      listenWhen: (previous, current) =>  (dl.get<FavouriteBloc>().hotelModelId==hotelModel.hotelId || dl.get<FavouriteBloc>().hotelModelId==-1)&&current.message=="No Internet",
       buildWhen: (previous, current) => dl.get<FavouriteBloc>().hotelModelId==hotelModel.hotelId || dl.get<FavouriteBloc>().hotelModelId==-1,
       builder: (context, state) {
         if(state.message==loading){
